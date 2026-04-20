@@ -19,7 +19,7 @@ const Index = () => {
   const [loadingProducts, setLoadingProducts] = useState(true);
 
   useEffect(() => {
-    fetchProducts(20)
+    fetchProducts(20, "title:חבילה* OR title:החבילה*")
       .then(setProducts)
       .catch((e) => console.error("Failed to fetch products:", e))
       .finally(() => setLoadingProducts(false));
