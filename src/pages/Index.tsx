@@ -1,53 +1,29 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import {
   Sparkles,
-  Clock,
   Check,
   Menu,
   X,
   Beaker,
   ShieldCheck,
   Zap,
+  Loader2,
 } from "lucide-react";
+import { fetchProducts, type ShopifyProduct } from "@/lib/shopify";
+import { ProductCard } from "@/components/ProductCard";
+import { CartDrawer } from "@/components/CartDrawer";
 
 const Index = () => {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
+  const [products, setProducts] = useState<ShopifyProduct[]>([]);
+  const [loadingProducts, setLoadingProducts] = useState(true);
 
-  const packages = [
-    {
-      id: 1,
-      title: "חבילת הבסיס",
-      time: "דקה 1 ביום",
-      price: "599",
-      oldPrice: "644",
-      description: "ניקוי וחידוש העור במינימום זמן. מושלם למתחילות בעולם ה-K-Beauty.",
-      items: ["ג'ל ניקוי שמחדש את העור", "קרם למיצוק מרקם העור"],
-      featured: false,
-      cta: "הוספה לסל",
-    },
-    {
-      id: 2,
-      title: "חבילת הזוהר והבהרה",
-      time: "2 דקות ביום",
-      price: "799",
-      oldPrice: "869",
-      description: "השגרה המנצחת לעור זכוכית. כוללת את מוצר הדגל שלנו לתוצאות מהירות.",
-      items: ["ג'ל ניקוי שמחדש את העור", "סרום ניאצינאמיד 10%", "קרם למיצוק מרקם העור"],
-      featured: true,
-      cta: "רכישה מהירה",
-    },
-    {
-      id: 3,
-      title: "החבילה המושלמת",
-      time: "3 דקות ביום",
-      price: "950",
-      oldPrice: "1,019",
-      description: "טיפול פרימיום מלא לפנים ולגוף המעניק הזנה עמוקה ומיצוק מקסימלי.",
-      items: ["כל מוצרי הפנים", "קרם עיניים מזין", "תחליב מזין לגוף ולידיים"],
-      featured: false,
-      cta: "הוספה לסל",
-    },
-  ];
+  useEffect(() => {
+    fetchProducts(20)
+      .then(setProducts)
+      .catch((e) => console.error("Failed to fetch products:", e))
+      .finally(() => setLoadingProducts(false));
+  }, []);
 
   const ingredients = [
     { name: "10% ניאצינאמיד", benefit: "צמצום נקבוביות והבהרה" },
@@ -72,13 +48,15 @@ const Index = () => {
               <a href="#science" className="hover:text-pink-500 transition-colors">מיצוק העור</a>
             </div>
 
-            <div className="hidden md:block">
+            <div className="hidden md:flex items-center gap-3">
               <button className="bg-black text-white px-8 py-3 rounded-full text-sm font-bold hover:bg-pink-600 transition-all shadow-lg">
                 אבחון עור AI
               </button>
+              <CartDrawer />
             </div>
 
-            <div className="md:hidden">
+            <div className="md:hidden flex items-center gap-2">
+              <CartDrawer />
               <button onClick={() => setIsMenuOpen(!isMenuOpen)} aria-label="תפריט">
                 {isMenuOpen ? <X /> : <Menu />}
               </button>
@@ -183,60 +161,21 @@ const Index = () => {
             <p className="text-xl text-slate-500 max-w-2xl mx-auto">בחרי את המסלול שמתאים בדיוק לסדר היום שלך</p>
           </div>
 
-          <div className="grid md:grid-cols-3 gap-8 items-stretch">
-            {packages.map((pkg) => (
-              <div
-                key={pkg.id}
-                className={`relative bg-white rounded-[2rem] p-10 shadow-sm border transition-all duration-500 hover:shadow-2xl flex flex-col ${
-                  pkg.featured ? "border-pink-500 ring-4 ring-pink-500/5 md:-translate-y-6" : "border-slate-100"
-                }`}
-              >
-                {pkg.featured && (
-                  <div className="absolute -top-4 right-10 bg-pink-500 text-white px-6 py-1.5 rounded-full text-xs font-black uppercase tracking-widest shadow-lg">
-                    הנמכרת ביותר
-                  </div>
-                )}
-
-                <div className="mb-8 aspect-square bg-slate-50 rounded-2xl flex items-center justify-center text-slate-300">
-                  [תמונת {pkg.title}]
-                </div>
-
-                <div className="flex items-center gap-2 text-pink-500 font-bold text-xs uppercase tracking-widest mb-2">
-                  <Clock size={14} />
-                  <span>{pkg.time}</span>
-                </div>
-
-                <h3 className="text-2xl font-bold mb-4">{pkg.title}</h3>
-                <p className="text-slate-500 text-sm mb-8 flex-grow">{pkg.description}</p>
-
-                <div className="space-y-3 mb-10">
-                  {pkg.items.map((item, idx) => (
-                    <div key={idx} className="flex items-center gap-3 text-sm font-medium">
-                      <div className="w-5 h-5 bg-pink-50 rounded-full flex items-center justify-center text-pink-500">
-                        <Check size={12} strokeWidth={3} />
-                      </div>
-                      {item}
-                    </div>
-                  ))}
-                </div>
-
-                <div className="flex items-baseline gap-3 mb-8">
-                  <span className={`text-4xl font-black ${pkg.featured ? "text-pink-600" : "text-slate-900"}`}>₪{pkg.price}</span>
-                  <span className="text-lg text-slate-400 line-through font-medium">₪{pkg.oldPrice}</span>
-                </div>
-
-                <button
-                  className={`w-full py-5 rounded-2xl font-bold text-lg transition-all active:scale-95 ${
-                    pkg.featured
-                      ? "bg-pink-500 text-white shadow-xl hover:bg-pink-600 shadow-pink-200"
-                      : "bg-slate-900 text-white hover:bg-slate-800"
-                  }`}
-                >
-                  {pkg.cta}
-                </button>
-              </div>
-            ))}
-          </div>
+          {loadingProducts ? (
+            <div className="flex justify-center py-20">
+              <Loader2 className="w-12 h-12 animate-spin text-pink-500" />
+            </div>
+          ) : products.length === 0 ? (
+            <div className="text-center py-20">
+              <p className="text-xl text-slate-500">לא נמצאו מוצרים</p>
+            </div>
+          ) : (
+            <div className="grid sm:grid-cols-2 lg:grid-cols-3 gap-8 items-stretch">
+              {products.map((product) => (
+                <ProductCard key={product.node.id} product={product} />
+              ))}
+            </div>
+          )}
         </div>
       </section>
 
