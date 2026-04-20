@@ -1,53 +1,29 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import {
   Sparkles,
-  Clock,
   Check,
   Menu,
   X,
   Beaker,
   ShieldCheck,
   Zap,
+  Loader2,
 } from "lucide-react";
+import { fetchProducts, type ShopifyProduct } from "@/lib/shopify";
+import { ProductCard } from "@/components/ProductCard";
+import { CartDrawer } from "@/components/CartDrawer";
 
 const Index = () => {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
+  const [products, setProducts] = useState<ShopifyProduct[]>([]);
+  const [loadingProducts, setLoadingProducts] = useState(true);
 
-  const packages = [
-    {
-      id: 1,
-      title: "חבילת הבסיס",
-      time: "דקה 1 ביום",
-      price: "599",
-      oldPrice: "644",
-      description: "ניקוי וחידוש העור במינימום זמן. מושלם למתחילות בעולם ה-K-Beauty.",
-      items: ["ג'ל ניקוי שמחדש את העור", "קרם למיצוק מרקם העור"],
-      featured: false,
-      cta: "הוספה לסל",
-    },
-    {
-      id: 2,
-      title: "חבילת הזוהר והבהרה",
-      time: "2 דקות ביום",
-      price: "799",
-      oldPrice: "869",
-      description: "השגרה המנצחת לעור זכוכית. כוללת את מוצר הדגל שלנו לתוצאות מהירות.",
-      items: ["ג'ל ניקוי שמחדש את העור", "סרום ניאצינאמיד 10%", "קרם למיצוק מרקם העור"],
-      featured: true,
-      cta: "רכישה מהירה",
-    },
-    {
-      id: 3,
-      title: "החבילה המושלמת",
-      time: "3 דקות ביום",
-      price: "950",
-      oldPrice: "1,019",
-      description: "טיפול פרימיום מלא לפנים ולגוף המעניק הזנה עמוקה ומיצוק מקסימלי.",
-      items: ["כל מוצרי הפנים", "קרם עיניים מזין", "תחליב מזין לגוף ולידיים"],
-      featured: false,
-      cta: "הוספה לסל",
-    },
-  ];
+  useEffect(() => {
+    fetchProducts(20)
+      .then(setProducts)
+      .catch((e) => console.error("Failed to fetch products:", e))
+      .finally(() => setLoadingProducts(false));
+  }, []);
 
   const ingredients = [
     { name: "10% ניאצינאמיד", benefit: "צמצום נקבוביות והבהרה" },
