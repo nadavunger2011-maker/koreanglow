@@ -5,12 +5,19 @@ import { Button } from "@/components/ui/button";
 import { fetchProductByHandle } from "@/lib/shopify";
 import { useCartStore } from "@/stores/cartStore";
 import { CartDrawer } from "@/components/CartDrawer";
+import {
+  Accordion,
+  AccordionContent,
+  AccordionItem,
+  AccordionTrigger,
+} from "@/components/ui/accordion";
 import { toast } from "sonner";
 
 interface ProductDetail {
   id: string;
   title: string;
   description: string;
+  descriptionHtml: string;
   handle: string;
   priceRange: { minVariantPrice: { amount: string; currencyCode: string } };
   images: { edges: Array<{ node: { url: string; altText: string | null } }> };
@@ -56,6 +63,57 @@ const ProductDetailPage = () => {
   }, [product]);
 
   const variant = product?.variants.edges.find((v) => v.node.id === selectedVariantId)?.node;
+
+  // Split descriptionHtml into main content and FAQ (Q&A) entries.
+  // FAQs are authored in Shopify as <details><summary>Q</summary><p>A</p></details>.
+  const { mainHtml, faqs } = (() => {
+    const html = product?.descriptionHtml || "";
+    if (!html) return { mainHtml: "", faqs: [] as Array<{ q: string; a: string }> };
+
+    if (typeof window === "undefined") return { mainHtml: html, faqs: [] };
+    const container = document.createElement("div");
+    container.innerHTML = html;
+
+    const faqList: Array<{ q: string; a: string }> = [];
+    container.querySelectorAll("details").forEach((d) => {
+      const summary = d.querySelector("summary");
+      const q = summary?.textContent?.trim() || "";
+      summary?.remove();
+      const a = d.innerHTML.trim();
+      if (q && a) faqList.push({ q, a });
+      d.remove();
+    });
+
+    // Remove the now-empty "שאלות נפוצות" heading if present.
+    container.querySelectorAll("h2").forEach((h) => {
+      if (h.textContent?.trim() === "שאלות נפוצות") h.remove();
+    });
+
+    return { mainHtml: container.innerHTML, faqs: faqList };
+  })();
+
+  // Inject FAQ JSON-LD schema for SEO.
+  useEffect(() => {
+    if (!faqs.length) return;
+    const stripHtml = (s: string) => s.replace(/<[^>]+>/g, " ").replace(/\s+/g, " ").trim();
+    const schema = {
+      "@context": "https://schema.org",
+      "@type": "FAQPage",
+      mainEntity: faqs.map((f) => ({
+        "@type": "Question",
+        name: f.q,
+        acceptedAnswer: { "@type": "Answer", text: stripHtml(f.a) },
+      })),
+    };
+    const script = document.createElement("script");
+    script.type = "application/ld+json";
+    script.text = JSON.stringify(schema);
+    script.dataset.faqSchema = "true";
+    document.head.appendChild(script);
+    return () => {
+      script.remove();
+    };
+  }, [faqs]);
 
   const handleAddToCart = async () => {
     if (!product || !variant) return;
@@ -143,9 +201,42 @@ const ProductDetailPage = () => {
                 </span>
               </div>
 
-              <div className="prose prose-slate max-w-none mb-10 text-lg text-slate-600 leading-relaxed whitespace-pre-line">
-                {product.description}
-              </div>
+              {mainHtml ? (
+                <div
+                  className="product-rich-content mb-10"
+                  dangerouslySetInnerHTML={{ __html: mainHtml }}
+                />
+              ) : (
+                <div className="mb-10 text-lg text-slate-600 leading-relaxed whitespace-pre-line">
+                  {product.description}
+                </div>
+              )}
+
+              {faqs.length > 0 && (
+                <section className="mb-10" aria-labelledby="faq-heading">
+                  <h2
+                    id="faq-heading"
+                    className="text-2xl md:text-3xl font-black text-slate-900 mb-4"
+                  >
+                    שאלות ותשובות
+                  </h2>
+                  <Accordion type="single" collapsible className="w-full">
+                    {faqs.map((f, i) => (
+                      <AccordionItem key={i} value={`faq-${i}`}>
+                        <AccordionTrigger className="text-right font-bold text-base hover:no-underline">
+                          {f.q}
+                        </AccordionTrigger>
+                        <AccordionContent>
+                          <div
+                            className="text-slate-600 leading-relaxed text-base"
+                            dangerouslySetInnerHTML={{ __html: f.a }}
+                          />
+                        </AccordionContent>
+                      </AccordionItem>
+                    ))}
+                  </Accordion>
+                </section>
+              )}
 
               {product.options.length > 0 && product.options[0].name !== "Title" && (
                 <div className="space-y-6 mb-10">
