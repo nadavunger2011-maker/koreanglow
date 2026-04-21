@@ -107,3 +107,69 @@ All colors MUST be HSL.
     @apply bg-background text-foreground;
   }
 }
+
+/* Rich product description content (rendered from Shopify body_html) */
+.product-rich-content {
+  @apply text-slate-700 leading-relaxed text-base;
+}
+.product-rich-content h1 {
+  @apply text-3xl md:text-4xl font-black text-slate-900 mb-5 mt-2 leading-tight;
+}
+.product-rich-content h2 {
+  @apply text-2xl md:text-3xl font-extrabold text-slate-900 mt-10 mb-4 leading-snug;
+  border-bottom: 2px solid hsl(var(--brand) / 0.2);
+  padding-bottom: 0.5rem;
+}
+.product-rich-content h3 {
+  @apply text-xl md:text-2xl font-bold text-slate-900 mt-7 mb-3;
+}
+.product-rich-content h4 {
+  @apply text-lg font-bold text-slate-900 mt-5 mb-2;
+}
+.product-rich-content p {
+  @apply mb-4 text-slate-600 leading-relaxed;
+}
+.product-rich-content strong {
+  @apply font-bold text-slate-900;
+}
+.product-rich-content em {
+  @apply italic text-slate-700;
+}
+.product-rich-content ul,
+.product-rich-content ol {
+  @apply mb-5 pr-6 space-y-2 text-slate-600;
+}
+.product-rich-content ul {
+  @apply list-disc;
+}
+.product-rich-content ol {
+  @apply list-decimal;
+}
+.product-rich-content li {
+  @apply leading-relaxed pr-1;
+}
+.product-rich-content li::marker {
+  color: hsl(var(--brand));
+}
+.product-rich-content img {
+  @apply rounded-2xl shadow-md my-4 mx-auto;
+  max-width: 220px;
+  width: 100%;
+  height: auto;
+  float: none !important;
+  display: block;
+}
+@media (min-width: 640px) {
+  .product-rich-content img {
+    float: left !important;
+    margin: 0.25rem 0 1rem 1.5rem;
+  }
+}
+.product-rich-content a {
+  @apply text-pink-600 underline hover:text-pink-700;
+}
+.product-rich-content br {
+  display: block;
+  content: "";
+  margin-top: 0.5rem;
+}
