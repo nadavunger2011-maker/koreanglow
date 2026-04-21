@@ -64,6 +64,57 @@ const ProductDetailPage = () => {
 
   const variant = product?.variants.edges.find((v) => v.node.id === selectedVariantId)?.node;
 
+  // Split descriptionHtml into main content and FAQ (Q&A) entries.
+  // FAQs are authored in Shopify as <details><summary>Q</summary><p>A</p></details>.
+  const { mainHtml, faqs } = (() => {
+    const html = product?.descriptionHtml || "";
+    if (!html) return { mainHtml: "", faqs: [] as Array<{ q: string; a: string }> };
+
+    if (typeof window === "undefined") return { mainHtml: html, faqs: [] };
+    const container = document.createElement("div");
+    container.innerHTML = html;
+
+    const faqList: Array<{ q: string; a: string }> = [];
+    container.querySelectorAll("details").forEach((d) => {
+      const summary = d.querySelector("summary");
+      const q = summary?.textContent?.trim() || "";
+      summary?.remove();
+      const a = d.innerHTML.trim();
+      if (q && a) faqList.push({ q, a });
+      d.remove();
+    });
+
+    // Remove the now-empty "שאלות נפוצות" heading if present.
+    container.querySelectorAll("h2").forEach((h) => {
+      if (h.textContent?.trim() === "שאלות נפוצות") h.remove();
+    });
+
+    return { mainHtml: container.innerHTML, faqs: faqList };
+  })();
+
+  // Inject FAQ JSON-LD schema for SEO.
+  useEffect(() => {
+    if (!faqs.length) return;
+    const stripHtml = (s: string) => s.replace(/<[^>]+>/g, " ").replace(/\s+/g, " ").trim();
+    const schema = {
+      "@context": "https://schema.org",
+      "@type": "FAQPage",
+      mainEntity: faqs.map((f) => ({
+        "@type": "Question",
+        name: f.q,
+        acceptedAnswer: { "@type": "Answer", text: stripHtml(f.a) },
+      })),
+    };
+    const script = document.createElement("script");
+    script.type = "application/ld+json";
+    script.text = JSON.stringify(schema);
+    script.dataset.faqSchema = "true";
+    document.head.appendChild(script);
+    return () => {
+      script.remove();
+    };
+  }, [faqs]);
+
   const handleAddToCart = async () => {
     if (!product || !variant) return;
     await addItem({
