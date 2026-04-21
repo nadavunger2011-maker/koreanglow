@@ -41,6 +41,7 @@ const ProductDetailPage = () => {
   const [loading, setLoading] = useState(true);
   const [selectedVariantId, setSelectedVariantId] = useState<string | null>(null);
   const [selectedImage, setSelectedImage] = useState(0);
+  const [showStickyBar, setShowStickyBar] = useState(false);
   const addItem = useCartStore((s) => s.addItem);
   const isLoading = useCartStore((s) => s.isLoading);
 
@@ -60,6 +61,14 @@ const ProductDetailPage = () => {
     if (product) {
       document.title = `${product.title} | KOREANGLOW`;
     }
+  }, [product]);
+
+  // Show sticky add-to-cart bar after user scrolls past the hero area.
+  useEffect(() => {
+    const onScroll = () => setShowStickyBar(window.scrollY > 500);
+    window.addEventListener("scroll", onScroll, { passive: true });
+    onScroll();
+    return () => window.removeEventListener("scroll", onScroll);
   }, [product]);
 
   const variant = product?.variants.edges.find((v) => v.node.id === selectedVariantId)?.node;
