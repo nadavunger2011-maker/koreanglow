@@ -41,6 +41,7 @@ const ProductDetailPage = () => {
   const [loading, setLoading] = useState(true);
   const [selectedVariantId, setSelectedVariantId] = useState<string | null>(null);
   const [selectedImage, setSelectedImage] = useState(0);
+  const [showStickyBar, setShowStickyBar] = useState(false);
   const addItem = useCartStore((s) => s.addItem);
   const isLoading = useCartStore((s) => s.isLoading);
 
@@ -60,6 +61,14 @@ const ProductDetailPage = () => {
     if (product) {
       document.title = `${product.title} | KOREANGLOW`;
     }
+  }, [product]);
+
+  // Show sticky add-to-cart bar after user scrolls past the hero area.
+  useEffect(() => {
+    const onScroll = () => setShowStickyBar(window.scrollY > 500);
+    window.addEventListener("scroll", onScroll, { passive: true });
+    onScroll();
+    return () => window.removeEventListener("scroll", onScroll);
   }, [product]);
 
   const variant = product?.variants.edges.find((v) => v.node.id === selectedVariantId)?.node;
@@ -303,6 +312,48 @@ const ProductDetailPage = () => {
           </div>
         )}
       </main>
+
+      {product && (
+        <div
+          className={`fixed bottom-0 left-0 right-0 z-40 bg-white/95 backdrop-blur-md border-t border-pink-100 shadow-[0_-8px_24px_-12px_rgba(0,0,0,0.15)] transition-transform duration-300 ${
+            showStickyBar ? "translate-y-0" : "translate-y-full"
+          }`}
+        >
+          <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-3 flex items-center gap-3">
+            <div className="hidden sm:block w-14 h-14 rounded-2xl overflow-hidden bg-slate-50 flex-shrink-0">
+              {product.images.edges[0] && (
+                <img
+                  src={product.images.edges[0].node.url}
+                  alt={product.title}
+                  className="w-full h-full object-cover"
+                />
+              )}
+            </div>
+            <div className="flex-1 min-w-0">
+              <p className="font-bold text-sm text-slate-900 truncate">{product.title}</p>
+              <p className="text-pink-600 font-black text-lg leading-none">
+                ₪{parseFloat(product.priceRange.minVariantPrice.amount).toFixed(0)}
+              </p>
+            </div>
+            <Button
+              onClick={handleAddToCart}
+              disabled={isLoading || !variant?.availableForSale}
+              className="rounded-2xl font-bold bg-pink-500 hover:bg-pink-600 text-white px-6 py-6 shadow-lg shadow-pink-200 active:scale-95 transition-all"
+            >
+              {isLoading ? (
+                <Loader2 className="w-5 h-5 animate-spin" />
+              ) : !variant?.availableForSale ? (
+                "אזל"
+              ) : (
+                <>
+                  <ShoppingBag className="w-5 h-5 ml-2" />
+                  הוספה לסל
+                </>
+              )}
+            </Button>
+          </div>
+        </div>
+      )}
     </div>
   );
 };
