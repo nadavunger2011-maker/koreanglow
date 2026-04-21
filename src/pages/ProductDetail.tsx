@@ -201,9 +201,42 @@ const ProductDetailPage = () => {
                 </span>
               </div>
 
-              <div className="prose prose-slate max-w-none mb-10 text-lg text-slate-600 leading-relaxed whitespace-pre-line">
-                {product.description}
-              </div>
+              {mainHtml ? (
+                <div
+                  className="product-rich-content mb-10"
+                  dangerouslySetInnerHTML={{ __html: mainHtml }}
+                />
+              ) : (
+                <div className="mb-10 text-lg text-slate-600 leading-relaxed whitespace-pre-line">
+                  {product.description}
+                </div>
+              )}
+
+              {faqs.length > 0 && (
+                <section className="mb-10" aria-labelledby="faq-heading">
+                  <h2
+                    id="faq-heading"
+                    className="text-2xl md:text-3xl font-black text-slate-900 mb-4"
+                  >
+                    שאלות ותשובות
+                  </h2>
+                  <Accordion type="single" collapsible className="w-full">
+                    {faqs.map((f, i) => (
+                      <AccordionItem key={i} value={`faq-${i}`}>
+                        <AccordionTrigger className="text-right font-bold text-base hover:no-underline">
+                          {f.q}
+                        </AccordionTrigger>
+                        <AccordionContent>
+                          <div
+                            className="text-slate-600 leading-relaxed text-base"
+                            dangerouslySetInnerHTML={{ __html: f.a }}
+                          />
+                        </AccordionContent>
+                      </AccordionItem>
+                    ))}
+                  </Accordion>
+                </section>
+              )}
 
               {product.options.length > 0 && product.options[0].name !== "Title" && (
                 <div className="space-y-6 mb-10">
