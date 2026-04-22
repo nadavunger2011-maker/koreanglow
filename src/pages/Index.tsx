@@ -33,6 +33,15 @@ const Index = () => {
     { name: "פפטידים", benefit: "שיקום ובניית העור" },
   ];
 
+  const tutorials = [
+    { id: "YxUElSjZAys", title: "הכירו את הסדרה", desc: "סקירה מלאה של סדרת הטיפוח עם מומחית העור מיכאלה בולדר" },
+    { id: "TMFOiKPxWSY", title: "ג'ל ניקוי לפנים", desc: "הצעד הראשון בשגרה — איך לנקות נכון בלי לייבש את העור" },
+    { id: "gjeiPv6jA1Y", title: "סרום ניאצינאמיד 10%", desc: "הכוכב של הסדרה — איך לשלב סרום בריכוז גבוה בשגרה" },
+    { id: "p8UpsUhhe40", title: "קרם עיניים מזין", desc: "טיפוח האזור העדין סביב העיניים נגד קמטוטים ועיגולים" },
+    { id: "vVsTgGALmvw", title: "קרם למיצוק העור", desc: "למה העור מאבד מוצקות עם השנים — ואיך מתמודדים" },
+    { id: "xtNoO8oEewQ", title: "תחליב לידיים ולגוף", desc: "טיפוח הגוף חשוב לא פחות מטיפוח הפנים" },
+  ];
+
   return (
     <div className="min-h-screen bg-background font-sans text-foreground" dir="rtl">
       {/* Navigation */}
