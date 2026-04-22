@@ -191,6 +191,50 @@ const Index = () => {
 
       {/* Science */}
       <section id="science" className="py-24 bg-white overflow-hidden relative">
+
+      </section>
+
+      {/* Tutorials */}
+      <section id="tutorials" className="py-24 bg-gradient-to-b from-white via-pink-50/30 to-white">
+        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+          <div className="text-center mb-16">
+            <div className="inline-flex items-center gap-2 bg-pink-100 text-pink-600 px-4 py-1.5 rounded-full text-xs font-bold mb-6">
+              <PlayCircle size={14} />
+              <span>סרטוני הדרכה</span>
+            </div>
+            <h2 className="text-4xl md:text-5xl font-black mb-6 italic">למדי איך להשיג את התוצאות הכי טובות</h2>
+            <p className="text-xl text-slate-500 max-w-2xl mx-auto">
+              מומחית הטיפוח מיכאלה בולדר מסבירה כל מוצר וכל שלב בשגרה הקוריאנית
+            </p>
+          </div>
+
+          <div className="grid sm:grid-cols-2 lg:grid-cols-3 gap-8">
+            {tutorials.map((tut) => (
+              <article key={tut.id} className="group bg-white rounded-3xl overflow-hidden shadow-lg hover:shadow-2xl transition-all duration-300 border border-pink-50">
+                <div className="relative aspect-video overflow-hidden bg-slate-100">
+                  <iframe
+                    src={`https://www.youtube.com/embed/${tut.id}`}
+                    title={tut.title}
+                    loading="lazy"
+                    allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
+                    allowFullScreen
+                    className="absolute inset-0 w-full h-full"
+                  />
+                </div>
+                <div className="p-6">
+                  <h3 className="text-xl font-bold text-slate-900 mb-2 group-hover:text-pink-600 transition-colors">
+                    {tut.title}
+                  </h3>
+                  <p className="text-slate-500 text-sm leading-relaxed">{tut.desc}</p>
+                </div>
+              </article>
+            ))}
+          </div>
+        </div>
+      </section>
+
+      {/* Science (continued) */}
+      <section className="py-24 bg-white overflow-hidden relative">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="text-center max-w-3xl mx-auto mb-20">
             <h2 className="text-4xl md:text-5xl font-black mb-8 italic">הפתרון המתקדם למיצוק העור</h2>
