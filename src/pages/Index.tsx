@@ -449,6 +449,64 @@ const Index = () => {
         </div>
       </section>
 
+      {/* AI Diagnosis */}
+      <section id="ai" className="py-24 bg-gradient-to-br from-pink-50 via-white to-blue-50">
+        <div className="max-w-5xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
+          <div className="inline-flex items-center gap-2 bg-pink-100 text-pink-600 px-4 py-1.5 rounded-full text-xs font-bold mb-6">
+            <Sparkles size={14} />
+            <span>חדש! HL/Skin AI</span>
+          </div>
+          <h2 className="text-4xl md:text-5xl font-black mb-6 italic">העוזר החכם שלך לטיפוח העור</h2>
+          <p className="text-lg text-slate-600 mb-10 max-w-2xl mx-auto leading-relaxed">
+            כלי חינמי מבוסס בינה מלאכותית שמבצע אבחון עור מהיר ומספק המלצות מוצרים מותאמות אישית — הכל בפחות מ-60 שניות.
+          </p>
+          <div className="grid md:grid-cols-3 gap-6 mb-12 text-right">
+            {[
+              { n: "1", t: "מצלמים סלפי קצר" },
+              { n: "2", t: "המערכת מנתחת 10+ פרמטרים ו-209 נקודות פנים" },
+              { n: "3", t: "מקבלים דוח אישי והמלצות מוצרים" },
+            ].map((s) => (
+              <div key={s.n} className="bg-white p-6 rounded-2xl border border-pink-100 shadow-sm">
+                <div className="w-10 h-10 rounded-full bg-pink-500 text-white font-bold flex items-center justify-center mb-3">
+                  {s.n}
+                </div>
+                <p className="text-slate-700 font-medium">{s.t}</p>
+              </div>
+            ))}
+          </div>
+          <a
+            href={AI_DIAGNOSIS_URL}
+            target="_blank"
+            rel="noopener noreferrer"
+            className="inline-block bg-pink-500 text-white px-12 py-5 rounded-2xl text-xl font-bold shadow-2xl hover:bg-pink-600 hover:-translate-y-1 transition-all duration-300"
+          >
+            התחילי אבחון עור AI חינם
+          </a>
+        </div>
+      </section>
+
+      {/* FAQ */}
+      <section id="faq" className="py-24 bg-white">
+        <div className="max-w-3xl mx-auto px-4 sm:px-6 lg:px-8">
+          <div className="text-center mb-12">
+            <h2 className="text-4xl md:text-5xl font-black mb-4 italic">שאלות נפוצות</h2>
+            <p className="text-lg text-slate-500">כל מה שרצית לדעת על הסדרה</p>
+          </div>
+          <Accordion type="single" collapsible className="w-full">
+            {faqs.map((f, i) => (
+              <AccordionItem key={i} value={`item-${i}`} className="border-b border-pink-100">
+                <AccordionTrigger className="text-right text-lg font-bold text-slate-900 hover:text-pink-600 hover:no-underline">
+                  {f.q}
+                </AccordionTrigger>
+                <AccordionContent className="text-slate-600 text-base leading-relaxed">
+                  {f.a}
+                </AccordionContent>
+              </AccordionItem>
+            ))}
+          </Accordion>
+        </div>
+      </section>
+
       {/* Footer */}
       <footer className="bg-white pt-24 pb-12 border-t border-slate-50">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
