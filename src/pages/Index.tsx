@@ -123,9 +123,14 @@ const Index = () => {
             </div>
 
             <div className="hidden md:flex items-center gap-3">
-              <button className="bg-black text-white px-8 py-3 rounded-full text-sm font-bold hover:bg-pink-600 transition-all shadow-lg">
+              <a
+                href={AI_DIAGNOSIS_URL}
+                target="_blank"
+                rel="noopener noreferrer"
+                className="bg-black text-white px-8 py-3 rounded-full text-sm font-bold hover:bg-pink-600 transition-all shadow-lg"
+              >
                 אבחון עור AI
-              </button>
+              </a>
               <CartDrawer />
             </div>
 
@@ -143,7 +148,14 @@ const Index = () => {
             <a href="#about" className="block text-lg font-bold">מה זה עור זכוכית?</a>
             <a href="#packages" className="block text-lg font-bold">סרום ניאצינאמיד</a>
             <a href="#science" className="block text-lg font-bold">מיצוק העור</a>
-            <button className="w-full bg-pink-500 text-white py-4 rounded-xl font-bold">אבחון עור AI</button>
+            <a
+              href={AI_DIAGNOSIS_URL}
+              target="_blank"
+              rel="noopener noreferrer"
+              className="block text-center w-full bg-pink-500 text-white py-4 rounded-xl font-bold"
+            >
+              אבחון עור AI
+            </a>
           </div>
         )}
       </nav>
@@ -164,9 +176,14 @@ const Index = () => {
               הדרך המדעית והמהירה ביותר לעור זוהר, אחיד ומוצק. שגרת טיפוח קוריאנית (Glass Skin) מותאמת אישית לתוצאות שנראות לעין.
             </p>
             <div className="flex flex-col sm:flex-row justify-center gap-6">
-              <button className="bg-pink-500 text-white px-12 py-5 rounded-2xl text-xl font-bold shadow-2xl hover:bg-pink-600 hover:-translate-y-1 transition-all duration-300">
+              <a
+                href={AI_DIAGNOSIS_URL}
+                target="_blank"
+                rel="noopener noreferrer"
+                className="bg-pink-500 text-white px-12 py-5 rounded-2xl text-xl font-bold shadow-2xl hover:bg-pink-600 hover:-translate-y-1 transition-all duration-300"
+              >
                 התחילי אבחון עור חינם
-              </button>
+              </a>
               <a href="#packages" className="bg-white border-2 border-slate-900 px-12 py-5 rounded-2xl text-xl font-bold hover:bg-slate-50 transition-all duration-300">
                 לכל החבילות
               </a>
@@ -327,9 +344,14 @@ const Index = () => {
               <h3 className="text-3xl font-bold mb-4">מוכנה להתחיל את המהפכה הקוריאנית שלך?</h3>
               <p className="text-slate-400 text-lg">אבחון ה-AI שלנו לוקח פחות מ-30 שניות וחוסך לך חודשים של ניסוי וטעייה.</p>
             </div>
-            <button className="whitespace-nowrap bg-white text-slate-900 px-12 py-5 rounded-2xl text-xl font-bold hover:bg-pink-500 hover:text-white transition-all shadow-2xl">
+            <a
+              href={AI_DIAGNOSIS_URL}
+              target="_blank"
+              rel="noopener noreferrer"
+              className="whitespace-nowrap bg-white text-slate-900 px-12 py-5 rounded-2xl text-xl font-bold hover:bg-pink-500 hover:text-white transition-all shadow-2xl"
+            >
               בואי נתחיל אבחון
-            </button>
+            </a>
           </div>
         </div>
       </section>
