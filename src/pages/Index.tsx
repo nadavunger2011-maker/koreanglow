@@ -195,6 +195,28 @@ const Index = () => {
         <div className="absolute bottom-0 right-0 w-96 h-96 bg-blue-100/40 rounded-full blur-3xl translate-y-1/3 translate-x-1/3"></div>
       </header>
 
+      {/* Intro Video */}
+      <section className="py-20 bg-white">
+        <div className="max-w-5xl mx-auto px-4 sm:px-6 lg:px-8">
+          <div className="text-center mb-10">
+            <h2 className="text-3xl md:text-5xl font-black mb-4 italic">הכירו את הסדרה</h2>
+            <p className="text-lg text-slate-500 max-w-2xl mx-auto">
+              סדרת טיפוח חדשנית המשלבת טכנולוגיה קוריאנית מתקדמת עם מרכיבים מוכחים קלינית
+            </p>
+          </div>
+          <div className="relative aspect-video rounded-3xl overflow-hidden shadow-2xl border border-pink-100">
+            <iframe
+              src="https://www.youtube.com/embed/-qvdeG5_33M"
+              title="הכירו את סדרת הטיפוח"
+              loading="lazy"
+              allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
+              allowFullScreen
+              className="absolute inset-0 w-full h-full"
+            />
+          </div>
+        </div>
+      </section>
+
       {/* About */}
       <section id="about" className="py-24 bg-white">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
@@ -271,8 +293,79 @@ const Index = () => {
       </section>
 
       {/* Science */}
-      <section id="science" className="py-24 bg-white overflow-hidden relative">
+      <section id="science" className="py-24 bg-gradient-to-b from-white to-pink-50/30 overflow-hidden relative">
+        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+          <div className="text-center max-w-3xl mx-auto mb-16">
+            <h2 className="text-4xl md:text-5xl font-black mb-6 italic">המדע מאחורי הסדרה</h2>
+            <p className="text-lg text-slate-600 leading-relaxed">
+              דרום קוריאה היא מובילה עולמית בחדשנות בתחום טיפוח העור — שילוב של מדע פורץ דרך, תוצאות מהירות ומרקמים המדמים את מרקם העור הטבעי. כל המוצרים נבדקו דרמטולוגית.
+            </p>
+          </div>
 
+          <div className="grid md:grid-cols-3 gap-6 mb-16">
+            <div className="bg-white p-10 rounded-3xl border border-pink-100 text-center shadow-sm">
+              <div className="text-5xl font-black text-pink-500 mb-3">14</div>
+              <p className="text-slate-600 font-medium">ניסויים קליניים</p>
+            </div>
+            <div className="bg-white p-10 rounded-3xl border border-pink-100 text-center shadow-sm">
+              <div className="text-5xl font-black text-pink-500 mb-3">+600</div>
+              <p className="text-slate-600 font-medium">נשים בעלות סוגי עור שונים</p>
+            </div>
+            <div className="bg-white p-10 rounded-3xl border border-pink-100 text-center shadow-sm">
+              <div className="text-5xl font-black text-pink-500 mb-3">4,000</div>
+              <p className="text-slate-600 font-medium">תמונות תקריב נותחו</p>
+            </div>
+          </div>
+
+          <div className="grid md:grid-cols-3 gap-8">
+            {[
+              { title: "הארה וזוהר", desc: "מוצרים שמשיבים לעור אחידות, חיוניות ומראה קורן ובריא לאורך זמן, מול אתגרי הסביבה והשמש." },
+              { title: "הזדקנות בריאה", desc: "שמירה על מראה עור בריא, גמיש וזוהר בכל גיל — מרקם חלק יותר ומראה מטופח ורענן." },
+              { title: "לחות והזנה", desc: "לחות מתמשכת ורכות קטיפתית עם תחליב הגוף והידיים, עשיר בסקוואלן." },
+            ].map((c) => (
+              <div key={c.title} className="bg-white p-8 rounded-3xl border border-pink-100 shadow-sm">
+                <h3 className="text-2xl font-black mb-3 text-slate-900">{c.title}</h3>
+                <p className="text-slate-600 leading-relaxed">{c.desc}</p>
+              </div>
+            ))}
+          </div>
+        </div>
+      </section>
+
+      {/* Routine */}
+      <section className="py-24 bg-white">
+        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+          <div className="text-center mb-16">
+            <h2 className="text-4xl md:text-5xl font-black mb-6 italic">שגרת הטיפוח שלך</h2>
+            <p className="text-xl text-slate-500 max-w-2xl mx-auto">
+              שלוש שלבים פשוטים: ניקוי, טיפול, לחות — בוקר וערב
+            </p>
+          </div>
+          <div className="grid md:grid-cols-3 gap-8">
+            {[
+              { title: "בוקר", icon: "☀️", steps: routine.morning },
+              { title: "ערב", icon: "🌙", steps: routine.evening },
+              { title: "לפי הצורך", icon: "✨", steps: routine.asNeeded },
+            ].map((block) => (
+              <div key={block.title} className="bg-gradient-to-b from-pink-50 to-white p-8 rounded-3xl border border-pink-100">
+                <div className="flex items-center gap-3 mb-6">
+                  <span className="text-3xl">{block.icon}</span>
+                  <h3 className="text-2xl font-black text-slate-900">{block.title}</h3>
+                </div>
+                <ol className="space-y-3">
+                  {block.steps.map((step, i) => (
+                    <li key={step} className="flex items-start gap-3 text-slate-700">
+                      <span className="flex-shrink-0 w-7 h-7 rounded-full bg-pink-500 text-white text-sm font-bold flex items-center justify-center">
+                        {i + 1}
+                      </span>
+                      <span className="font-medium pt-0.5">{step}</span>
+                    </li>
+                  ))}
+                </ol>
+              </div>
+            ))}
+          </div>
+        </div>
       </section>
 
       {/* Tutorials */}
