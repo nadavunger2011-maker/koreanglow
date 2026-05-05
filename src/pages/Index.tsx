@@ -13,11 +13,75 @@ import {
 import { fetchProducts, type ShopifyProduct } from "@/lib/shopify";
 import { ProductCard } from "@/components/ProductCard";
 import { CartDrawer } from "@/components/CartDrawer";
+import {
+  Accordion,
+  AccordionContent,
+  AccordionItem,
+  AccordionTrigger,
+} from "@/components/ui/accordion";
+
+const AI_DIAGNOSIS_URL = "https://hlskin.ai/customer/69f9e8fdb8319c9ac1340d98";
+
+const faqs = [
+  {
+    q: "האם הסדרה מכילה מרכיבים טבעיים?",
+    a: "המוצרים מכילים מרכיבים ממקור טבעי היכן שניתן, לצד מרכיבים פעילים הנתמכים מדעית כדי להבטיח תוצאות אופטימליות.",
+  },
+  {
+    q: "האם המוצרים מכילים פרבנים וסולפטים?",
+    a: "כל המוצרים בסדרה אינם מכילים פרבנים. ג'ל הניקוי לפנים אינו מכיל פרבנים וסולפטים.",
+  },
+  {
+    q: "האם המוצרים נטולי בישום?",
+    a: "פורמולת הסרום אינה כוללת מרכיבי בישום. שאר המוצרים מכילים ניחוחות עדינים שנבחרו בקפידה כדי לשפר את חוויית הטיפוח.",
+  },
+  {
+    q: "לאילו סוגי עור מתאימים המוצרים?",
+    a: "המוצרים מתאימים לכל סוגי העור — רגיל, יבש, שמן, מעורב ורגיש.",
+  },
+  {
+    q: "לאילו גילים מתאימה הסדרה?",
+    a: "המוצרים מיועדים בדרך כלל למבוגרים ולבני נוער מגיל 18 ומעלה.",
+  },
+  {
+    q: "באיזו תדירות מומלץ להשתמש במוצרים?",
+    a: "ג'ל ניקוי לפנים – פעמיים ביום. קרם עיניים מזין – פעמיים ביום. קרם למיצוק – פעם ביום בבוקר. סרום ניאצינאמיד 10% – פעם ביום. תחליב לידיים וגוף – לפי הצורך.",
+  },
+  {
+    q: "האם המוצרים נוסו על בעלי חיים?",
+    a: "לא. אף אחד מהמוצרים לא נוסה על בעלי חיים. כל הסדרה נבדקה דרמטולוגית.",
+  },
+];
+
+const routine = {
+  morning: ["ג'ל ניקוי לפנים", "סרום ניאצינאמיד 10%", "קרם עיניים מזין", "קרם למיצוק מרקם העור"],
+  evening: ["ג'ל ניקוי לפנים", "סרום ניאצינאמיד 10%", "קרם עיניים מזין"],
+  asNeeded: ["תחליב מזין לידיים ולגוף"],
+};
 
 const Index = () => {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
   const [products, setProducts] = useState<ShopifyProduct[]>([]);
   const [loadingProducts, setLoadingProducts] = useState(true);
+
+  useEffect(() => {
+    const schema = {
+      "@context": "https://schema.org",
+      "@type": "FAQPage",
+      mainEntity: faqs.map((f) => ({
+        "@type": "Question",
+        name: f.q,
+        acceptedAnswer: { "@type": "Answer", text: f.a },
+      })),
+    };
+    const script = document.createElement("script");
+    script.type = "application/ld+json";
+    script.text = JSON.stringify(schema);
+    document.head.appendChild(script);
+    return () => {
+      document.head.removeChild(script);
+    };
+  }, []);
 
   useEffect(() => {
     fetchProducts(20, "title:חבילה* OR title:החבילה* OR title:חבילת*")
@@ -59,9 +123,14 @@ const Index = () => {
             </div>
 
             <div className="hidden md:flex items-center gap-3">
-              <button className="bg-black text-white px-8 py-3 rounded-full text-sm font-bold hover:bg-pink-600 transition-all shadow-lg">
+              <a
+                href={AI_DIAGNOSIS_URL}
+                target="_blank"
+                rel="noopener noreferrer"
+                className="bg-black text-white px-8 py-3 rounded-full text-sm font-bold hover:bg-pink-600 transition-all shadow-lg"
+              >
                 אבחון עור AI
-              </button>
+              </a>
               <CartDrawer />
             </div>
 
@@ -79,7 +148,14 @@ const Index = () => {
             <a href="#about" className="block text-lg font-bold">מה זה עור זכוכית?</a>
             <a href="#packages" className="block text-lg font-bold">סרום ניאצינאמיד</a>
             <a href="#science" className="block text-lg font-bold">מיצוק העור</a>
-            <button className="w-full bg-pink-500 text-white py-4 rounded-xl font-bold">אבחון עור AI</button>
+            <a
+              href={AI_DIAGNOSIS_URL}
+              target="_blank"
+              rel="noopener noreferrer"
+              className="block text-center w-full bg-pink-500 text-white py-4 rounded-xl font-bold"
+            >
+              אבחון עור AI
+            </a>
           </div>
         )}
       </nav>
@@ -100,9 +176,14 @@ const Index = () => {
               הדרך המדעית והמהירה ביותר לעור זוהר, אחיד ומוצק. שגרת טיפוח קוריאנית (Glass Skin) מותאמת אישית לתוצאות שנראות לעין.
             </p>
             <div className="flex flex-col sm:flex-row justify-center gap-6">
-              <button className="bg-pink-500 text-white px-12 py-5 rounded-2xl text-xl font-bold shadow-2xl hover:bg-pink-600 hover:-translate-y-1 transition-all duration-300">
+              <a
+                href={AI_DIAGNOSIS_URL}
+                target="_blank"
+                rel="noopener noreferrer"
+                className="bg-pink-500 text-white px-12 py-5 rounded-2xl text-xl font-bold shadow-2xl hover:bg-pink-600 hover:-translate-y-1 transition-all duration-300"
+              >
                 התחילי אבחון עור חינם
-              </button>
+              </a>
               <a href="#packages" className="bg-white border-2 border-slate-900 px-12 py-5 rounded-2xl text-xl font-bold hover:bg-slate-50 transition-all duration-300">
                 לכל החבילות
               </a>
@@ -113,6 +194,28 @@ const Index = () => {
         <div className="absolute top-1/2 left-0 w-64 h-64 bg-pink-200/30 rounded-full blur-3xl -translate-y-1/2 -translate-x-1/2"></div>
         <div className="absolute bottom-0 right-0 w-96 h-96 bg-blue-100/40 rounded-full blur-3xl translate-y-1/3 translate-x-1/3"></div>
       </header>
+
+      {/* Intro Video */}
+      <section className="py-20 bg-white">
+        <div className="max-w-5xl mx-auto px-4 sm:px-6 lg:px-8">
+          <div className="text-center mb-10">
+            <h2 className="text-3xl md:text-5xl font-black mb-4 italic">הכירו את הסדרה</h2>
+            <p className="text-lg text-slate-500 max-w-2xl mx-auto">
+              סדרת טיפוח חדשנית המשלבת טכנולוגיה קוריאנית מתקדמת עם מרכיבים מוכחים קלינית
+            </p>
+          </div>
+          <div className="relative aspect-video rounded-3xl overflow-hidden shadow-2xl border border-pink-100">
+            <iframe
+              src="https://www.youtube.com/embed/-qvdeG5_33M"
+              title="הכירו את סדרת הטיפוח"
+              loading="lazy"
+              allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
+              allowFullScreen
+              className="absolute inset-0 w-full h-full"
+            />
+          </div>
+        </div>
+      </section>
 
       {/* About */}
       <section id="about" className="py-24 bg-white">
@@ -190,8 +293,79 @@ const Index = () => {
       </section>
 
       {/* Science */}
-      <section id="science" className="py-24 bg-white overflow-hidden relative">
+      <section id="science" className="py-24 bg-gradient-to-b from-white to-pink-50/30 overflow-hidden relative">
+        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+          <div className="text-center max-w-3xl mx-auto mb-16">
+            <h2 className="text-4xl md:text-5xl font-black mb-6 italic">המדע מאחורי הסדרה</h2>
+            <p className="text-lg text-slate-600 leading-relaxed">
+              דרום קוריאה היא מובילה עולמית בחדשנות בתחום טיפוח העור — שילוב של מדע פורץ דרך, תוצאות מהירות ומרקמים המדמים את מרקם העור הטבעי. כל המוצרים נבדקו דרמטולוגית.
+            </p>
+          </div>
 
+          <div className="grid md:grid-cols-3 gap-6 mb-16">
+            <div className="bg-white p-10 rounded-3xl border border-pink-100 text-center shadow-sm">
+              <div className="text-5xl font-black text-pink-500 mb-3">14</div>
+              <p className="text-slate-600 font-medium">ניסויים קליניים</p>
+            </div>
+            <div className="bg-white p-10 rounded-3xl border border-pink-100 text-center shadow-sm">
+              <div className="text-5xl font-black text-pink-500 mb-3">+600</div>
+              <p className="text-slate-600 font-medium">נשים בעלות סוגי עור שונים</p>
+            </div>
+            <div className="bg-white p-10 rounded-3xl border border-pink-100 text-center shadow-sm">
+              <div className="text-5xl font-black text-pink-500 mb-3">4,000</div>
+              <p className="text-slate-600 font-medium">תמונות תקריב נותחו</p>
+            </div>
+          </div>
+
+          <div className="grid md:grid-cols-3 gap-8">
+            {[
+              { title: "הארה וזוהר", desc: "מוצרים שמשיבים לעור אחידות, חיוניות ומראה קורן ובריא לאורך זמן, מול אתגרי הסביבה והשמש." },
+              { title: "הזדקנות בריאה", desc: "שמירה על מראה עור בריא, גמיש וזוהר בכל גיל — מרקם חלק יותר ומראה מטופח ורענן." },
+              { title: "לחות והזנה", desc: "לחות מתמשכת ורכות קטיפתית עם תחליב הגוף והידיים, עשיר בסקוואלן." },
+            ].map((c) => (
+              <div key={c.title} className="bg-white p-8 rounded-3xl border border-pink-100 shadow-sm">
+                <h3 className="text-2xl font-black mb-3 text-slate-900">{c.title}</h3>
+                <p className="text-slate-600 leading-relaxed">{c.desc}</p>
+              </div>
+            ))}
+          </div>
+        </div>
+      </section>
+
+      {/* Routine */}
+      <section className="py-24 bg-white">
+        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+          <div className="text-center mb-16">
+            <h2 className="text-4xl md:text-5xl font-black mb-6 italic">שגרת הטיפוח שלך</h2>
+            <p className="text-xl text-slate-500 max-w-2xl mx-auto">
+              שלוש שלבים פשוטים: ניקוי, טיפול, לחות — בוקר וערב
+            </p>
+          </div>
+          <div className="grid md:grid-cols-3 gap-8">
+            {[
+              { title: "בוקר", icon: "☀️", steps: routine.morning },
+              { title: "ערב", icon: "🌙", steps: routine.evening },
+              { title: "לפי הצורך", icon: "✨", steps: routine.asNeeded },
+            ].map((block) => (
+              <div key={block.title} className="bg-gradient-to-b from-pink-50 to-white p-8 rounded-3xl border border-pink-100">
+                <div className="flex items-center gap-3 mb-6">
+                  <span className="text-3xl">{block.icon}</span>
+                  <h3 className="text-2xl font-black text-slate-900">{block.title}</h3>
+                </div>
+                <ol className="space-y-3">
+                  {block.steps.map((step, i) => (
+                    <li key={step} className="flex items-start gap-3 text-slate-700">
+                      <span className="flex-shrink-0 w-7 h-7 rounded-full bg-pink-500 text-white text-sm font-bold flex items-center justify-center">
+                        {i + 1}
+                      </span>
+                      <span className="font-medium pt-0.5">{step}</span>
+                    </li>
+                  ))}
+                </ol>
+              </div>
+            ))}
+          </div>
+        </div>
       </section>
 
       {/* Tutorials */}
@@ -263,10 +437,73 @@ const Index = () => {
               <h3 className="text-3xl font-bold mb-4">מוכנה להתחיל את המהפכה הקוריאנית שלך?</h3>
               <p className="text-slate-400 text-lg">אבחון ה-AI שלנו לוקח פחות מ-30 שניות וחוסך לך חודשים של ניסוי וטעייה.</p>
             </div>
-            <button className="whitespace-nowrap bg-white text-slate-900 px-12 py-5 rounded-2xl text-xl font-bold hover:bg-pink-500 hover:text-white transition-all shadow-2xl">
+            <a
+              href={AI_DIAGNOSIS_URL}
+              target="_blank"
+              rel="noopener noreferrer"
+              className="whitespace-nowrap bg-white text-slate-900 px-12 py-5 rounded-2xl text-xl font-bold hover:bg-pink-500 hover:text-white transition-all shadow-2xl"
+            >
               בואי נתחיל אבחון
-            </button>
+            </a>
           </div>
+        </div>
+      </section>
+
+      {/* AI Diagnosis */}
+      <section id="ai" className="py-24 bg-gradient-to-br from-pink-50 via-white to-blue-50">
+        <div className="max-w-5xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
+          <div className="inline-flex items-center gap-2 bg-pink-100 text-pink-600 px-4 py-1.5 rounded-full text-xs font-bold mb-6">
+            <Sparkles size={14} />
+            <span>חדש! HL/Skin AI</span>
+          </div>
+          <h2 className="text-4xl md:text-5xl font-black mb-6 italic">העוזר החכם שלך לטיפוח העור</h2>
+          <p className="text-lg text-slate-600 mb-10 max-w-2xl mx-auto leading-relaxed">
+            כלי חינמי מבוסס בינה מלאכותית שמבצע אבחון עור מהיר ומספק המלצות מוצרים מותאמות אישית — הכל בפחות מ-60 שניות.
+          </p>
+          <div className="grid md:grid-cols-3 gap-6 mb-12 text-right">
+            {[
+              { n: "1", t: "מצלמים סלפי קצר" },
+              { n: "2", t: "המערכת מנתחת 10+ פרמטרים ו-209 נקודות פנים" },
+              { n: "3", t: "מקבלים דוח אישי והמלצות מוצרים" },
+            ].map((s) => (
+              <div key={s.n} className="bg-white p-6 rounded-2xl border border-pink-100 shadow-sm">
+                <div className="w-10 h-10 rounded-full bg-pink-500 text-white font-bold flex items-center justify-center mb-3">
+                  {s.n}
+                </div>
+                <p className="text-slate-700 font-medium">{s.t}</p>
+              </div>
+            ))}
+          </div>
+          <a
+            href={AI_DIAGNOSIS_URL}
+            target="_blank"
+            rel="noopener noreferrer"
+            className="inline-block bg-pink-500 text-white px-12 py-5 rounded-2xl text-xl font-bold shadow-2xl hover:bg-pink-600 hover:-translate-y-1 transition-all duration-300"
+          >
+            התחילי אבחון עור AI חינם
+          </a>
+        </div>
+      </section>
+
+      {/* FAQ */}
+      <section id="faq" className="py-24 bg-white">
+        <div className="max-w-3xl mx-auto px-4 sm:px-6 lg:px-8">
+          <div className="text-center mb-12">
+            <h2 className="text-4xl md:text-5xl font-black mb-4 italic">שאלות נפוצות</h2>
+            <p className="text-lg text-slate-500">כל מה שרצית לדעת על הסדרה</p>
+          </div>
+          <Accordion type="single" collapsible className="w-full">
+            {faqs.map((f, i) => (
+              <AccordionItem key={i} value={`item-${i}`} className="border-b border-pink-100">
+                <AccordionTrigger className="text-right text-lg font-bold text-slate-900 hover:text-pink-600 hover:no-underline">
+                  {f.q}
+                </AccordionTrigger>
+                <AccordionContent className="text-slate-600 text-base leading-relaxed">
+                  {f.a}
+                </AccordionContent>
+              </AccordionItem>
+            ))}
+          </Accordion>
         </div>
       </section>
 
