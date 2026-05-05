@@ -13,11 +13,75 @@ import {
 import { fetchProducts, type ShopifyProduct } from "@/lib/shopify";
 import { ProductCard } from "@/components/ProductCard";
 import { CartDrawer } from "@/components/CartDrawer";
+import {
+  Accordion,
+  AccordionContent,
+  AccordionItem,
+  AccordionTrigger,
+} from "@/components/ui/accordion";
+
+const AI_DIAGNOSIS_URL = "https://hlskin.ai/customer/69f9e8fdb8319c9ac1340d98";
+
+const faqs = [
+  {
+    q: "האם הסדרה מכילה מרכיבים טבעיים?",
+    a: "המוצרים מכילים מרכיבים ממקור טבעי היכן שניתן, לצד מרכיבים פעילים הנתמכים מדעית כדי להבטיח תוצאות אופטימליות.",
+  },
+  {
+    q: "האם המוצרים מכילים פרבנים וסולפטים?",
+    a: "כל המוצרים בסדרה אינם מכילים פרבנים. ג'ל הניקוי לפנים אינו מכיל פרבנים וסולפטים.",
+  },
+  {
+    q: "האם המוצרים נטולי בישום?",
+    a: "פורמולת הסרום אינה כוללת מרכיבי בישום. שאר המוצרים מכילים ניחוחות עדינים שנבחרו בקפידה כדי לשפר את חוויית הטיפוח.",
+  },
+  {
+    q: "לאילו סוגי עור מתאימים המוצרים?",
+    a: "המוצרים מתאימים לכל סוגי העור — רגיל, יבש, שמן, מעורב ורגיש.",
+  },
+  {
+    q: "לאילו גילים מתאימה הסדרה?",
+    a: "המוצרים מיועדים בדרך כלל למבוגרים ולבני נוער מגיל 18 ומעלה.",
+  },
+  {
+    q: "באיזו תדירות מומלץ להשתמש במוצרים?",
+    a: "ג'ל ניקוי לפנים – פעמיים ביום. קרם עיניים מזין – פעמיים ביום. קרם למיצוק – פעם ביום בבוקר. סרום ניאצינאמיד 10% – פעם ביום. תחליב לידיים וגוף – לפי הצורך.",
+  },
+  {
+    q: "האם המוצרים נוסו על בעלי חיים?",
+    a: "לא. אף אחד מהמוצרים לא נוסה על בעלי חיים. כל הסדרה נבדקה דרמטולוגית.",
+  },
+];
+
+const routine = {
+  morning: ["ג'ל ניקוי לפנים", "סרום ניאצינאמיד 10%", "קרם עיניים מזין", "קרם למיצוק מרקם העור"],
+  evening: ["ג'ל ניקוי לפנים", "סרום ניאצינאמיד 10%", "קרם עיניים מזין"],
+  asNeeded: ["תחליב מזין לידיים ולגוף"],
+};
 
 const Index = () => {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
   const [products, setProducts] = useState<ShopifyProduct[]>([]);
   const [loadingProducts, setLoadingProducts] = useState(true);
+
+  useEffect(() => {
+    const schema = {
+      "@context": "https://schema.org",
+      "@type": "FAQPage",
+      mainEntity: faqs.map((f) => ({
+        "@type": "Question",
+        name: f.q,
+        acceptedAnswer: { "@type": "Answer", text: f.a },
+      })),
+    };
+    const script = document.createElement("script");
+    script.type = "application/ld+json";
+    script.text = JSON.stringify(schema);
+    document.head.appendChild(script);
+    return () => {
+      document.head.removeChild(script);
+    };
+  }, []);
 
   useEffect(() => {
     fetchProducts(20, "title:חבילה* OR title:החבילה* OR title:חבילת*")
