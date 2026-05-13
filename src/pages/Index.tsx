@@ -162,18 +162,18 @@ const Index = () => {
               <Sparkles size={14} />
               <span>המדע הקוריאני המתקדם ביותר</span>
             </div>
-            <h1 className="text-5xl md:text-8xl font-black text-slate-900 leading-[1.1] mb-8 tracking-tight">
+            <h1 className="text-4xl sm:text-5xl md:text-8xl font-black text-slate-900 leading-[1.1] mb-8 tracking-tight">
               מוצרי <span className="text-transparent bg-clip-text bg-gradient-to-r from-pink-500 to-rose-500">טיפוח קוריאני</span> <br className="hidden md:block" />
               לעור זכוכית מושלם
             </h1>
-            <p className="text-xl md:text-2xl text-slate-600 mb-12 max-w-2xl mx-auto leading-relaxed">
+            <p className="text-lg sm:text-xl md:text-2xl text-slate-600 mb-12 max-w-2xl mx-auto leading-relaxed">
               הדרך המדעית והמהירה ביותר לעור זוהר, אחיד ומוצק. שגרת טיפוח קוריאנית (Glass Skin) מותאמת אישית לתוצאות שנראות לעין.
             </p>
-            <div className="flex flex-col sm:flex-row justify-center gap-6">
-              <a href="#packages" className="bg-pink-500 text-white px-12 py-5 rounded-2xl text-xl font-bold shadow-2xl hover:bg-pink-600 hover:-translate-y-1 transition-all duration-300">
+            <div className="flex flex-col sm:flex-row justify-center items-center gap-4 sm:gap-6">
+              <a href="#packages" className="w-full sm:w-auto text-center bg-pink-500 text-white px-8 sm:px-12 py-4 sm:py-5 rounded-2xl text-lg sm:text-xl font-bold shadow-2xl hover:bg-pink-600 hover:-translate-y-1 transition-all duration-300">
                 לכל החבילות
               </a>
-              <a href="#about" className="bg-white border-2 border-slate-900 px-12 py-5 rounded-2xl text-xl font-bold hover:bg-slate-50 transition-all duration-300">
+              <a href="#about" className="w-full sm:w-auto text-center bg-white border-2 border-slate-900 px-8 sm:px-12 py-4 sm:py-5 rounded-2xl text-lg sm:text-xl font-bold hover:bg-slate-50 transition-all duration-300">
                 גלי עוד
               </a>
             </div>
@@ -222,11 +222,11 @@ const Index = () => {
                 <span className="text-sm text-slate-500 font-medium">ריכוז ניאצינאמיד טהור</span>
               </div>
             </div>
-            <div className="lg:w-1/2">
-              <h2 className="text-4xl md:text-5xl font-extrabold mb-8 text-slate-900">
+            <div className="lg:w-1/2 text-center lg:text-right">
+              <h2 className="text-3xl sm:text-4xl md:text-5xl font-extrabold mb-8 text-slate-900">
                 מה זה טיפוח קוריאני <br /> לעור זכוכית?
               </h2>
-              <div className="space-y-6 text-lg text-slate-600 leading-relaxed">
+              <div className="space-y-6 text-base sm:text-lg text-slate-600 leading-relaxed">
                 <p>
                   המראה המבוקש ביותר בעולם ה-K-Beauty הוא <strong>Glass Skin</strong> - עור שנראה חלק, שקוף ורווי בלחות, ממש כמו זכוכית.
                 </p>
@@ -234,7 +234,7 @@ const Index = () => {
                   ב-Koreanglow אנחנו משלבים פורמולות מתקדמות עם רכיבים פעילים בריכוזים גבוהים כדי להעניק לך את הזוהר הקוריאני המקורי במינימום זמן.
                 </p>
               </div>
-              <div className="mt-12 grid grid-cols-2 gap-8">
+              <div className="mt-12 grid grid-cols-2 gap-6 sm:gap-8 text-right">
                 <div className="flex items-start gap-3">
                   <div className="mt-1 p-1 bg-pink-100 rounded-full text-pink-600"><Check size={16} strokeWidth={3} /></div>
                   <div>
@@ -421,14 +421,14 @@ const Index = () => {
             ))}
           </div>
 
-          <div className="mt-20 p-12 bg-slate-900 rounded-[3rem] text-white flex flex-col md:flex-row items-center justify-between gap-10">
-            <div className="text-right">
-              <h3 className="text-3xl font-bold mb-4">מוכנה להתחיל את המהפכה הקוריאנית שלך?</h3>
-              <p className="text-slate-400 text-lg">בחרי את החבילה שמתאימה לך והתחילי שגרת זוהר כבר היום.</p>
+          <div className="mt-20 p-8 sm:p-12 bg-slate-900 rounded-[2rem] sm:rounded-[3rem] text-white flex flex-col md:flex-row items-center justify-between gap-8 md:gap-10">
+            <div className="text-center md:text-right">
+              <h3 className="text-2xl sm:text-3xl font-bold mb-4">מוכנה להתחיל את המהפכה הקוריאנית שלך?</h3>
+              <p className="text-slate-400 text-base sm:text-lg">בחרי את החבילה שמתאימה לך והתחילי שגרת זוהר כבר היום.</p>
             </div>
             <a
               href="#packages"
-              className="whitespace-nowrap bg-white text-slate-900 px-12 py-5 rounded-2xl text-xl font-bold hover:bg-pink-500 hover:text-white transition-all shadow-2xl"
+              className="whitespace-nowrap bg-white text-slate-900 px-8 sm:px-12 py-4 sm:py-5 rounded-2xl text-lg sm:text-xl font-bold hover:bg-pink-500 hover:text-white transition-all shadow-2xl"
             >
               לחבילות שלנו
             </a>
@@ -464,7 +464,7 @@ const Index = () => {
           <div className="text-4xl font-black tracking-tighter text-slate-900 mb-8">KOREANGLOW</div>
           <p className="text-slate-400 text-sm mb-12">מדע קוריאני. עור זכוכית. התוצאה שלך.</p>
 
-          <div className="flex justify-center gap-12 text-sm font-bold text-slate-400 mb-16">
+          <div className="flex flex-wrap justify-center gap-6 sm:gap-12 text-sm font-bold text-slate-400 mb-16">
             <a href="#" className="hover:text-pink-500 transition-colors">מדיניות פרטיות</a>
             <a href="#" className="hover:text-pink-500 transition-colors">תנאי שימוש</a>
             <a href="#" className="hover:text-pink-500 transition-colors">צור קשר</a>
