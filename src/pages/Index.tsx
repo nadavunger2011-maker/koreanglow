@@ -107,6 +107,15 @@ const Index = () => {
 
   return (
     <div className="min-h-screen bg-background font-sans text-foreground" dir="rtl">
+      <Helmet>
+        <title>Koreanglow — Advanced Korean Skincare for Glass Skin</title>
+        <meta name="description" content="Koreanglow offers curated K-Beauty skincare with 10% niacinamide serum and full glass-skin routines, dermatologist-tested for radiant, even-toned skin." />
+        <link rel="canonical" href="https://koreanglow.lovable.app/" />
+        <meta property="og:title" content="Koreanglow — Advanced Korean Skincare for Glass Skin" />
+        <meta property="og:description" content="Curated K-Beauty skincare for glass-skin results — 10% niacinamide serum and full daily routines." />
+        <meta property="og:url" content="https://koreanglow.lovable.app/" />
+        <meta property="og:type" content="website" />
+      </Helmet>
       {/* Navigation */}
       <nav className="fixed w-full z-50 bg-background/80 backdrop-blur-md border-b border-pink-50">
         <div className="max-w-[1200px] mx-auto px-4 sm:px-6">
