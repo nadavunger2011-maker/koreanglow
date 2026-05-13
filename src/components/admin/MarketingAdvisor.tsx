@@ -40,7 +40,7 @@ const priorityLabel: Record<Tip["priority"], string> = {
   low: "עדיפות נמוכה",
 };
 
-export const MarketingAdvisor = ({ adminPassword }: { adminPassword: string }) => {
+export const MarketingAdvisor = ({ accessToken }: { accessToken: string }) => {
   const [loading, setLoading] = useState(false);
   const [result, setResult] = useState<AdvisorResponse | null>(null);
   const { toast } = useToast();
@@ -52,7 +52,7 @@ export const MarketingAdvisor = ({ adminPassword }: { adminPassword: string }) =
         method: "POST",
         headers: {
           "Content-Type": "application/json",
-          "x-admin-password": adminPassword,
+          Authorization: `Bearer ${accessToken}`,
         },
       });
       const json = await res.json();
