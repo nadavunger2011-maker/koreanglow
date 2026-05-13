@@ -1,4 +1,5 @@
 import { useEffect, useState } from "react";
+import { Helmet } from "react-helmet-async";
 import {
   Sparkles,
   Check,
@@ -106,6 +107,15 @@ const Index = () => {
 
   return (
     <div className="min-h-screen bg-background font-sans text-foreground" dir="rtl">
+      <Helmet>
+        <title>Koreanglow — Advanced Korean Skincare for Glass Skin</title>
+        <meta name="description" content="Koreanglow offers curated K-Beauty skincare with 10% niacinamide serum and full glass-skin routines, dermatologist-tested for radiant, even-toned skin." />
+        <link rel="canonical" href="https://koreanglow.lovable.app/" />
+        <meta property="og:title" content="Koreanglow — Advanced Korean Skincare for Glass Skin" />
+        <meta property="og:description" content="Curated K-Beauty skincare for glass-skin results — 10% niacinamide serum and full daily routines." />
+        <meta property="og:url" content="https://koreanglow.lovable.app/" />
+        <meta property="og:type" content="website" />
+      </Helmet>
       {/* Navigation */}
       <nav className="fixed w-full z-50 bg-background/80 backdrop-blur-md border-b border-pink-50">
         <div className="max-w-[1200px] mx-auto px-4 sm:px-6">
@@ -240,14 +250,14 @@ const Index = () => {
                 <div className="flex items-start gap-3">
                   <div className="mt-1 p-1 bg-pink-100 rounded-full text-pink-600"><Check size={16} strokeWidth={3} /></div>
                   <div>
-                    <h4 className="font-bold">מדע מוכח</h4>
+                    <h3 className="font-bold">מדע מוכח</h3>
                     <p className="text-sm text-slate-500">פורמולות שנבדקו במעבדה</p>
                   </div>
                 </div>
                 <div className="flex items-start gap-3">
                   <div className="mt-1 p-1 bg-pink-100 rounded-full text-pink-600"><Check size={16} strokeWidth={3} /></div>
                   <div>
-                    <h4 className="font-bold">תוצאות מהירות</h4>
+                    <h3 className="font-bold">תוצאות מהירות</h3>
                     <p className="text-sm text-slate-500">שינוי נראה לעין תוך שבועות</p>
                   </div>
                 </div>
@@ -417,7 +427,7 @@ const Index = () => {
                   {idx === 2 && <ShieldCheck size={32} />}
                   {idx === 3 && <Sparkles size={32} />}
                 </div>
-                <h4 className="text-xl font-black mb-2 text-slate-900">{ing.name}</h4>
+                <h3 className="text-xl font-black mb-2 text-slate-900">{ing.name}</h3>
                 <p className="text-slate-500 text-sm leading-relaxed">{ing.benefit}</p>
               </div>
             ))}

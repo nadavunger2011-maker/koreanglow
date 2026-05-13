@@ -1,5 +1,6 @@
 import { useEffect, useState } from "react";
 import { useParams, Link } from "react-router-dom";
+import { Helmet } from "react-helmet-async";
 import { ArrowRight, Loader2, ShoppingBag, Check } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { fetchProductByHandle } from "@/lib/shopify";
@@ -56,12 +57,6 @@ const ProductDetailPage = () => {
       .catch((e) => console.error(e))
       .finally(() => setLoading(false));
   }, [handle]);
-
-  useEffect(() => {
-    if (product) {
-      document.title = `${product.title} | KOREANGLOW`;
-    }
-  }, [product]);
 
   // Show sticky add-to-cart bar after user scrolls past the hero area.
   useEffect(() => {
@@ -139,6 +134,46 @@ const ProductDetailPage = () => {
 
   return (
     <div className="min-h-screen bg-background font-sans text-foreground" dir="rtl">
+      {product && (
+        <Helmet>
+          <title>{`${product.title} | Koreanglow`}</title>
+          <meta
+            name="description"
+            content={(product.description || `${product.title} — Korean skincare from Koreanglow.`).slice(0, 155)}
+          />
+          <link rel="canonical" href={`https://koreanglow.lovable.app/product/${product.handle}`} />
+          <meta property="og:type" content="product" />
+          <meta property="og:title" content={`${product.title} | Koreanglow`} />
+          <meta
+            property="og:description"
+            content={(product.description || `${product.title} — Korean skincare from Koreanglow.`).slice(0, 200)}
+          />
+          <meta property="og:url" content={`https://koreanglow.lovable.app/product/${product.handle}`} />
+          {product.images.edges[0]?.node?.url && (
+            <meta property="og:image" content={product.images.edges[0].node.url} />
+          )}
+          <script type="application/ld+json">
+            {JSON.stringify({
+              "@context": "https://schema.org",
+              "@type": "Product",
+              name: product.title,
+              description: product.description,
+              image: product.images.edges.map((e) => e.node.url),
+              sku: product.handle,
+              brand: { "@type": "Brand", name: "Koreanglow" },
+              offers: {
+                "@type": "Offer",
+                price: parseFloat(product.priceRange.minVariantPrice.amount).toFixed(2),
+                priceCurrency: product.priceRange.minVariantPrice.currencyCode,
+                availability: variant?.availableForSale
+                  ? "https://schema.org/InStock"
+                  : "https://schema.org/OutOfStock",
+                url: `https://koreanglow.lovable.app/product/${product.handle}`,
+              },
+            })}
+          </script>
+        </Helmet>
+      )}
       <nav className="fixed w-full z-50 bg-background/80 backdrop-blur-md border-b border-pink-50">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="flex justify-between h-20 items-center">
@@ -186,6 +221,7 @@ const ProductDetailPage = () => {
                     <button
                       key={idx}
                       onClick={() => setSelectedImage(idx)}
+                      aria-label={`הצגת תמונה ${idx + 1} מתוך ${product.images.edges.length}`}
                       className={`flex-shrink-0 w-20 h-20 rounded-2xl overflow-hidden border-2 transition-all ${
                         idx === selectedImage ? "border-pink-500" : "border-transparent"
                       }`}

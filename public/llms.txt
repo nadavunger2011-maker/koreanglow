@@ -1,0 +1,12 @@
+# Koreanglow
+
+> Korean skincare brand specializing in glass-skin routines, 10% niacinamide serum, and dermatologist-tested K-Beauty essentials.
+
+## Pages
+
+- [Home](/): Brand intro, full skincare lineup, the science behind glass skin, and FAQs.
+- [Blog](/blog): Editorial guides on Korean skincare, ingredients, and routines.
+
+## Optional
+
+- [Product detail](/product/): Individual product pages with ingredients, usage, and pricing.
