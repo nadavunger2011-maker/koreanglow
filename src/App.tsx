@@ -8,19 +8,26 @@ import ProductDetail from "./pages/ProductDetail.tsx";
 import AdminDashboard from "./pages/AdminDashboard.tsx";
 import NotFound from "./pages/NotFound.tsx";
 import { useCartSync } from "./hooks/useCartSync";
+import NewsletterPopup from "./components/NewsletterPopup";
+import { useLocation } from "react-router-dom";
 
 const queryClient = new QueryClient();
 
 const AppRoutes = () => {
   useCartSync();
+  const location = useLocation();
+  const showPopup = !location.pathname.startsWith("/admin-dashboard");
   return (
-    <Routes>
-      <Route path="/" element={<Index />} />
-      <Route path="/product/:handle" element={<ProductDetail />} />
-      <Route path="/admin-dashboard" element={<AdminDashboard />} />
-      {/* ADD ALL CUSTOM ROUTES ABOVE THE CATCH-ALL "*" ROUTE */}
-      <Route path="*" element={<NotFound />} />
-    </Routes>
+    <>
+      <Routes>
+        <Route path="/" element={<Index />} />
+        <Route path="/product/:handle" element={<ProductDetail />} />
+        <Route path="/admin-dashboard" element={<AdminDashboard />} />
+        {/* ADD ALL CUSTOM ROUTES ABOVE THE CATCH-ALL "*" ROUTE */}
+        <Route path="*" element={<NotFound />} />
+      </Routes>
+      {showPopup && <NewsletterPopup />}
+    </>
   );
 };
 
