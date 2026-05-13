@@ -56,7 +56,7 @@ const Blog = () => {
       </Helmet>
 
       <header className="border-b border-border/50 bg-card/50 backdrop-blur">
-        <div className="max-w-6xl mx-auto px-6 py-6 flex items-center justify-between">
+        <div className="max-w-[1200px] mx-auto px-6 py-6 flex items-center justify-between">
           <Link to="/" className="text-sm text-muted-foreground hover:text-foreground inline-flex items-center gap-1">
             <ArrowLeft size={14} />
             חזרה לחנות
@@ -66,7 +66,7 @@ const Blog = () => {
         </div>
       </header>
 
-      <main className="max-w-6xl mx-auto px-6 py-12">
+      <main className="max-w-[1200px] mx-auto px-6 py-12">
         {loading ? (
           <div className="flex justify-center py-24">
             <Loader2 className="animate-spin text-muted-foreground" size={28} />

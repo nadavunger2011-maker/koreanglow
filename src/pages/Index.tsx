@@ -108,7 +108,7 @@ const Index = () => {
     <div className="min-h-screen bg-background font-sans text-foreground" dir="rtl">
       {/* Navigation */}
       <nav className="fixed w-full z-50 bg-background/80 backdrop-blur-md border-b border-pink-50">
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+        <div className="max-w-[1200px] mx-auto px-4 sm:px-6">
           <div className="flex justify-between h-20 items-center">
             <div className="flex-shrink-0 flex items-center">
               <span className="text-2xl font-black tracking-tighter text-pink-600">KOREANGLOW</span>
@@ -158,7 +158,7 @@ const Index = () => {
 
       {/* Hero Section */}
       <header className="relative pt-32 pb-20 overflow-hidden bg-gradient-to-br from-pink-50 via-white to-blue-50">
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10">
+        <div className="max-w-[1200px] mx-auto px-4 sm:px-6 relative z-10">
           <div className="text-center max-w-4xl mx-auto">
             <div className="inline-flex items-center gap-2 bg-pink-100 text-pink-600 px-4 py-1.5 rounded-full text-xs font-bold mb-8">
               <Sparkles size={14} />
@@ -188,7 +188,7 @@ const Index = () => {
 
       {/* Intro Video */}
       <section className="py-20 bg-white">
-        <div className="max-w-5xl mx-auto px-4 sm:px-6 lg:px-8">
+        <div className="max-w-5xl mx-auto px-4 sm:px-6">
           <div className="text-center mb-10">
             <h2 className="text-3xl md:text-5xl font-black mb-4 italic">הכירו את הסדרה</h2>
             <p className="text-lg text-slate-500 max-w-2xl mx-auto">
@@ -210,7 +210,7 @@ const Index = () => {
 
       {/* About */}
       <section id="about" className="py-24 bg-white">
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+        <div className="max-w-[1200px] mx-auto px-4 sm:px-6">
           <div className="flex flex-col lg:flex-row items-center gap-16">
             <div className="lg:w-1/2 relative">
               <div className="aspect-[4/5] bg-slate-100 rounded-[2.5rem] overflow-hidden shadow-2xl" />
@@ -259,7 +259,7 @@ const Index = () => {
 
       {/* Packages */}
       <section id="packages" className="py-24 bg-slate-50">
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+        <div className="max-w-[1200px] mx-auto px-4 sm:px-6">
           <div className="text-center mb-20">
             <h2 className="text-4xl md:text-5xl font-black mb-6 italic">סרום ניאצינאמיד 10% ושגרת הזוהר שלך</h2>
             <p className="text-xl text-slate-500 max-w-2xl mx-auto">בחרי את המסלול שמתאים בדיוק לסדר היום שלך</p>
@@ -285,7 +285,7 @@ const Index = () => {
 
       {/* Science */}
       <section id="science" className="py-24 bg-gradient-to-b from-white to-pink-50/30 overflow-hidden relative">
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+        <div className="max-w-[1200px] mx-auto px-4 sm:px-6">
           <div className="text-center max-w-3xl mx-auto mb-16">
             <h2 className="text-4xl md:text-5xl font-black mb-6 italic">המדע מאחורי הסדרה</h2>
             <p className="text-lg text-slate-600 leading-relaxed">
@@ -325,7 +325,7 @@ const Index = () => {
 
       {/* Routine */}
       <section className="py-24 bg-white">
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+        <div className="max-w-[1200px] mx-auto px-4 sm:px-6">
           <div className="text-center mb-16">
             <h2 className="text-4xl md:text-5xl font-black mb-6 italic">שגרת הטיפוח שלך</h2>
             <p className="text-xl text-slate-500 max-w-2xl mx-auto">
@@ -361,7 +361,7 @@ const Index = () => {
 
       {/* Tutorials */}
       <section id="tutorials" className="py-24 bg-gradient-to-b from-white via-pink-50/30 to-white">
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+        <div className="max-w-[1200px] mx-auto px-4 sm:px-6">
           <div className="text-center mb-16">
             <div className="inline-flex items-center gap-2 bg-pink-100 text-pink-600 px-4 py-1.5 rounded-full text-xs font-bold mb-6">
               <PlayCircle size={14} />
@@ -400,7 +400,7 @@ const Index = () => {
 
       {/* Science (continued) */}
       <section className="py-24 bg-white overflow-hidden relative">
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+        <div className="max-w-[1200px] mx-auto px-4 sm:px-6">
           <div className="text-center max-w-3xl mx-auto mb-20">
             <h2 className="text-4xl md:text-5xl font-black mb-8 italic">הפתרון המתקדם למיצוק העור</h2>
             <p className="text-lg text-slate-600">
@@ -440,7 +440,7 @@ const Index = () => {
 
       {/* FAQ */}
       <section id="faq" className="py-24 bg-white">
-        <div className="max-w-3xl mx-auto px-4 sm:px-6 lg:px-8">
+        <div className="max-w-3xl mx-auto px-4 sm:px-6">
           <div className="text-center mb-12">
             <h2 className="text-4xl md:text-5xl font-black mb-4 italic">שאלות נפוצות</h2>
             <p className="text-lg text-slate-500">כל מה שרצית לדעת על הסדרה</p>
@@ -462,7 +462,7 @@ const Index = () => {
 
       {/* Footer */}
       <footer className="bg-white pt-24 pb-12 border-t border-slate-50">
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
+        <div className="max-w-[1200px] mx-auto px-4 sm:px-6 text-center">
           <div className="text-4xl font-black tracking-tighter text-slate-900 mb-8">KOREANGLOW</div>
           <p className="text-slate-400 text-sm mb-12">מדע קוריאני. עור זכוכית. התוצאה שלך.</p>
 
