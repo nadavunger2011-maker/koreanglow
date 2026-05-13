@@ -30,7 +30,78 @@ Deno.serve(async (req) => {
     Deno.env.get("SUPABASE_SERVICE_ROLE_KEY")!,
   );
 
+  const url = new URL(req.url);
+  const resource = url.searchParams.get("resource");
+
   try {
+    // ===== Blog posts =====
+    if (resource === "posts") {
+      if (req.method === "GET") {
+        const { data, error } = await supabase
+          .from("blog_posts")
+          .select("*")
+          .order("created_at", { ascending: false });
+        if (error) throw error;
+        return new Response(JSON.stringify({ posts: data }), {
+          headers: { ...corsHeaders, "Content-Type": "application/json" },
+        });
+      }
+      if (req.method === "POST") {
+        const body = await req.json();
+        const payload = {
+          ...body,
+          published_at:
+            body.published && !body.published_at
+              ? new Date().toISOString()
+              : body.published_at ?? null,
+        };
+        const { data, error } = await supabase
+          .from("blog_posts")
+          .upsert(payload, { onConflict: "id" })
+          .select()
+          .single();
+        if (error) throw error;
+        return new Response(JSON.stringify({ post: data }), {
+          headers: { ...corsHeaders, "Content-Type": "application/json" },
+        });
+      }
+      if (req.method === "DELETE") {
+        const { id } = await req.json();
+        const { error } = await supabase.from("blog_posts").delete().eq("id", id);
+        if (error) throw error;
+        return new Response(JSON.stringify({ ok: true }), {
+          headers: { ...corsHeaders, "Content-Type": "application/json" },
+        });
+      }
+    }
+
+    // ===== Blog analytics =====
+    if (resource === "analytics" && req.method === "GET") {
+      const { data: posts, error: pErr } = await supabase
+        .from("blog_posts")
+        .select("id, slug, title, published, published_at");
+      if (pErr) throw pErr;
+      const { data: views, error: vErr } = await supabase
+        .from("blog_post_views")
+        .select("post_id, viewed_at");
+      if (vErr) throw vErr;
+      const now = Date.now();
+      const day = 86400000;
+      const stats = (posts || []).map((p) => {
+        const my = (views || []).filter((v) => v.post_id === p.id);
+        const t = (ms: number) => my.filter((v) => now - new Date(v.viewed_at).getTime() < ms).length;
+        return {
+          ...p,
+          views_total: my.length,
+          views_7d: t(7 * day),
+          views_30d: t(30 * day),
+        };
+      });
+      return new Response(JSON.stringify({ stats }), {
+        headers: { ...corsHeaders, "Content-Type": "application/json" },
+      });
+    }
+
     if (req.method === "GET") {
       const [leadsRes, notesRes] = await Promise.all([
         supabase.from("leads").select("*").order("created_at", { ascending: false }),
