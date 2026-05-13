@@ -241,14 +241,14 @@ const Index = () => {
                 <div className="flex items-start gap-3">
                   <div className="mt-1 p-1 bg-pink-100 rounded-full text-pink-600"><Check size={16} strokeWidth={3} /></div>
                   <div>
-                    <h4 className="font-bold">מדע מוכח</h4>
+                    <h3 className="font-bold">מדע מוכח</h3>
                     <p className="text-sm text-slate-500">פורמולות שנבדקו במעבדה</p>
                   </div>
                 </div>
                 <div className="flex items-start gap-3">
                   <div className="mt-1 p-1 bg-pink-100 rounded-full text-pink-600"><Check size={16} strokeWidth={3} /></div>
                   <div>
-                    <h4 className="font-bold">תוצאות מהירות</h4>
+                    <h3 className="font-bold">תוצאות מהירות</h3>
                     <p className="text-sm text-slate-500">שינוי נראה לעין תוך שבועות</p>
                   </div>
                 </div>
@@ -418,7 +418,7 @@ const Index = () => {
                   {idx === 2 && <ShieldCheck size={32} />}
                   {idx === 3 && <Sparkles size={32} />}
                 </div>
-                <h4 className="text-xl font-black mb-2 text-slate-900">{ing.name}</h4>
+                <h3 className="text-xl font-black mb-2 text-slate-900">{ing.name}</h3>
                 <p className="text-slate-500 text-sm leading-relaxed">{ing.benefit}</p>
               </div>
             ))}
