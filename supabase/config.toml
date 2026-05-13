@@ -1,7 +1,7 @@
 project_id = "nkejhtzzurbusfgevhnt"
 
 [functions.admin-data]
-verify_jwt = false
+verify_jwt = true
 
 [functions.marketing-advisor]
-verify_jwt = false
+verify_jwt = true
