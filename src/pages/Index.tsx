@@ -284,7 +284,7 @@ const Index = () => {
               <p className="text-xl text-slate-500">לא נמצאו מוצרים</p>
             </div>
           ) : (
-            <div className="grid sm:grid-cols-2 lg:grid-cols-3 gap-4 sm:gap-8 items-stretch">
+            <div className="grid sm:grid-cols-2 lg:grid-cols-3 gap-4 sm:gap-8 items-stretch mx-3 sm:mx-0">
               {products.map((product) => (
                 <ProductCard key={product.node.id} product={product} />
               ))}
