@@ -14,6 +14,104 @@ export type Database = {
   }
   public: {
     Tables: {
+      blog_post_views: {
+        Row: {
+          id: string
+          path: string | null
+          post_id: string
+          referrer: string | null
+          session_id: string | null
+          viewed_at: string
+        }
+        Insert: {
+          id?: string
+          path?: string | null
+          post_id: string
+          referrer?: string | null
+          session_id?: string | null
+          viewed_at?: string
+        }
+        Update: {
+          id?: string
+          path?: string | null
+          post_id?: string
+          referrer?: string | null
+          session_id?: string | null
+          viewed_at?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "blog_post_views_post_id_fkey"
+            columns: ["post_id"]
+            isOneToOne: false
+            referencedRelation: "blog_posts"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
+      blog_posts: {
+        Row: {
+          author_name: string | null
+          category: string | null
+          content_blocks: Json
+          cover_image_alt: string | null
+          cover_image_url: string | null
+          created_at: string
+          excerpt: string | null
+          id: string
+          keywords: string[]
+          meta_description: string | null
+          meta_title: string | null
+          published: boolean
+          published_at: string | null
+          read_minutes: number | null
+          slug: string
+          tags: string[]
+          title: string
+          updated_at: string
+        }
+        Insert: {
+          author_name?: string | null
+          category?: string | null
+          content_blocks?: Json
+          cover_image_alt?: string | null
+          cover_image_url?: string | null
+          created_at?: string
+          excerpt?: string | null
+          id?: string
+          keywords?: string[]
+          meta_description?: string | null
+          meta_title?: string | null
+          published?: boolean
+          published_at?: string | null
+          read_minutes?: number | null
+          slug: string
+          tags?: string[]
+          title: string
+          updated_at?: string
+        }
+        Update: {
+          author_name?: string | null
+          category?: string | null
+          content_blocks?: Json
+          cover_image_alt?: string | null
+          cover_image_url?: string | null
+          created_at?: string
+          excerpt?: string | null
+          id?: string
+          keywords?: string[]
+          meta_description?: string | null
+          meta_title?: string | null
+          published?: boolean
+          published_at?: string | null
+          read_minutes?: number | null
+          slug?: string
+          tags?: string[]
+          title?: string
+          updated_at?: string
+        }
+        Relationships: []
+      }
       lead_notes: {
         Row: {
           created_at: string
