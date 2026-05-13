@@ -118,6 +118,7 @@ const Index = () => {
               <a href="#about" className="hover:text-pink-500 transition-colors">מה זה עור זכוכית?</a>
               <a href="#packages" className="hover:text-pink-500 transition-colors">סרום ניאצינאמיד</a>
               <a href="#science" className="hover:text-pink-500 transition-colors">מיצוק העור</a>
+              <a href="/blog" className="hover:text-pink-500 transition-colors">בלוג</a>
             </div>
 
             <div className="hidden md:flex items-center gap-3">
@@ -144,6 +145,7 @@ const Index = () => {
             <a href="#about" className="block text-lg font-bold">מה זה עור זכוכית?</a>
             <a href="#packages" className="block text-lg font-bold">סרום ניאצינאמיד</a>
             <a href="#science" className="block text-lg font-bold">מיצוק העור</a>
+            <a href="/blog" className="block text-lg font-bold">בלוג</a>
             <a
               href="#packages"
               className="block text-center w-full bg-pink-500 text-white py-4 rounded-xl font-bold"
