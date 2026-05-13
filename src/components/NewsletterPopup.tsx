@@ -104,6 +104,8 @@ export const NewsletterPopup = () => {
 
               <form onSubmit={handleSubmit} className="space-y-3 text-right">
                 <Input
+                  id="newsletter-name"
+                  aria-label="שם"
                   type="text"
                   placeholder="שם (אופציונלי)"
                   value={name}
@@ -112,6 +114,8 @@ export const NewsletterPopup = () => {
                   autoComplete="given-name"
                 />
                 <Input
+                  id="newsletter-email"
+                  aria-label="אימייל"
                   type="email"
                   placeholder="האימייל שלך"
                   value={email}
