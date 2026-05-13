@@ -20,8 +20,6 @@ import {
   AccordionTrigger,
 } from "@/components/ui/accordion";
 
-const AI_DIAGNOSIS_URL = "https://hlskin.ai/customer/69f9e8fdb8319c9ac1340d98";
-
 const faqs = [
   {
     q: "האם הסדרה מכילה מרכיבים טבעיים?",
@@ -124,12 +122,10 @@ const Index = () => {
 
             <div className="hidden md:flex items-center gap-3">
               <a
-                href={AI_DIAGNOSIS_URL}
-                target="_blank"
-                rel="noopener noreferrer"
+                href="#packages"
                 className="bg-black text-white px-8 py-3 rounded-full text-sm font-bold hover:bg-pink-600 transition-all shadow-lg"
               >
-                אבחון עור AI
+                לחבילות
               </a>
               <CartDrawer />
             </div>
@@ -149,12 +145,10 @@ const Index = () => {
             <a href="#packages" className="block text-lg font-bold">סרום ניאצינאמיד</a>
             <a href="#science" className="block text-lg font-bold">מיצוק העור</a>
             <a
-              href={AI_DIAGNOSIS_URL}
-              target="_blank"
-              rel="noopener noreferrer"
+              href="#packages"
               className="block text-center w-full bg-pink-500 text-white py-4 rounded-xl font-bold"
             >
-              אבחון עור AI
+              לחבילות
             </a>
           </div>
         )}
@@ -176,16 +170,11 @@ const Index = () => {
               הדרך המדעית והמהירה ביותר לעור זוהר, אחיד ומוצק. שגרת טיפוח קוריאנית (Glass Skin) מותאמת אישית לתוצאות שנראות לעין.
             </p>
             <div className="flex flex-col sm:flex-row justify-center gap-6">
-              <a
-                href={AI_DIAGNOSIS_URL}
-                target="_blank"
-                rel="noopener noreferrer"
-                className="bg-pink-500 text-white px-12 py-5 rounded-2xl text-xl font-bold shadow-2xl hover:bg-pink-600 hover:-translate-y-1 transition-all duration-300"
-              >
-                התחילי אבחון עור חינם
-              </a>
-              <a href="#packages" className="bg-white border-2 border-slate-900 px-12 py-5 rounded-2xl text-xl font-bold hover:bg-slate-50 transition-all duration-300">
+              <a href="#packages" className="bg-pink-500 text-white px-12 py-5 rounded-2xl text-xl font-bold shadow-2xl hover:bg-pink-600 hover:-translate-y-1 transition-all duration-300">
                 לכל החבילות
+              </a>
+              <a href="#about" className="bg-white border-2 border-slate-900 px-12 py-5 rounded-2xl text-xl font-bold hover:bg-slate-50 transition-all duration-300">
+                גלי עוד
               </a>
             </div>
           </div>
@@ -256,8 +245,8 @@ const Index = () => {
                 <div className="flex items-start gap-3">
                   <div className="mt-1 p-1 bg-pink-100 rounded-full text-pink-600"><Check size={16} strokeWidth={3} /></div>
                   <div>
-                    <h4 className="font-bold">התאמה אישית</h4>
-                    <p className="text-sm text-slate-500">בעזרת טכנולוגיית AI</p>
+                    <h4 className="font-bold">תוצאות מהירות</h4>
+                    <p className="text-sm text-slate-500">שינוי נראה לעין תוך שבועות</p>
                   </div>
                 </div>
               </div>
@@ -435,53 +424,15 @@ const Index = () => {
           <div className="mt-20 p-12 bg-slate-900 rounded-[3rem] text-white flex flex-col md:flex-row items-center justify-between gap-10">
             <div className="text-right">
               <h3 className="text-3xl font-bold mb-4">מוכנה להתחיל את המהפכה הקוריאנית שלך?</h3>
-              <p className="text-slate-400 text-lg">אבחון ה-AI שלנו לוקח פחות מ-30 שניות וחוסך לך חודשים של ניסוי וטעייה.</p>
+              <p className="text-slate-400 text-lg">בחרי את החבילה שמתאימה לך והתחילי שגרת זוהר כבר היום.</p>
             </div>
             <a
-              href={AI_DIAGNOSIS_URL}
-              target="_blank"
-              rel="noopener noreferrer"
+              href="#packages"
               className="whitespace-nowrap bg-white text-slate-900 px-12 py-5 rounded-2xl text-xl font-bold hover:bg-pink-500 hover:text-white transition-all shadow-2xl"
             >
-              בואי נתחיל אבחון
+              לחבילות שלנו
             </a>
           </div>
-        </div>
-      </section>
-
-      {/* AI Diagnosis */}
-      <section id="ai" className="py-24 bg-gradient-to-br from-pink-50 via-white to-blue-50">
-        <div className="max-w-5xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
-          <div className="inline-flex items-center gap-2 bg-pink-100 text-pink-600 px-4 py-1.5 rounded-full text-xs font-bold mb-6">
-            <Sparkles size={14} />
-            <span>חדש! HL/Skin AI</span>
-          </div>
-          <h2 className="text-4xl md:text-5xl font-black mb-6 italic">העוזר החכם שלך לטיפוח העור</h2>
-          <p className="text-lg text-slate-600 mb-10 max-w-2xl mx-auto leading-relaxed">
-            כלי חינמי מבוסס בינה מלאכותית שמבצע אבחון עור מהיר ומספק המלצות מוצרים מותאמות אישית — הכל בפחות מ-60 שניות.
-          </p>
-          <div className="grid md:grid-cols-3 gap-6 mb-12 text-right">
-            {[
-              { n: "1", t: "מצלמים סלפי קצר" },
-              { n: "2", t: "המערכת מנתחת 10+ פרמטרים ו-209 נקודות פנים" },
-              { n: "3", t: "מקבלים דוח אישי והמלצות מוצרים" },
-            ].map((s) => (
-              <div key={s.n} className="bg-white p-6 rounded-2xl border border-pink-100 shadow-sm">
-                <div className="w-10 h-10 rounded-full bg-pink-500 text-white font-bold flex items-center justify-center mb-3">
-                  {s.n}
-                </div>
-                <p className="text-slate-700 font-medium">{s.t}</p>
-              </div>
-            ))}
-          </div>
-          <a
-            href={AI_DIAGNOSIS_URL}
-            target="_blank"
-            rel="noopener noreferrer"
-            className="inline-block bg-pink-500 text-white px-12 py-5 rounded-2xl text-xl font-bold shadow-2xl hover:bg-pink-600 hover:-translate-y-1 transition-all duration-300"
-          >
-            התחילי אבחון עור AI חינם
-          </a>
         </div>
       </section>
 
