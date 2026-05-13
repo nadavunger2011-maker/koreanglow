@@ -1,5 +1,6 @@
 import { useEffect, useState } from "react";
 import { useParams, Link } from "react-router-dom";
+import { Helmet } from "react-helmet-async";
 import { ArrowRight, Loader2, ShoppingBag, Check } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { fetchProductByHandle } from "@/lib/shopify";
@@ -56,12 +57,6 @@ const ProductDetailPage = () => {
       .catch((e) => console.error(e))
       .finally(() => setLoading(false));
   }, [handle]);
-
-  useEffect(() => {
-    if (product) {
-      document.title = `${product.title} | KOREANGLOW`;
-    }
-  }, [product]);
 
   // Show sticky add-to-cart bar after user scrolls past the hero area.
   useEffect(() => {
@@ -186,6 +181,7 @@ const ProductDetailPage = () => {
                     <button
                       key={idx}
                       onClick={() => setSelectedImage(idx)}
+                      aria-label={`הצגת תמונה ${idx + 1} מתוך ${product.images.edges.length}`}
                       className={`flex-shrink-0 w-20 h-20 rounded-2xl overflow-hidden border-2 transition-all ${
                         idx === selectedImage ? "border-pink-500" : "border-transparent"
                       }`}
