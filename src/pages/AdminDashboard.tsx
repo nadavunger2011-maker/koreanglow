@@ -28,6 +28,8 @@ import {
 import { Badge } from "@/components/ui/badge";
 import { useToast } from "@/hooks/use-toast";
 import { MarketingAdvisor } from "@/components/admin/MarketingAdvisor";
+import { BlogManager } from "@/components/admin/BlogManager";
+import { BlogAnalytics } from "@/components/admin/BlogAnalytics";
 import { supabase } from "@/integrations/supabase/client";
 import type { Session } from "@supabase/supabase-js";
 
@@ -509,6 +511,9 @@ const AdminDashboard = () => {
             )}
           </Card>
         </div>
+
+        <BlogManager accessToken={session!.access_token} />
+        <BlogAnalytics accessToken={session!.access_token} />
       </main>
     </div>
   );
