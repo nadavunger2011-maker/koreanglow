@@ -28,9 +28,10 @@ import {
 import { Badge } from "@/components/ui/badge";
 import { useToast } from "@/hooks/use-toast";
 import { MarketingAdvisor } from "@/components/admin/MarketingAdvisor";
+import { supabase } from "@/integrations/supabase/client";
+import type { Session } from "@supabase/supabase-js";
 
-const ADMIN_PASSWORD = "koreanglow2026";
-const STORAGE_KEY = "kg_admin_authed";
+const ALLOWED_EMAIL = "nadavunger2011@gmail.com";
 const FUNCTION_URL = `${import.meta.env.VITE_SUPABASE_URL}/functions/v1/admin-data`;
 
 type Lead = {
@@ -58,9 +59,13 @@ const formatDate = (s: string) =>
   });
 
 const AdminDashboard = () => {
-  const [authed, setAuthed] = useState(false);
+  const [session, setSession] = useState<Session | null>(null);
+  const [authChecked, setAuthChecked] = useState(false);
+  const [mode, setMode] = useState<"signin" | "signup">("signin");
+  const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [error, setError] = useState("");
+  const [authLoading, setAuthLoading] = useState(false);
 
   const [leads, setLeads] = useState<Lead[]>([]);
   const [notes, setNotes] = useState<Note[]>([]);
@@ -73,15 +78,27 @@ const AdminDashboard = () => {
 
   useEffect(() => {
     document.title = "CRM Dashboard | Koreanglow";
-    if (sessionStorage.getItem(STORAGE_KEY) === "1") setAuthed(true);
+    const { data: sub } = supabase.auth.onAuthStateChange((_e, s) => {
+      setSession(s);
+      setAuthChecked(true);
+    });
+    supabase.auth.getSession().then(({ data }) => {
+      setSession(data.session);
+      setAuthChecked(true);
+    });
+    return () => sub.subscription.unsubscribe();
   }, []);
 
+  const isAllowed =
+    !!session?.user?.email && session.user.email.toLowerCase() === ALLOWED_EMAIL;
+
   const apiFetch = async (init: RequestInit = {}) => {
+    const token = session?.access_token;
     return fetch(FUNCTION_URL, {
       ...init,
       headers: {
         "Content-Type": "application/json",
-        "x-admin-password": ADMIN_PASSWORD,
+        Authorization: `Bearer ${token}`,
         ...(init.headers || {}),
       },
     });
@@ -107,24 +124,48 @@ const AdminDashboard = () => {
   };
 
   useEffect(() => {
-    if (authed) loadData();
+    if (isAllowed) loadData();
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [authed]);
+  }, [isAllowed]);
 
-  const handleSubmit = (e: FormEvent) => {
+  const handleSubmit = async (e: FormEvent) => {
     e.preventDefault();
-    if (password === ADMIN_PASSWORD) {
-      sessionStorage.setItem(STORAGE_KEY, "1");
-      setAuthed(true);
-      setError("");
-    } else {
-      setError("סיסמה שגויה");
+    setError("");
+    if (email.trim().toLowerCase() !== ALLOWED_EMAIL) {
+      setError("כתובת המייל אינה מורשית לגשת לדשבורד");
+      return;
+    }
+    setAuthLoading(true);
+    try {
+      if (mode === "signup") {
+        const { error: e1 } = await supabase.auth.signUp({
+          email: email.trim(),
+          password,
+          options: { emailRedirectTo: `${window.location.origin}/admin-dashboard` },
+        });
+        if (e1) throw e1;
+        // Try immediate sign-in (auto-confirm is enabled)
+        const { error: e2 } = await supabase.auth.signInWithPassword({
+          email: email.trim(),
+          password,
+        });
+        if (e2) throw e2;
+      } else {
+        const { error: e1 } = await supabase.auth.signInWithPassword({
+          email: email.trim(),
+          password,
+        });
+        if (e1) throw e1;
+      }
+    } catch (err) {
+      setError((err as Error).message);
+    } finally {
+      setAuthLoading(false);
     }
   };
 
-  const handleLogout = () => {
-    sessionStorage.removeItem(STORAGE_KEY);
-    setAuthed(false);
+  const handleLogout = async () => {
+    await supabase.auth.signOut();
     setPassword("");
   };
 
@@ -188,7 +229,15 @@ const AdminDashboard = () => {
     }
   };
 
-  if (!authed) {
+  if (!authChecked) {
+    return (
+      <div className="min-h-screen flex items-center justify-center">
+        <Loader2 className="animate-spin text-slate-400" size={24} />
+      </div>
+    );
+  }
+
+  if (!isAllowed) {
     return (
       <div
         className="min-h-screen flex items-center justify-center bg-gradient-to-br from-slate-50 via-white to-slate-100 p-4"
@@ -199,10 +248,28 @@ const AdminDashboard = () => {
             <div className="w-14 h-14 rounded-2xl bg-slate-900 text-white flex items-center justify-center mb-4">
               <Lock size={28} />
             </div>
-            <h1 className="text-2xl font-black text-slate-900">כניסה ל-CRM</h1>
-            <p className="text-sm text-slate-500 mt-2">הזיני סיסמה כדי להמשיך</p>
+            <h1 className="text-2xl font-black text-slate-900">
+              {mode === "signup" ? "הרשמה ל-CRM" : "כניסה ל-CRM"}
+            </h1>
+            <p className="text-sm text-slate-500 mt-2">
+              {session && !isAllowed
+                ? "המשתמש המחובר אינו מורשה"
+                : "גישה למשתמש מורשה בלבד"}
+            </p>
           </div>
           <form onSubmit={handleSubmit} className="space-y-4">
+            <div className="space-y-2">
+              <Label htmlFor="email">אימייל</Label>
+              <Input
+                id="email"
+                type="email"
+                value={email}
+                onChange={(e) => setEmail(e.target.value)}
+                autoFocus
+                dir="ltr"
+                required
+              />
+            </div>
             <div className="space-y-2">
               <Label htmlFor="password">סיסמה</Label>
               <Input
@@ -210,14 +277,39 @@ const AdminDashboard = () => {
                 type="password"
                 value={password}
                 onChange={(e) => setPassword(e.target.value)}
-                autoFocus
                 dir="ltr"
+                required
+                minLength={6}
               />
             </div>
             {error && <p className="text-sm text-destructive">{error}</p>}
-            <Button type="submit" className="w-full">
-              כניסה
+            <Button type="submit" className="w-full" disabled={authLoading}>
+              {authLoading && <Loader2 className="animate-spin ml-2" size={14} />}
+              {mode === "signup" ? "יצירת חשבון" : "כניסה"}
             </Button>
+            <button
+              type="button"
+              onClick={() => {
+                setMode(mode === "signin" ? "signup" : "signin");
+                setError("");
+              }}
+              className="w-full text-xs text-slate-500 hover:text-slate-900 transition"
+            >
+              {mode === "signin"
+                ? "אין לך חשבון? הירשמי כאן"
+                : "יש לך חשבון? התחברי"}
+            </button>
+            {session && !isAllowed && (
+              <Button
+                type="button"
+                variant="ghost"
+                size="sm"
+                className="w-full"
+                onClick={() => supabase.auth.signOut()}
+              >
+                התנתקות
+              </Button>
+            )}
           </form>
         </Card>
       </div>
@@ -259,7 +351,7 @@ const AdminDashboard = () => {
           <StatCard icon={<StickyNote size={18} />} label="הערות" value={stats.notes} />
         </div>
 
-        <MarketingAdvisor adminPassword={ADMIN_PASSWORD} />
+        <MarketingAdvisor accessToken={session!.access_token} />
 
         <div className="grid lg:grid-cols-3 gap-6">
           {/* Leads table */}

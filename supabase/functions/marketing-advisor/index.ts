@@ -1,12 +1,12 @@
 import { createClient } from "https://esm.sh/@supabase/supabase-js@2.45.0";
 
-const ADMIN_PASSWORD = "koreanglow2026";
+const ALLOWED_EMAIL = "nadavunger2011@gmail.com";
 const SHOPIFY_DOMAIN = "v9zwr2-ge.myshopify.com";
 const SHOPIFY_API_VERSION = "2025-07";
 
 const corsHeaders = {
   "Access-Control-Allow-Origin": "*",
-  "Access-Control-Allow-Headers": "authorization, x-client-info, apikey, content-type, x-admin-password",
+  "Access-Control-Allow-Headers": "authorization, x-client-info, apikey, content-type",
   "Access-Control-Allow-Methods": "GET, POST, OPTIONS",
 };
 
@@ -62,9 +62,16 @@ function aggregateOrders(orders: ShopifyOrder[]) {
 Deno.serve(async (req) => {
   if (req.method === "OPTIONS") return new Response(null, { headers: corsHeaders });
 
-  if (req.headers.get("x-admin-password") !== ADMIN_PASSWORD) {
-    return new Response(JSON.stringify({ error: "Unauthorized" }), {
-      status: 401,
+  const authHeader = req.headers.get("Authorization") || "";
+  const jwt = authHeader.replace("Bearer ", "");
+  const authClient = createClient(
+    Deno.env.get("SUPABASE_URL")!,
+    Deno.env.get("SUPABASE_ANON_KEY")!,
+  );
+  const { data: userData, error: userErr } = await authClient.auth.getUser(jwt);
+  if (userErr || !userData.user || userData.user.email?.toLowerCase() !== ALLOWED_EMAIL) {
+    return new Response(JSON.stringify({ error: "Forbidden" }), {
+      status: 403,
       headers: { ...corsHeaders, "Content-Type": "application/json" },
     });
   }
