@@ -27,6 +27,7 @@ import {
 } from "@/components/ui/table";
 import { Badge } from "@/components/ui/badge";
 import { useToast } from "@/hooks/use-toast";
+import { MarketingAdvisor } from "@/components/admin/MarketingAdvisor";
 
 const ADMIN_PASSWORD = "koreanglow2026";
 const STORAGE_KEY = "kg_admin_authed";
@@ -257,6 +258,8 @@ const AdminDashboard = () => {
           <StatCard icon={<Mail size={18} />} label="היום" value={stats.today} />
           <StatCard icon={<StickyNote size={18} />} label="הערות" value={stats.notes} />
         </div>
+
+        <MarketingAdvisor adminPassword={ADMIN_PASSWORD} />
 
         <div className="grid lg:grid-cols-3 gap-6">
           {/* Leads table */}
