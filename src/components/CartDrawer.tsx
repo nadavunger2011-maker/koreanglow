@@ -37,7 +37,7 @@ export const CartDrawer = () => {
   return (
     <Sheet open={isOpen} onOpenChange={setIsOpen}>
       <SheetTrigger asChild>
-        <Button variant="outline" size="icon" className="relative rounded-full">
+        <Button variant="outline" size="icon" className="relative rounded-full" aria-label={`עגלת קניות${totalItems > 0 ? `, ${totalItems} פריטים` : ""}`}>
           <ShoppingCart className="h-5 w-5" />
           {totalItems > 0 && (
             <Badge className="absolute -top-2 -right-2 h-5 w-5 rounded-full p-0 flex items-center justify-center text-xs bg-pink-500 hover:bg-pink-500">
@@ -91,6 +91,7 @@ export const CartDrawer = () => {
                           size="icon"
                           className="h-6 w-6"
                           onClick={() => removeItem(item.variantId)}
+                          aria-label={`הסרת ${item.product.node.title} מהעגלה`}
                         >
                           <Trash2 className="h-3 w-3" />
                         </Button>
@@ -100,6 +101,7 @@ export const CartDrawer = () => {
                             size="icon"
                             className="h-6 w-6"
                             onClick={() => updateQuantity(item.variantId, item.quantity - 1)}
+                            aria-label="הפחתת כמות"
                           >
                             <Minus className="h-3 w-3" />
                           </Button>
@@ -109,6 +111,7 @@ export const CartDrawer = () => {
                             size="icon"
                             className="h-6 w-6"
                             onClick={() => updateQuantity(item.variantId, item.quantity + 1)}
+                            aria-label="הוספת כמות"
                           >
                             <Plus className="h-3 w-3" />
                           </Button>
