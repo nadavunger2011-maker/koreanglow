@@ -38,9 +38,9 @@ export const ProductCard = ({ product }: ProductCardProps) => {
   return (
     <Link
       to={`/product/${node.handle}`}
-      className="group bg-white rounded-[2rem] p-6 shadow-sm border border-slate-100 transition-all duration-500 hover:shadow-2xl flex flex-col"
+      className="group bg-white rounded-[2rem] p-6 shadow-sm border border-slate-100 transition-all duration-500 hover:shadow-2xl flex flex-col min-w-0 w-full"
     >
-      <div className="mb-6 aspect-square bg-slate-50 rounded-2xl overflow-hidden flex items-center justify-center">
+      <div className="mb-6 aspect-square w-full bg-slate-50 rounded-2xl overflow-hidden flex items-center justify-center">
         {image ? (
           <img
             src={image.url}
