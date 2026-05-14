@@ -172,21 +172,21 @@ const Index = () => {
           <div className="text-center max-w-4xl mx-auto">
             <div className="inline-flex items-center gap-2 bg-pink-100 text-pink-600 px-4 py-1.5 rounded-full text-xs font-bold mb-8">
               <Sparkles size={14} />
-              <span>המדע הקוריאני המתקדם ביותר</span>
+              <span>הסוד הקוריאני לעצור את הזמן</span>
             </div>
             <h1 className="text-4xl sm:text-5xl md:text-8xl font-black text-slate-900 leading-[1.1] mb-8 tracking-tight">
-              מוצרי <span className="text-transparent bg-clip-text bg-gradient-to-r from-pink-500 to-rose-500">טיפוח קוריאני</span> <br className="hidden md:block" />
-              לעור זכוכית מושלם
+              עצרי את הזמן עם <span className="text-transparent bg-clip-text bg-gradient-to-r from-pink-500 to-rose-500">טיפוח קוריאני</span> <br className="hidden md:block" />
+              לעור זכוכית זוהר
             </h1>
             <p className="text-lg sm:text-xl md:text-2xl text-slate-600 mb-12 max-w-2xl mx-auto leading-relaxed">
-              הדרך המדעית והמהירה ביותר לעור זוהר, אחיד ומוצק. שגרת טיפוח קוריאנית (Glass Skin) מותאמת אישית לתוצאות שנראות לעין.
+              קמטוטים שמתרככים, גוון שמתאחד וזוהר שחוזר אל הפנים — תוך שבועות בלבד. שגרת טיפוח קוריאנית (Glass Skin) שמחזירה לך את העור שזכרת, בלי מחטים ובלי פשרות.
             </p>
             <div className="flex flex-col sm:flex-row justify-center items-center gap-4 sm:gap-6">
               <a href="#packages" className="w-full sm:w-auto text-center bg-pink-500 text-white px-8 sm:px-12 py-4 sm:py-5 rounded-2xl text-lg sm:text-xl font-bold shadow-2xl hover:bg-pink-600 hover:-translate-y-1 transition-all duration-300">
-                לכל החבילות
+                התחילי את שגרת הזוהר שלך
               </a>
               <a href="#about" className="w-full sm:w-auto text-center bg-white border-2 border-slate-900 px-8 sm:px-12 py-4 sm:py-5 rounded-2xl text-lg sm:text-xl font-bold hover:bg-slate-50 transition-all duration-300">
-                גלי עוד
+                גלי איך זה עובד
               </a>
             </div>
           </div>
