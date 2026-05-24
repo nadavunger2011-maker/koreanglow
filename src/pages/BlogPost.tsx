@@ -6,6 +6,7 @@ import { supabase } from "@/integrations/supabase/client";
 import { BlogContent, type Block } from "@/components/blog/BlogContent";
 import { RecommendedSidebar } from "@/components/blog/RecommendedSidebar";
 import { getSessionId, pushReadingHistory } from "@/lib/readingHistory";
+import SiteFooter from "@/components/SiteFooter";
 
 type Post = {
   id: string;
@@ -189,6 +190,7 @@ const BlogPost = () => {
           <RecommendedSidebar currentSlug={post.slug} />
         </div>
       </main>
+      <SiteFooter />
     </div>
   );
 };
