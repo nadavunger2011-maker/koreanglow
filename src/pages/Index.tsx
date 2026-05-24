@@ -132,7 +132,7 @@ const Index = () => {
         </span>
       </div>
       {/* Navigation */}
-      <nav className="fixed w-full z-50 bg-background/80 backdrop-blur-md border-b border-pink-50 mt-9 sm:mt-8">
+      <nav className="fixed w-full z-50 bg-background/80 backdrop-blur-md border-b border-pink-50 top-9 sm:top-8">
         <div className="max-w-[1200px] mx-auto px-4 sm:px-6">
           <div className="flex justify-between h-20 items-center">
             <div className="flex-shrink-0 flex items-center">
