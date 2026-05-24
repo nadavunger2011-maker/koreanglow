@@ -260,25 +260,40 @@ const Index = () => {
 
           <div className="grid sm:grid-cols-2 lg:grid-cols-3 gap-8">
             {[
-              { name: "מיכל ל., 34", quote: "ניסיתי הכל לעור יבש, ורק השילוב הזה החזיר לי את הגלואו!" },
-              { name: "שירה ע., 41", quote: "תוך שבוע וחצי המרקם של העור השתנה לחלוטין. מומלץ ברמות." },
-              { name: "נועה ק., 29", quote: "סוף סוף עור חלק בלי לטיות. הבייסליין החדש שלי לטיפוח קוריאני." },
+              {
+                name: "מיכל ל., 34",
+                quote: "ניסיתי הכל לעור יבש, ורק השילוב הזה החזיר לי את הגלואו!",
+                before: "1606902965551-dce093cda6e7",
+                after: "1556228720-195a672e8a03",
+              },
+              {
+                name: "שירה ע., 41",
+                quote: "תוך שבוע וחצי המרקם של העור השתנה לחלוטין. מומלץ ברמות.",
+                before: "1616394584738-fc6e612e71b9",
+                after: "1614108644976-3a2cf12c4f73",
+              },
+              {
+                name: "נועה ק., 29",
+                quote: "סוף סוף עור חלק בלי לטיות. הבייסליין החדש שלי לטיפוח קוריאני.",
+                before: "1573496359142-b8d87734a5a2",
+                after: "1596704017254-9b121068fb31",
+              },
             ].map((card, idx) => (
               <article key={idx} className="bg-white rounded-3xl overflow-hidden border border-pink-100 shadow-sm hover:shadow-2xl transition-shadow">
                 <div className="relative aspect-[4/3] grid grid-cols-2">
                   <div className="relative bg-gradient-to-br from-slate-200 to-slate-300 flex items-end justify-center">
                     <span className="absolute top-3 right-3 text-[11px] font-black uppercase tracking-wider bg-slate-900 text-white px-2 py-1 rounded-full">לפני</span>
                     <img
-                      src={`https://images.unsplash.com/photo-${idx === 0 ? "1531123897727-8f129e1688ce" : idx === 1 ? "1542596594-649edbc13630" : "1546961342-1e2d7c4f86fc"}?auto=format&fit=crop&w=600&q=70&sat=-40&exp=-10`}
+                      src={`https://images.unsplash.com/photo-${card.before}?auto=format&fit=crop&w=600&q=70`}
                       alt={`לפני - טיפוח קוריאני לקוח ${idx + 1}`}
                       loading="lazy"
-                      className="w-full h-full object-cover opacity-90 grayscale-[30%]"
+                      className="w-full h-full object-cover"
                     />
                   </div>
                   <div className="relative bg-gradient-to-br from-pink-100 to-rose-100 flex items-end justify-center">
                     <span className="absolute top-3 left-3 text-[11px] font-black uppercase tracking-wider bg-pink-500 text-white px-2 py-1 rounded-full">אחרי</span>
                     <img
-                      src={`https://images.unsplash.com/photo-${idx === 0 ? "1531123897727-8f129e1688ce" : idx === 1 ? "1542596594-649edbc13630" : "1546961342-1e2d7c4f86fc"}?auto=format&fit=crop&w=600&q=70&bri=15&sat=20`}
+                      src={`https://images.unsplash.com/photo-${card.after}?auto=format&fit=crop&w=600&q=70`}
                       alt={`אחרי - תוצאות טיפוח קוריאני לקוח ${idx + 1}`}
                       loading="lazy"
                       className="w-full h-full object-cover"
