@@ -17,6 +17,8 @@ import {
   Truck,
   Star,
   Flame,
+  Crown,
+  Award,
 } from "lucide-react";
 import { fetchProducts, type ShopifyProduct } from "@/lib/shopify";
 import { ProductCard } from "@/components/ProductCard";
