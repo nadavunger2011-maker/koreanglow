@@ -151,8 +151,8 @@ const Blog = () => {
           </>
         )}
       </main>
+      <SiteFooter />
     </div>
-    
   );
 };
 
