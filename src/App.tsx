@@ -8,6 +8,9 @@ import ProductDetail from "./pages/ProductDetail.tsx";
 import AdminDashboard from "./pages/AdminDashboard.tsx";
 import Blog from "./pages/Blog.tsx";
 import BlogPost from "./pages/BlogPost.tsx";
+import Contact from "./pages/Contact.tsx";
+import Shipping from "./pages/Shipping.tsx";
+import Returns from "./pages/Returns.tsx";
 import NotFound from "./pages/NotFound.tsx";
 import { useCartSync } from "./hooks/useCartSync";
 import NewsletterPopup from "./components/NewsletterPopup";
@@ -28,6 +31,9 @@ const AppRoutes = () => {
         <Route path="/product/:handle" element={<ProductDetail />} />
         <Route path="/blog" element={<Blog />} />
         <Route path="/blog/:slug" element={<BlogPost />} />
+        <Route path="/contact" element={<Contact />} />
+        <Route path="/shipping" element={<Shipping />} />
+        <Route path="/returns" element={<Returns />} />
         <Route path="/admin-dashboard" element={<AdminDashboard />} />
         {/* ADD ALL CUSTOM ROUTES ABOVE THE CATCH-ALL "*" ROUTE */}
         <Route path="*" element={<NotFound />} />
