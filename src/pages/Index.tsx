@@ -10,6 +10,13 @@ import {
   Zap,
   Loader2,
   PlayCircle,
+  Droplet,
+  FlaskConical,
+  Lock,
+  Gift,
+  Truck,
+  Star,
+  Flame,
 } from "lucide-react";
 import { fetchProducts, type ShopifyProduct } from "@/lib/shopify";
 import { ProductCard } from "@/components/ProductCard";
@@ -109,16 +116,23 @@ const Index = () => {
   return (
     <div className="min-h-screen bg-background font-sans text-foreground" dir="rtl">
       <Helmet>
-        <title>Koreanglow — Advanced Korean Skincare for Glass Skin</title>
-        <meta name="description" content="Koreanglow offers curated K-Beauty skincare with 10% niacinamide serum and full glass-skin routines, dermatologist-tested for radiant, even-toned skin." />
+        <title>טיפוח קוריאני לעור זכוכית (Glass Skin) – ערכת Koreanglow</title>
+        <meta name="description" content="טיפוח קוריאני אותנטי לעור זכוכית תוך 14 יום. ערכת Glass Skin עם 3 מוצרי פרימיום + בונוסים, משלוח חינם ו-30 יום אחריות." />
         <link rel="canonical" href="https://koreanglow.lovable.app/" />
-        <meta property="og:title" content="Koreanglow — Advanced Korean Skincare for Glass Skin" />
-        <meta property="og:description" content="Curated K-Beauty skincare for glass-skin results — 10% niacinamide serum and full daily routines." />
+        <meta property="og:title" content="טיפוח קוריאני לעור זכוכית – ערכת Koreanglow Glass Skin" />
+        <meta property="og:description" content="ערכת טיפוח קוריאני מלאה לעור Glass Skin – 3 מוצרי פרימיום, בונוסים ומשלוח חינם." />
         <meta property="og:url" content="https://koreanglow.lovable.app/" />
         <meta property="og:type" content="website" />
       </Helmet>
+      {/* Top urgency strip */}
+      <div className="fixed top-0 inset-x-0 z-[60] bg-slate-900 text-white text-center text-[12px] sm:text-sm py-2 px-4 font-semibold">
+        <span className="inline-flex items-center gap-2">
+          <Flame size={14} className="text-pink-400" />
+          בשל הביקוש וזמני השילוח מקוריאה: נותרו רק <span className="text-pink-300 font-black">37</span> ערכות במלאי הנוכחי
+        </span>
+      </div>
       {/* Navigation */}
-      <nav className="fixed w-full z-50 bg-background/80 backdrop-blur-md border-b border-pink-50">
+      <nav className="fixed w-full z-50 bg-background/80 backdrop-blur-md border-b border-pink-50 mt-9 sm:mt-8">
         <div className="max-w-[1200px] mx-auto px-4 sm:px-6">
           <div className="flex justify-between h-20 items-center">
             <div className="flex-shrink-0 flex items-center">
