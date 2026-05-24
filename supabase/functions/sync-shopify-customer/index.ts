@@ -11,9 +11,9 @@ Deno.serve(async (req) => {
   if (req.method === 'OPTIONS') return new Response('ok', { headers: corsHeaders });
 
   try {
-    const SHOP_DOMAIN = Deno.env.get('SHOPIFY_SHOP_DOMAIN'); // e.g. xxx.myshopify.com
+    const SHOP_DOMAIN = 'v9zwr2-ge.myshopify.com';
     const ADMIN_TOKEN = Deno.env.get('SHOPIFY_ACCESS_TOKEN');
-    if (!SHOP_DOMAIN || !ADMIN_TOKEN) {
+    if (!ADMIN_TOKEN) {
       return new Response(JSON.stringify({ error: 'shopify_admin_not_configured' }), {
         status: 500,
         headers: { ...corsHeaders, 'Content-Type': 'application/json' },
