@@ -14,6 +14,7 @@ import {
 import { fetchProducts, type ShopifyProduct } from "@/lib/shopify";
 import { ProductCard } from "@/components/ProductCard";
 import { CartDrawer } from "@/components/CartDrawer";
+import SiteFooter from "@/components/SiteFooter";
 import {
   Accordion,
   AccordionContent,
@@ -471,22 +472,7 @@ const Index = () => {
       </section>
 
       {/* Footer */}
-      <footer className="bg-white pt-24 pb-12 border-t border-slate-50">
-        <div className="max-w-[1200px] mx-auto px-4 sm:px-6 text-center">
-          <div className="text-4xl font-black tracking-tighter text-slate-900 mb-8">KOREANGLOW</div>
-          <p className="text-slate-400 text-sm mb-12">מדע קוריאני. עור זכוכית. התוצאה שלך.</p>
-
-          <div className="flex flex-wrap justify-center gap-6 sm:gap-12 text-sm font-bold text-slate-400 mb-16">
-            <a href="#" className="hover:text-pink-500 transition-colors">מדיניות פרטיות</a>
-            <a href="#" className="hover:text-pink-500 transition-colors">תנאי שימוש</a>
-            <a href="#" className="hover:text-pink-500 transition-colors">צור קשר</a>
-          </div>
-
-          <div className="text-slate-300 text-xs font-medium uppercase tracking-[0.2em]">
-            © 2026 Koreanglow.co.il. All Rights Reserved.
-          </div>
-        </div>
-      </footer>
+      <SiteFooter />
     </div>
   );
 };
