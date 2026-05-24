@@ -25,6 +25,31 @@
     <script type="application/ld+json">
       {"@context":"https://schema.org","@type":"WebSite","name":"Koreanglow","url":"https://koreanglow.lovable.app/"}
     </script>
+    <!-- Google Consent Mode v2 — default denied until user opts in via CMP -->
+    <script>
+      window.dataLayer = window.dataLayer || [];
+      function gtag(){dataLayer.push(arguments);}
+      window.gtag = gtag;
+      var __kgStored;
+      try { __kgStored = JSON.parse(localStorage.getItem('kg_cookie_consent_v1') || 'null'); } catch(e) {}
+      var __kgDefaults = {
+        ad_storage: 'denied',
+        ad_user_data: 'denied',
+        ad_personalization: 'denied',
+        analytics_storage: 'denied',
+        functionality_storage: 'granted',
+        security_storage: 'granted'
+      };
+      gtag('consent', 'default', __kgDefaults);
+      if (__kgStored && __kgStored.choices) {
+        gtag('consent', 'update', {
+          ad_storage: __kgStored.choices.marketing ? 'granted' : 'denied',
+          ad_user_data: __kgStored.choices.marketing ? 'granted' : 'denied',
+          ad_personalization: __kgStored.choices.marketing ? 'granted' : 'denied',
+          analytics_storage: __kgStored.choices.analytics ? 'granted' : 'denied'
+        });
+      }
+    </script>
     <!-- Google Tag Manager -->
     <script>(function(w,d,s,l,i){w[l]=w[l]||[];w[l].push({'gtm.start':
     new Date().getTime(),event:'gtm.js'});var f=d.getElementsByTagName(s)[0],

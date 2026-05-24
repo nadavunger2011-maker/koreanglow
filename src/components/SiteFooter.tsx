@@ -66,6 +66,15 @@ const SiteFooter = () => {
         <div className="border-t border-slate-100 pt-6 text-center text-slate-400 text-xs uppercase tracking-[0.2em]">
           © {new Date().getFullYear()} {BUSINESS.name}. כל הזכויות שמורות.
         </div>
+        <div className="mt-4 text-center">
+          <button
+            type="button"
+            onClick={() => window.openCookieSettings?.()}
+            className="text-xs text-slate-500 hover:text-pink-600 underline underline-offset-4"
+          >
+            הגדרות עוגיות
+          </button>
+        </div>
       </div>
     </footer>
   );

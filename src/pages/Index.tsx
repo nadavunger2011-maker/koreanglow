@@ -10,6 +10,13 @@ import {
   Zap,
   Loader2,
   PlayCircle,
+  Droplet,
+  FlaskConical,
+  Lock,
+  Gift,
+  Truck,
+  Star,
+  Flame,
 } from "lucide-react";
 import { fetchProducts, type ShopifyProduct } from "@/lib/shopify";
 import { ProductCard } from "@/components/ProductCard";
@@ -109,16 +116,23 @@ const Index = () => {
   return (
     <div className="min-h-screen bg-background font-sans text-foreground" dir="rtl">
       <Helmet>
-        <title>Koreanglow — Advanced Korean Skincare for Glass Skin</title>
-        <meta name="description" content="Koreanglow offers curated K-Beauty skincare with 10% niacinamide serum and full glass-skin routines, dermatologist-tested for radiant, even-toned skin." />
+        <title>טיפוח קוריאני לעור זכוכית (Glass Skin) – ערכת Koreanglow</title>
+        <meta name="description" content="טיפוח קוריאני אותנטי לעור זכוכית תוך 14 יום. ערכת Glass Skin עם 3 מוצרי פרימיום + בונוסים, משלוח חינם ו-30 יום אחריות." />
         <link rel="canonical" href="https://koreanglow.lovable.app/" />
-        <meta property="og:title" content="Koreanglow — Advanced Korean Skincare for Glass Skin" />
-        <meta property="og:description" content="Curated K-Beauty skincare for glass-skin results — 10% niacinamide serum and full daily routines." />
+        <meta property="og:title" content="טיפוח קוריאני לעור זכוכית – ערכת Koreanglow Glass Skin" />
+        <meta property="og:description" content="ערכת טיפוח קוריאני מלאה לעור Glass Skin – 3 מוצרי פרימיום, בונוסים ומשלוח חינם." />
         <meta property="og:url" content="https://koreanglow.lovable.app/" />
         <meta property="og:type" content="website" />
       </Helmet>
+      {/* Top urgency strip */}
+      <div className="fixed top-0 inset-x-0 z-[60] bg-slate-900 text-white text-center text-[12px] sm:text-sm py-2 px-4 font-semibold">
+        <span className="inline-flex items-center gap-2">
+          <Flame size={14} className="text-pink-400" />
+          בשל הביקוש וזמני השילוח מקוריאה: נותרו רק <span className="text-pink-300 font-black">37</span> ערכות במלאי הנוכחי
+        </span>
+      </div>
       {/* Navigation */}
-      <nav className="fixed w-full z-50 bg-background/80 backdrop-blur-md border-b border-pink-50">
+      <nav className="fixed w-full z-50 bg-background/80 backdrop-blur-md border-b border-pink-50 top-9 sm:top-8">
         <div className="max-w-[1200px] mx-auto px-4 sm:px-6">
           <div className="flex justify-between h-20 items-center">
             <div className="flex-shrink-0 flex items-center">
@@ -168,27 +182,35 @@ const Index = () => {
       </nav>
 
       {/* Hero Section */}
-      <header className="relative pt-32 pb-20 overflow-hidden bg-gradient-to-br from-pink-50 via-white to-blue-50">
+      <header className="relative pt-40 sm:pt-44 pb-20 overflow-hidden bg-gradient-to-br from-pink-50 via-white to-blue-50">
         <div className="max-w-[1200px] mx-auto px-4 sm:px-6 relative z-10">
           <div className="text-center max-w-4xl mx-auto">
             <div className="inline-flex items-center gap-2 bg-pink-100 text-pink-600 px-4 py-1.5 rounded-full text-xs font-bold mb-8">
               <Sparkles size={14} />
-              <span>הסוד הקוריאני לעצור את הזמן</span>
+              <span>טיפוח קוריאני • מהדורה מוגבלת</span>
             </div>
-            <h1 className="text-4xl sm:text-5xl md:text-8xl font-black text-slate-900 leading-[1.1] mb-8 tracking-tight">
-              עצרי את הזמן עם <span className="text-transparent bg-clip-text bg-gradient-to-r from-pink-500 to-rose-500">טיפוח קוריאני</span> <br className="hidden md:block" />
-              לעור זכוכית זוהר
+            <h1 className="text-4xl sm:text-5xl md:text-7xl font-black text-slate-900 leading-[1.1] mb-6 tracking-tight">
+              סוד ה<span className="text-transparent bg-clip-text bg-gradient-to-r from-pink-500 to-rose-500">טיפוח הקוריאני</span> לעור חלק כמו זכוכית (Glass Skin) – תוך 14 יום!
             </h1>
-            <p className="text-lg sm:text-xl md:text-2xl text-slate-600 mb-12 max-w-2xl mx-auto leading-relaxed">
-              קמטוטים שמתרככים, גוון שמתאחד וזוהר שחוזר אל הפנים — תוך שבועות בלבד. שגרת טיפוח קוריאנית (Glass Skin) שמחזירה לך את העור שזכרת, בלי מחטים ובלי פשרות.
+            <p className="text-lg sm:text-xl md:text-2xl text-slate-600 mb-10 max-w-3xl mx-auto leading-relaxed">
+              בלי שגרה מתישה של 10 שלבים ובלי לבזבז אלפי שקלים בקליניקות. רק 3 מוצרים מנצחים, 2 דקות ביום, ותוצאות שתראי כבר במריחה הראשונה.
             </p>
             <div className="flex flex-col sm:flex-row justify-center items-center gap-4 sm:gap-6">
-              <a href="#packages" className="w-full sm:w-auto text-center bg-pink-500 text-white px-8 sm:px-12 py-4 sm:py-5 rounded-2xl text-lg sm:text-xl font-bold shadow-2xl hover:bg-pink-600 hover:-translate-y-1 transition-all duration-300">
-                התחילי את שגרת הזוהר שלך
+              <a
+                href="#offer"
+                onClick={(e) => {
+                  e.preventDefault();
+                  document.getElementById("offer")?.scrollIntoView({ behavior: "smooth" });
+                }}
+                className="w-full sm:w-auto text-center bg-gradient-to-r from-pink-500 to-rose-500 text-white px-8 sm:px-12 py-4 sm:py-5 rounded-2xl text-lg sm:text-xl font-black shadow-2xl shadow-pink-500/40 hover:-translate-y-1 transition-all duration-300 ring-4 ring-pink-200/60"
+              >
+                ✨ אני רוצה עור קורן – לפרטי הערכה
               </a>
-              <a href="#about" className="w-full sm:w-auto text-center bg-white border-2 border-slate-900 px-8 sm:px-12 py-4 sm:py-5 rounded-2xl text-lg sm:text-xl font-bold hover:bg-slate-50 transition-all duration-300">
-                גלי איך זה עובד
-              </a>
+            </div>
+            <div className="mt-6 flex flex-wrap justify-center gap-x-6 gap-y-2 text-sm text-slate-500 font-medium">
+              <span className="inline-flex items-center gap-1"><Check size={16} className="text-pink-500" /> משלוח אקספרס חינם</span>
+              <span className="inline-flex items-center gap-1"><Check size={16} className="text-pink-500" /> 30 יום החזר כספי</span>
+              <span className="inline-flex items-center gap-1"><Check size={16} className="text-pink-500" /> נבדק דרמטולוגית</span>
             </div>
           </div>
         </div>
@@ -215,6 +237,173 @@ const Index = () => {
               allowFullScreen
               className="absolute inset-0 w-full h-full"
             />
+          </div>
+        </div>
+      </section>
+
+      {/* Observable Reality — Before/After Social Proof */}
+      <section id="results" className="py-24 bg-gradient-to-b from-white to-pink-50/40">
+        <div className="max-w-[1200px] mx-auto px-4 sm:px-6">
+          <div className="text-center mb-14">
+            <div className="inline-flex items-center gap-1 text-pink-500 mb-3">
+              {[0,1,2,3,4].map((i) => <Star key={i} size={18} fill="currentColor" />)}
+            </div>
+            <h2 className="text-3xl md:text-5xl font-black text-slate-900 mb-3">
+              נשים אמיתיות. תוצאות מוכחות בשטח.
+            </h2>
+            <p className="text-lg text-slate-500 max-w-2xl mx-auto">
+              מאות לקוחות שכבר חוות את אפקט ה-Glass Skin בעור שלהן
+            </p>
+          </div>
+
+          <div className="grid sm:grid-cols-2 lg:grid-cols-3 gap-8">
+            {[
+              { name: "מיכל ל., 34", quote: "ניסיתי הכל לעור יבש, ורק השילוב הזה החזיר לי את הגלואו!" },
+              { name: "שירה ע., 41", quote: "תוך שבוע וחצי המרקם של העור השתנה לחלוטין. מומלץ ברמות." },
+              { name: "נועה ק., 29", quote: "סוף סוף עור חלק בלי לטיות. הבייסליין החדש שלי לטיפוח קוריאני." },
+            ].map((card, idx) => (
+              <article key={idx} className="bg-white rounded-3xl overflow-hidden border border-pink-100 shadow-sm hover:shadow-2xl transition-shadow">
+                <div className="relative aspect-[4/3] grid grid-cols-2">
+                  <div className="relative bg-gradient-to-br from-slate-200 to-slate-300 flex items-end justify-center">
+                    <span className="absolute top-3 right-3 text-[11px] font-black uppercase tracking-wider bg-slate-900 text-white px-2 py-1 rounded-full">לפני</span>
+                    <img
+                      src={`https://images.unsplash.com/photo-${idx === 0 ? "1531123897727-8f129e1688ce" : idx === 1 ? "1542596594-649edbc13630" : "1546961342-1e2d7c4f86fc"}?auto=format&fit=crop&w=600&q=70&sat=-40&exp=-10`}
+                      alt={`לפני - טיפוח קוריאני לקוח ${idx + 1}`}
+                      loading="lazy"
+                      className="w-full h-full object-cover opacity-90 grayscale-[30%]"
+                    />
+                  </div>
+                  <div className="relative bg-gradient-to-br from-pink-100 to-rose-100 flex items-end justify-center">
+                    <span className="absolute top-3 left-3 text-[11px] font-black uppercase tracking-wider bg-pink-500 text-white px-2 py-1 rounded-full">אחרי</span>
+                    <img
+                      src={`https://images.unsplash.com/photo-${idx === 0 ? "1531123897727-8f129e1688ce" : idx === 1 ? "1542596594-649edbc13630" : "1546961342-1e2d7c4f86fc"}?auto=format&fit=crop&w=600&q=70&bri=15&sat=20`}
+                      alt={`אחרי - תוצאות טיפוח קוריאני לקוח ${idx + 1}`}
+                      loading="lazy"
+                      className="w-full h-full object-cover"
+                    />
+                  </div>
+                </div>
+                <div className="p-6 text-right">
+                  <div className="flex items-center gap-1 text-pink-500 mb-2">
+                    {[0,1,2,3,4].map((i) => <Star key={i} size={14} fill="currentColor" />)}
+                  </div>
+                  <p className="text-slate-700 font-medium leading-relaxed mb-3">"{card.quote}"</p>
+                  <p className="text-sm text-slate-400 font-bold">— {card.name}</p>
+                </div>
+              </article>
+            ))}
+          </div>
+        </div>
+      </section>
+
+      {/* How It Works — Minimal Effort */}
+      <section id="how" className="py-24 bg-white">
+        <div className="max-w-[1200px] mx-auto px-4 sm:px-6">
+          <div className="text-center mb-16">
+            <h2 className="text-3xl md:text-5xl font-black text-slate-900 mb-4">
+              איך זה עובד? <span className="text-slate-400 font-extrabold">(בלי להסתבך)</span>
+            </h2>
+            <p className="text-lg text-slate-500 max-w-2xl mx-auto">
+              שגרת טיפוח קוריאני אמיתית של 2 דקות בלבד — בוקר וערב
+            </p>
+          </div>
+
+          <div className="grid md:grid-cols-3 gap-6 md:gap-8 relative">
+            {[
+              { icon: Droplet, num: "1", title: "ניקוי והכנה", sub: "טונר עמוק", desc: "פותח את הנקבוביות ומכין את העור לספיגה מלאה של הפעילים." },
+              { icon: FlaskConical, num: "2", title: "הזנה מרוכזת", sub: "סרום גלואו עוצמתי", desc: "ניאצינאמיד 10% + פפטידים – מאחד גוון, מבהיר ומחזיר זוהר." },
+              { icon: Lock, num: "3", title: "נעילת לחות והגנה", sub: "קרם זכוכית פעיל", desc: "נועל את הפעילים, מחליק את המרקם וחושף את אפקט ה-Glass Skin." },
+            ].map(({ icon: Icon, num, title, sub, desc }) => (
+              <div key={num} className="relative bg-gradient-to-b from-pink-50/50 to-white p-8 rounded-3xl border border-pink-100 text-center">
+                <div className="absolute -top-5 right-1/2 translate-x-1/2 bg-gradient-to-br from-pink-500 to-rose-500 text-white text-2xl font-black w-12 h-12 rounded-full flex items-center justify-center shadow-lg shadow-pink-500/30">
+                  {num}
+                </div>
+                <div className="mt-4 mb-5 w-16 h-16 mx-auto rounded-2xl bg-white border border-pink-100 flex items-center justify-center text-pink-500">
+                  <Icon size={30} />
+                </div>
+                <h3 className="text-xl font-black text-slate-900 mb-1">שלב {num}: {title}</h3>
+                <p className="text-sm font-bold text-pink-600 mb-3">({sub})</p>
+                <p className="text-slate-600 leading-relaxed text-sm">{desc}</p>
+              </div>
+            ))}
+          </div>
+        </div>
+      </section>
+
+      {/* Grand Slam Offer */}
+      <section id="offer" className="py-24 bg-gradient-to-br from-slate-900 via-slate-900 to-pink-900/40 text-white relative overflow-hidden">
+        <div className="absolute top-0 left-0 w-96 h-96 bg-pink-500/20 rounded-full blur-3xl -translate-x-1/2 -translate-y-1/2"></div>
+        <div className="absolute bottom-0 right-0 w-96 h-96 bg-rose-500/20 rounded-full blur-3xl translate-x-1/3 translate-y-1/3"></div>
+        <div className="max-w-4xl mx-auto px-4 sm:px-6 relative z-10">
+          <div className="text-center mb-10">
+            <div className="inline-flex items-center gap-2 bg-pink-500/20 border border-pink-400/40 text-pink-200 px-4 py-1.5 rounded-full text-xs font-black uppercase tracking-widest mb-5">
+              <Flame size={14} /> מהדורה מוגבלת
+            </div>
+            <h2 className="text-3xl sm:text-4xl md:text-5xl font-black mb-4 leading-tight">
+              ערכת ה-Glass Skin הרשמית
+              <span className="block text-pink-300 text-xl sm:text-2xl font-bold mt-2">
+                (מהדורת טיפוח קוריאני מוגבלת)
+              </span>
+            </h2>
+            <p className="text-slate-300 text-lg max-w-2xl mx-auto">
+              כל מה שאת צריכה כדי להשיג את אפקט הזכוכית – באריזה אחת
+            </p>
+          </div>
+
+          <div className="bg-white text-slate-900 rounded-3xl p-6 sm:p-10 shadow-2xl border border-pink-100">
+            <div className="text-center mb-3 text-xs font-black uppercase tracking-widest text-pink-600 inline-flex items-center gap-1 bg-pink-50 px-3 py-1 rounded-full">
+              <Flame size={12} /> נותרו רק 37 ערכות במלאי
+            </div>
+
+            <h3 className="text-2xl font-black mt-3 mb-6 text-center">מה כלול בערכה?</h3>
+
+            <ul className="space-y-4 mb-8">
+              {[
+                { icon: Sparkles, text: "3 מוצרי הפרימיום המקוריים מקוריאה", value: '420 ש"ח', bonus: false },
+                { icon: Gift, text: 'בונוס 1 במתנה: רולר ג\'ייד מקורי לעיסוי ומיצוק הפנים', value: '89 ש"ח', bonus: true },
+                { icon: PlayCircle, text: 'בונוס 2 במתנה: מדריך וידאו דיגיטלי סגור "סודות האנטי-אייג\'ינג הקוריאני"', value: '97 ש"ח', bonus: true },
+                { icon: Truck, text: "בונוס 3: משלוח אקספרס חינם עד הבית", value: '35 ש"ח', bonus: true },
+              ].map(({ icon: Icon, text, value, bonus }, i) => (
+                <li key={i} className="flex items-start gap-4 bg-slate-50 rounded-2xl p-4 border border-slate-100">
+                  <div className={`flex-shrink-0 w-11 h-11 rounded-xl flex items-center justify-center ${bonus ? "bg-pink-100 text-pink-600" : "bg-slate-900 text-white"}`}>
+                    <Icon size={20} />
+                  </div>
+                  <div className="flex-1">
+                    <p className="font-bold text-slate-900 leading-snug">{text}</p>
+                    <p className="text-xs text-slate-500 mt-0.5">שווי: {value}</p>
+                  </div>
+                  {bonus && (
+                    <span className="flex-shrink-0 self-center text-[10px] font-black uppercase tracking-widest bg-pink-500 text-white px-2 py-1 rounded-full">חינם</span>
+                  )}
+                </li>
+              ))}
+            </ul>
+
+            <div className="border-t-2 border-dashed border-pink-200 pt-6 text-center">
+              <p className="text-sm text-slate-500 mb-1">שווי כולל</p>
+              <p className="text-2xl text-slate-400 line-through font-bold mb-2">641 ש"ח</p>
+              <p className="text-sm font-bold text-pink-600 uppercase tracking-widest mb-1">המחיר שלך היום</p>
+              <p className="text-5xl sm:text-6xl font-black bg-gradient-to-r from-pink-500 to-rose-500 bg-clip-text text-transparent mb-2">
+                299 ש"ח
+              </p>
+              <p className="text-sm text-slate-500 mb-6">חיסכון של 342 ש"ח (53%)</p>
+
+              <a
+                href="#packages"
+                onClick={(e) => {
+                  e.preventDefault();
+                  document.getElementById("packages")?.scrollIntoView({ behavior: "smooth" });
+                }}
+                className="block w-full sm:w-auto sm:inline-block bg-gradient-to-r from-pink-500 to-rose-500 text-white px-10 py-5 rounded-2xl text-xl font-black shadow-2xl shadow-pink-500/40 hover:-translate-y-1 transition-all duration-300"
+              >
+                🛒 רכישה מהירה ומאובטחת
+              </a>
+              <p className="text-xs text-slate-400 mt-4 flex items-center justify-center gap-3 flex-wrap">
+                <span className="inline-flex items-center gap-1"><ShieldCheck size={14} className="text-pink-500" /> תשלום מאובטח SSL</span>
+                <span>•</span>
+                <span>30 יום אחריות מלאה</span>
+              </p>
+            </div>
           </div>
         </div>
       </section>
@@ -272,8 +461,8 @@ const Index = () => {
       <section id="packages" className="py-24 bg-slate-50">
         <div className="max-w-[1200px] mx-auto px-4 sm:px-6">
           <div className="text-center mb-20">
-            <h2 className="text-4xl md:text-5xl font-black mb-6 italic">סרום ניאצינאמיד 10% ושגרת הזוהר שלך</h2>
-            <p className="text-xl text-slate-500 max-w-2xl mx-auto">בחרי את המסלול שמתאים בדיוק לסדר היום שלך</p>
+            <h2 className="text-4xl md:text-5xl font-black mb-6 italic">החבילות שלנו לטיפוח קוריאני</h2>
+            <p className="text-xl text-slate-500 max-w-2xl mx-auto">העדפת לבחור בנפרד? כל החבילות שלנו לעור Glass Skin במקום אחד</p>
           </div>
 
           {loadingProducts ? (

@@ -15,6 +15,7 @@ import NotFound from "./pages/NotFound.tsx";
 import { useCartSync } from "./hooks/useCartSync";
 import NewsletterPopup from "./components/NewsletterPopup";
 import DiscountBanner from "./components/DiscountBanner";
+import CookieConsent from "./components/CookieConsent";
 import { useLocation } from "react-router-dom";
 
 const queryClient = new QueryClient();
@@ -39,6 +40,7 @@ const AppRoutes = () => {
         <Route path="*" element={<NotFound />} />
       </Routes>
       {showPopup && <NewsletterPopup />}
+      <CookieConsent />
     </>
   );
 };
