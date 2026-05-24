@@ -241,6 +241,173 @@ const Index = () => {
         </div>
       </section>
 
+      {/* Observable Reality — Before/After Social Proof */}
+      <section id="results" className="py-24 bg-gradient-to-b from-white to-pink-50/40">
+        <div className="max-w-[1200px] mx-auto px-4 sm:px-6">
+          <div className="text-center mb-14">
+            <div className="inline-flex items-center gap-1 text-pink-500 mb-3">
+              {[0,1,2,3,4].map((i) => <Star key={i} size={18} fill="currentColor" />)}
+            </div>
+            <h2 className="text-3xl md:text-5xl font-black text-slate-900 mb-3">
+              נשים אמיתיות. תוצאות מוכחות בשטח.
+            </h2>
+            <p className="text-lg text-slate-500 max-w-2xl mx-auto">
+              מאות לקוחות שכבר חוות את אפקט ה-Glass Skin בעור שלהן
+            </p>
+          </div>
+
+          <div className="grid sm:grid-cols-2 lg:grid-cols-3 gap-8">
+            {[
+              { name: "מיכל ל., 34", quote: "ניסיתי הכל לעור יבש, ורק השילוב הזה החזיר לי את הגלואו!" },
+              { name: "שירה ע., 41", quote: "תוך שבוע וחצי המרקם של העור השתנה לחלוטין. מומלץ ברמות." },
+              { name: "נועה ק., 29", quote: "סוף סוף עור חלק בלי לטיות. הבייסליין החדש שלי לטיפוח קוריאני." },
+            ].map((card, idx) => (
+              <article key={idx} className="bg-white rounded-3xl overflow-hidden border border-pink-100 shadow-sm hover:shadow-2xl transition-shadow">
+                <div className="relative aspect-[4/3] grid grid-cols-2">
+                  <div className="relative bg-gradient-to-br from-slate-200 to-slate-300 flex items-end justify-center">
+                    <span className="absolute top-3 right-3 text-[11px] font-black uppercase tracking-wider bg-slate-900 text-white px-2 py-1 rounded-full">לפני</span>
+                    <img
+                      src={`https://images.unsplash.com/photo-${idx === 0 ? "1531123897727-8f129e1688ce" : idx === 1 ? "1542596594-649edbc13630" : "1546961342-1e2d7c4f86fc"}?auto=format&fit=crop&w=600&q=70&sat=-40&exp=-10`}
+                      alt={`לפני - טיפוח קוריאני לקוח ${idx + 1}`}
+                      loading="lazy"
+                      className="w-full h-full object-cover opacity-90 grayscale-[30%]"
+                    />
+                  </div>
+                  <div className="relative bg-gradient-to-br from-pink-100 to-rose-100 flex items-end justify-center">
+                    <span className="absolute top-3 left-3 text-[11px] font-black uppercase tracking-wider bg-pink-500 text-white px-2 py-1 rounded-full">אחרי</span>
+                    <img
+                      src={`https://images.unsplash.com/photo-${idx === 0 ? "1531123897727-8f129e1688ce" : idx === 1 ? "1542596594-649edbc13630" : "1546961342-1e2d7c4f86fc"}?auto=format&fit=crop&w=600&q=70&bri=15&sat=20`}
+                      alt={`אחרי - תוצאות טיפוח קוריאני לקוח ${idx + 1}`}
+                      loading="lazy"
+                      className="w-full h-full object-cover"
+                    />
+                  </div>
+                </div>
+                <div className="p-6 text-right">
+                  <div className="flex items-center gap-1 text-pink-500 mb-2">
+                    {[0,1,2,3,4].map((i) => <Star key={i} size={14} fill="currentColor" />)}
+                  </div>
+                  <p className="text-slate-700 font-medium leading-relaxed mb-3">"{card.quote}"</p>
+                  <p className="text-sm text-slate-400 font-bold">— {card.name}</p>
+                </div>
+              </article>
+            ))}
+          </div>
+        </div>
+      </section>
+
+      {/* How It Works — Minimal Effort */}
+      <section id="how" className="py-24 bg-white">
+        <div className="max-w-[1200px] mx-auto px-4 sm:px-6">
+          <div className="text-center mb-16">
+            <h2 className="text-3xl md:text-5xl font-black text-slate-900 mb-4">
+              איך זה עובד? <span className="text-slate-400 font-extrabold">(בלי להסתבך)</span>
+            </h2>
+            <p className="text-lg text-slate-500 max-w-2xl mx-auto">
+              שגרת טיפוח קוריאני אמיתית של 2 דקות בלבד — בוקר וערב
+            </p>
+          </div>
+
+          <div className="grid md:grid-cols-3 gap-6 md:gap-8 relative">
+            {[
+              { icon: Droplet, num: "1", title: "ניקוי והכנה", sub: "טונר עמוק", desc: "פותח את הנקבוביות ומכין את העור לספיגה מלאה של הפעילים." },
+              { icon: FlaskConical, num: "2", title: "הזנה מרוכזת", sub: "סרום גלואו עוצמתי", desc: "ניאצינאמיד 10% + פפטידים – מאחד גוון, מבהיר ומחזיר זוהר." },
+              { icon: Lock, num: "3", title: "נעילת לחות והגנה", sub: "קרם זכוכית פעיל", desc: "נועל את הפעילים, מחליק את המרקם וחושף את אפקט ה-Glass Skin." },
+            ].map(({ icon: Icon, num, title, sub, desc }) => (
+              <div key={num} className="relative bg-gradient-to-b from-pink-50/50 to-white p-8 rounded-3xl border border-pink-100 text-center">
+                <div className="absolute -top-5 right-1/2 translate-x-1/2 bg-gradient-to-br from-pink-500 to-rose-500 text-white text-2xl font-black w-12 h-12 rounded-full flex items-center justify-center shadow-lg shadow-pink-500/30">
+                  {num}
+                </div>
+                <div className="mt-4 mb-5 w-16 h-16 mx-auto rounded-2xl bg-white border border-pink-100 flex items-center justify-center text-pink-500">
+                  <Icon size={30} />
+                </div>
+                <h3 className="text-xl font-black text-slate-900 mb-1">שלב {num}: {title}</h3>
+                <p className="text-sm font-bold text-pink-600 mb-3">({sub})</p>
+                <p className="text-slate-600 leading-relaxed text-sm">{desc}</p>
+              </div>
+            ))}
+          </div>
+        </div>
+      </section>
+
+      {/* Grand Slam Offer */}
+      <section id="offer" className="py-24 bg-gradient-to-br from-slate-900 via-slate-900 to-pink-900/40 text-white relative overflow-hidden">
+        <div className="absolute top-0 left-0 w-96 h-96 bg-pink-500/20 rounded-full blur-3xl -translate-x-1/2 -translate-y-1/2"></div>
+        <div className="absolute bottom-0 right-0 w-96 h-96 bg-rose-500/20 rounded-full blur-3xl translate-x-1/3 translate-y-1/3"></div>
+        <div className="max-w-4xl mx-auto px-4 sm:px-6 relative z-10">
+          <div className="text-center mb-10">
+            <div className="inline-flex items-center gap-2 bg-pink-500/20 border border-pink-400/40 text-pink-200 px-4 py-1.5 rounded-full text-xs font-black uppercase tracking-widest mb-5">
+              <Flame size={14} /> מהדורה מוגבלת
+            </div>
+            <h2 className="text-3xl sm:text-4xl md:text-5xl font-black mb-4 leading-tight">
+              ערכת ה-Glass Skin הרשמית
+              <span className="block text-pink-300 text-xl sm:text-2xl font-bold mt-2">
+                (מהדורת טיפוח קוריאני מוגבלת)
+              </span>
+            </h2>
+            <p className="text-slate-300 text-lg max-w-2xl mx-auto">
+              כל מה שאת צריכה כדי להשיג את אפקט הזכוכית – באריזה אחת
+            </p>
+          </div>
+
+          <div className="bg-white text-slate-900 rounded-3xl p-6 sm:p-10 shadow-2xl border border-pink-100">
+            <div className="text-center mb-3 text-xs font-black uppercase tracking-widest text-pink-600 inline-flex items-center gap-1 bg-pink-50 px-3 py-1 rounded-full">
+              <Flame size={12} /> נותרו רק 37 ערכות במלאי
+            </div>
+
+            <h3 className="text-2xl font-black mt-3 mb-6 text-center">מה כלול בערכה?</h3>
+
+            <ul className="space-y-4 mb-8">
+              {[
+                { icon: Sparkles, text: "3 מוצרי הפרימיום המקוריים מקוריאה", value: '420 ש"ח', bonus: false },
+                { icon: Gift, text: 'בונוס 1 במתנה: רולר ג\'ייד מקורי לעיסוי ומיצוק הפנים', value: '89 ש"ח', bonus: true },
+                { icon: PlayCircle, text: 'בונוס 2 במתנה: מדריך וידאו דיגיטלי סגור "סודות האנטי-אייג\'ינג הקוריאני"', value: '97 ש"ח', bonus: true },
+                { icon: Truck, text: "בונוס 3: משלוח אקספרס חינם עד הבית", value: '35 ש"ח', bonus: true },
+              ].map(({ icon: Icon, text, value, bonus }, i) => (
+                <li key={i} className="flex items-start gap-4 bg-slate-50 rounded-2xl p-4 border border-slate-100">
+                  <div className={`flex-shrink-0 w-11 h-11 rounded-xl flex items-center justify-center ${bonus ? "bg-pink-100 text-pink-600" : "bg-slate-900 text-white"}`}>
+                    <Icon size={20} />
+                  </div>
+                  <div className="flex-1">
+                    <p className="font-bold text-slate-900 leading-snug">{text}</p>
+                    <p className="text-xs text-slate-500 mt-0.5">שווי: {value}</p>
+                  </div>
+                  {bonus && (
+                    <span className="flex-shrink-0 self-center text-[10px] font-black uppercase tracking-widest bg-pink-500 text-white px-2 py-1 rounded-full">חינם</span>
+                  )}
+                </li>
+              ))}
+            </ul>
+
+            <div className="border-t-2 border-dashed border-pink-200 pt-6 text-center">
+              <p className="text-sm text-slate-500 mb-1">שווי כולל</p>
+              <p className="text-2xl text-slate-400 line-through font-bold mb-2">641 ש"ח</p>
+              <p className="text-sm font-bold text-pink-600 uppercase tracking-widest mb-1">המחיר שלך היום</p>
+              <p className="text-5xl sm:text-6xl font-black bg-gradient-to-r from-pink-500 to-rose-500 bg-clip-text text-transparent mb-2">
+                299 ש"ח
+              </p>
+              <p className="text-sm text-slate-500 mb-6">חיסכון של 342 ש"ח (53%)</p>
+
+              <a
+                href="#packages"
+                onClick={(e) => {
+                  e.preventDefault();
+                  document.getElementById("packages")?.scrollIntoView({ behavior: "smooth" });
+                }}
+                className="block w-full sm:w-auto sm:inline-block bg-gradient-to-r from-pink-500 to-rose-500 text-white px-10 py-5 rounded-2xl text-xl font-black shadow-2xl shadow-pink-500/40 hover:-translate-y-1 transition-all duration-300"
+              >
+                🛒 רכישה מהירה ומאובטחת
+              </a>
+              <p className="text-xs text-slate-400 mt-4 flex items-center justify-center gap-3 flex-wrap">
+                <span className="inline-flex items-center gap-1"><ShieldCheck size={14} className="text-pink-500" /> תשלום מאובטח SSL</span>
+                <span>•</span>
+                <span>30 יום אחריות מלאה</span>
+              </p>
+            </div>
+          </div>
+        </div>
+      </section>
+
       {/* About */}
       <section id="about" className="py-24 bg-white">
         <div className="max-w-[1200px] mx-auto px-4 sm:px-6">
