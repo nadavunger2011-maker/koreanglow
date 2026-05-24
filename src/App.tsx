@@ -11,6 +11,7 @@ import BlogPost from "./pages/BlogPost.tsx";
 import NotFound from "./pages/NotFound.tsx";
 import { useCartSync } from "./hooks/useCartSync";
 import NewsletterPopup from "./components/NewsletterPopup";
+import DiscountBanner from "./components/DiscountBanner";
 import { useLocation } from "react-router-dom";
 
 const queryClient = new QueryClient();
@@ -21,6 +22,7 @@ const AppRoutes = () => {
   const showPopup = !location.pathname.startsWith("/admin-dashboard");
   return (
     <>
+      <DiscountBanner />
       <Routes>
         <Route path="/" element={<Index />} />
         <Route path="/product/:handle" element={<ProductDetail />} />
