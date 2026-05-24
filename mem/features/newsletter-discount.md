@@ -6,4 +6,5 @@ type: feature
 - Popup collects name+email → inserts to `leads` table.
 - On success: localStorage flag `kg_discount_active` set, popup shows code WELCOME10 + "10% הנחה פעילה".
 - Sitewide DiscountBanner reads flag and shows sticky top banner with code + copy button.
-- Backend edge function `sync-flashy-lead` forwards lead to Flashy API using FLASHY_API_KEY secret.
+- Backend edge function `sync-shopify-customer` creates a Shopify customer with marketing consent (single_opt_in) and tags `newsletter-popup, welcome10`. Flashy syncs automatically via its native Shopify connection — no separate Flashy API key needed.
+- Requires secrets: `SHOPIFY_SHOP_DOMAIN` (xxx.myshopify.com), `SHOPIFY_ACCESS_TOKEN` (Admin API, scope `write_customers`).

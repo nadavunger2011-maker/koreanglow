@@ -57,7 +57,7 @@ export const NewsletterPopup = () => {
     }
     // Fire-and-forget sync to Flashy (don't block UX on failure)
     supabase.functions
-      .invoke("sync-flashy-lead", {
+      .invoke("sync-shopify-customer", {
         body: {
           name: parsed.data.name ?? null,
           email: parsed.data.email,
