@@ -461,8 +461,8 @@ const Index = () => {
       <section id="packages" className="py-24 bg-slate-50">
         <div className="max-w-[1200px] mx-auto px-4 sm:px-6">
           <div className="text-center mb-20">
-            <h2 className="text-4xl md:text-5xl font-black mb-6 italic">סרום ניאצינאמיד 10% ושגרת הזוהר שלך</h2>
-            <p className="text-xl text-slate-500 max-w-2xl mx-auto">בחרי את המסלול שמתאים בדיוק לסדר היום שלך</p>
+            <h2 className="text-4xl md:text-5xl font-black mb-6 italic">החבילות שלנו לטיפוח קוריאני</h2>
+            <p className="text-xl text-slate-500 max-w-2xl mx-auto">העדפת לבחור בנפרד? כל החבילות שלנו לעור Glass Skin במקום אחד</p>
           </div>
 
           {loadingProducts ? (
