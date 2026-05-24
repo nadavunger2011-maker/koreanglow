@@ -182,27 +182,35 @@ const Index = () => {
       </nav>
 
       {/* Hero Section */}
-      <header className="relative pt-32 pb-20 overflow-hidden bg-gradient-to-br from-pink-50 via-white to-blue-50">
+      <header className="relative pt-40 sm:pt-44 pb-20 overflow-hidden bg-gradient-to-br from-pink-50 via-white to-blue-50">
         <div className="max-w-[1200px] mx-auto px-4 sm:px-6 relative z-10">
           <div className="text-center max-w-4xl mx-auto">
             <div className="inline-flex items-center gap-2 bg-pink-100 text-pink-600 px-4 py-1.5 rounded-full text-xs font-bold mb-8">
               <Sparkles size={14} />
-              <span>הסוד הקוריאני לעצור את הזמן</span>
+              <span>טיפוח קוריאני • מהדורה מוגבלת</span>
             </div>
-            <h1 className="text-4xl sm:text-5xl md:text-8xl font-black text-slate-900 leading-[1.1] mb-8 tracking-tight">
-              עצרי את הזמן עם <span className="text-transparent bg-clip-text bg-gradient-to-r from-pink-500 to-rose-500">טיפוח קוריאני</span> <br className="hidden md:block" />
-              לעור זכוכית זוהר
+            <h1 className="text-4xl sm:text-5xl md:text-7xl font-black text-slate-900 leading-[1.1] mb-6 tracking-tight">
+              סוד ה<span className="text-transparent bg-clip-text bg-gradient-to-r from-pink-500 to-rose-500">טיפוח הקוריאני</span> לעור חלק כמו זכוכית (Glass Skin) – תוך 14 יום!
             </h1>
-            <p className="text-lg sm:text-xl md:text-2xl text-slate-600 mb-12 max-w-2xl mx-auto leading-relaxed">
-              קמטוטים שמתרככים, גוון שמתאחד וזוהר שחוזר אל הפנים — תוך שבועות בלבד. שגרת טיפוח קוריאנית (Glass Skin) שמחזירה לך את העור שזכרת, בלי מחטים ובלי פשרות.
+            <p className="text-lg sm:text-xl md:text-2xl text-slate-600 mb-10 max-w-3xl mx-auto leading-relaxed">
+              בלי שגרה מתישה של 10 שלבים ובלי לבזבז אלפי שקלים בקליניקות. רק 3 מוצרים מנצחים, 2 דקות ביום, ותוצאות שתראי כבר במריחה הראשונה.
             </p>
             <div className="flex flex-col sm:flex-row justify-center items-center gap-4 sm:gap-6">
-              <a href="#packages" className="w-full sm:w-auto text-center bg-pink-500 text-white px-8 sm:px-12 py-4 sm:py-5 rounded-2xl text-lg sm:text-xl font-bold shadow-2xl hover:bg-pink-600 hover:-translate-y-1 transition-all duration-300">
-                התחילי את שגרת הזוהר שלך
+              <a
+                href="#offer"
+                onClick={(e) => {
+                  e.preventDefault();
+                  document.getElementById("offer")?.scrollIntoView({ behavior: "smooth" });
+                }}
+                className="w-full sm:w-auto text-center bg-gradient-to-r from-pink-500 to-rose-500 text-white px-8 sm:px-12 py-4 sm:py-5 rounded-2xl text-lg sm:text-xl font-black shadow-2xl shadow-pink-500/40 hover:-translate-y-1 transition-all duration-300 ring-4 ring-pink-200/60"
+              >
+                ✨ אני רוצה עור קורן – לפרטי הערכה
               </a>
-              <a href="#about" className="w-full sm:w-auto text-center bg-white border-2 border-slate-900 px-8 sm:px-12 py-4 sm:py-5 rounded-2xl text-lg sm:text-xl font-bold hover:bg-slate-50 transition-all duration-300">
-                גלי איך זה עובד
-              </a>
+            </div>
+            <div className="mt-6 flex flex-wrap justify-center gap-x-6 gap-y-2 text-sm text-slate-500 font-medium">
+              <span className="inline-flex items-center gap-1"><Check size={16} className="text-pink-500" /> משלוח אקספרס חינם</span>
+              <span className="inline-flex items-center gap-1"><Check size={16} className="text-pink-500" /> 30 יום החזר כספי</span>
+              <span className="inline-flex items-center gap-1"><Check size={16} className="text-pink-500" /> נבדק דרמטולוגית</span>
             </div>
           </div>
         </div>
