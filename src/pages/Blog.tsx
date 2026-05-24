@@ -4,6 +4,7 @@ import { Helmet } from "react-helmet-async";
 import { Card } from "@/components/ui/card";
 import { Loader2, ArrowLeft, Clock } from "lucide-react";
 import { supabase } from "@/integrations/supabase/client";
+import SiteFooter from "@/components/SiteFooter";
 
 type Post = {
   id: string;
@@ -151,6 +152,7 @@ const Blog = () => {
         )}
       </main>
     </div>
+    
   );
 };
 
