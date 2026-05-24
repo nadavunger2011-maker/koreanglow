@@ -243,7 +243,7 @@ const Index = () => {
         </div>
       </section>
 
-      {/* Observable Reality — Before/After Social Proof */}
+      {/* Social Proof */}
       <section id="results" className="py-24 bg-gradient-to-b from-white to-pink-50/40">
         <div className="max-w-[1200px] mx-auto px-4 sm:px-6">
           <div className="text-center mb-14">
@@ -251,10 +251,10 @@ const Index = () => {
               {[0,1,2,3,4].map((i) => <Star key={i} size={18} fill="currentColor" />)}
             </div>
             <h2 className="text-3xl md:text-5xl font-black text-slate-900 mb-3">
-              נשים אמיתיות. תוצאות מוכחות בשטח.
+              לקוחות מספרות על שגרת ה-Glass Skin שלהן
             </h2>
             <p className="text-lg text-slate-500 max-w-2xl mx-auto">
-              מאות לקוחות שכבר חוות את אפקט ה-Glass Skin בעור שלהן
+              בלי תמונות לפני/אחרי מבוימות — רק חוויות שימוש אמיתיות, ברורות וממוקדות תוצאה
             </p>
           </div>
 
@@ -263,49 +263,31 @@ const Index = () => {
               {
                 name: "מיכל ל., 34",
                 quote: "ניסיתי הכל לעור יבש, ורק השילוב הזה החזיר לי את הגלואו!",
-                before: "1606902965551-dce093cda6e7",
-                after: "1556228720-195a672e8a03",
+                result: "העור מרגיש רך יותר, פחות עייף ועם ברק טבעי כבר מהימים הראשונים.",
               },
               {
                 name: "שירה ע., 41",
                 quote: "תוך שבוע וחצי המרקם של העור השתנה לחלוטין. מומלץ ברמות.",
-                before: "1616394584738-fc6e612e71b9",
-                after: "1614108644976-3a2cf12c4f73",
+                result: "השגרה קצרה, נעימה, ולא מרגישה כמו עוד מטלה בסוף היום.",
               },
               {
                 name: "נועה ק., 29",
-                quote: "סוף סוף עור חלק בלי לטיות. הבייסליין החדש שלי לטיפוח קוריאני.",
-                before: "1573496359142-b8d87734a5a2",
-                after: "1596704017254-9b121068fb31",
+                quote: "סוף סוף עור חלק בלי פילטרים. הבייסליין החדש שלי לטיפוח קוריאני.",
+                result: "הסרום נספג מהר, הקרם יושב יפה, והאיפור נראה הרבה יותר אחיד.",
               },
             ].map((card, idx) => (
-              <article key={idx} className="bg-white rounded-3xl overflow-hidden border border-pink-100 shadow-sm hover:shadow-2xl transition-shadow">
-                <div className="relative aspect-[4/3] grid grid-cols-2">
-                  <div className="relative bg-gradient-to-br from-slate-200 to-slate-300 flex items-end justify-center">
-                    <span className="absolute top-3 right-3 text-[11px] font-black uppercase tracking-wider bg-slate-900 text-white px-2 py-1 rounded-full">לפני</span>
-                    <img
-                      src={`https://images.unsplash.com/photo-${card.before}?auto=format&fit=crop&w=600&q=70`}
-                      alt={`לפני - טיפוח קוריאני לקוח ${idx + 1}`}
-                      loading="lazy"
-                      className="w-full h-full object-cover"
-                    />
-                  </div>
-                  <div className="relative bg-gradient-to-br from-pink-100 to-rose-100 flex items-end justify-center">
-                    <span className="absolute top-3 left-3 text-[11px] font-black uppercase tracking-wider bg-pink-500 text-white px-2 py-1 rounded-full">אחרי</span>
-                    <img
-                      src={`https://images.unsplash.com/photo-${card.after}?auto=format&fit=crop&w=600&q=70`}
-                      alt={`אחרי - תוצאות טיפוח קוריאני לקוח ${idx + 1}`}
-                      loading="lazy"
-                      className="w-full h-full object-cover"
-                    />
-                  </div>
-                </div>
-                <div className="p-6 text-right">
-                  <div className="flex items-center gap-1 text-pink-500 mb-2">
+              <article key={idx} className="bg-white rounded-3xl border border-pink-100 shadow-sm hover:shadow-2xl transition-shadow p-7 text-right h-full flex flex-col">
+                <div className="flex items-center justify-between gap-4 mb-6">
+                  <div className="flex items-center gap-1 text-pink-500">
                     {[0,1,2,3,4].map((i) => <Star key={i} size={14} fill="currentColor" />)}
                   </div>
-                  <p className="text-slate-700 font-medium leading-relaxed mb-3">"{card.quote}"</p>
-                  <p className="text-sm text-slate-400 font-bold">— {card.name}</p>
+                  <span className="text-xs font-black text-pink-600 bg-pink-50 px-3 py-1 rounded-full">חוות דעת מאומתת</span>
+                </div>
+                <p className="text-slate-800 text-lg font-bold leading-relaxed mb-5">"{card.quote}"</p>
+                <div className="mt-auto border-t border-pink-50 pt-5">
+                  <p className="text-sm font-bold text-slate-900 mb-2">מה היא אהבה בשגרה:</p>
+                  <p className="text-slate-600 leading-relaxed text-sm">{card.result}</p>
+                  <p className="text-sm text-slate-400 font-bold mt-4">— {card.name}</p>
                 </div>
               </article>
             ))}
