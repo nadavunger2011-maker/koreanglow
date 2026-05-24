@@ -17,6 +17,8 @@ import {
   Truck,
   Star,
   Flame,
+  Crown,
+  Award,
 } from "lucide-react";
 import { fetchProducts, type ShopifyProduct } from "@/lib/shopify";
 import { ProductCard } from "@/components/ProductCard";
@@ -330,63 +332,49 @@ const Index = () => {
         </div>
       </section>
 
-      {/* Grand Slam Offer */}
-      <section id="offer" className="py-24 bg-gradient-to-br from-slate-900 via-slate-900 to-pink-900/40 text-white relative overflow-hidden">
-        <div className="absolute top-0 left-0 w-96 h-96 bg-pink-500/20 rounded-full blur-3xl -translate-x-1/2 -translate-y-1/2"></div>
-        <div className="absolute bottom-0 right-0 w-96 h-96 bg-rose-500/20 rounded-full blur-3xl translate-x-1/3 translate-y-1/3"></div>
-        <div className="max-w-4xl mx-auto px-4 sm:px-6 relative z-10">
-          <div className="text-center mb-10">
-            <div className="inline-flex items-center gap-2 bg-pink-500/20 border border-pink-400/40 text-pink-200 px-4 py-1.5 rounded-full text-xs font-black uppercase tracking-widest mb-5">
-              <Flame size={14} /> מהדורה מוגבלת
-            </div>
-            <h2 className="text-3xl sm:text-4xl md:text-5xl font-black mb-4 leading-tight">
-              ערכת ה-Glass Skin הרשמית
-              <span className="block text-pink-300 text-xl sm:text-2xl font-bold mt-2">
-                (מהדורת טיפוח קוריאני מוגבלת)
-              </span>
+      {/* 3-Tier Pricing */}
+      <section id="offer" className="py-24 bg-gradient-to-b from-white via-pink-50/30 to-white relative overflow-hidden">
+        <div className="absolute top-0 left-0 w-96 h-96 bg-pink-200/30 rounded-full blur-3xl -translate-x-1/2 -translate-y-1/2"></div>
+        <div className="absolute bottom-0 right-0 w-96 h-96 bg-blue-100/30 rounded-full blur-3xl translate-x-1/3 translate-y-1/3"></div>
+
+        <div className="max-w-[1200px] mx-auto px-4 sm:px-6 relative z-10">
+          <div className="text-center mb-16">
+            <h2 className="text-3xl md:text-5xl font-black text-slate-900 mb-4">
+              בחרי את החבילה המושלמת לעור שלך
             </h2>
-            <p className="text-slate-300 text-lg max-w-2xl mx-auto">
-              כל מה שאת צריכה כדי להשיג את אפקט הזכוכית – באריזה אחת
+            <p className="text-lg md:text-xl text-slate-500 max-w-2xl mx-auto">
+              שלוש אפשרויות, תוצאה אחת — עור זכוכית קוריאני
             </p>
           </div>
 
-          <div className="bg-white text-slate-900 rounded-3xl p-6 sm:p-10 shadow-2xl border border-pink-100">
-            <div className="text-center mb-3 text-xs font-black uppercase tracking-widest text-pink-600 inline-flex items-center gap-1 bg-pink-50 px-3 py-1 rounded-full">
-              <Flame size={12} /> נותרו רק 37 ערכות במלאי
-            </div>
+          <div className="grid md:grid-cols-3 gap-6 lg:gap-8 items-stretch">
+            {/* Tier 1 - Essential */}
+            <div className="bg-white rounded-3xl border border-slate-200 p-6 sm:p-8 flex flex-col shadow-sm hover:shadow-lg transition-all duration-300">
+              <div className="text-center mb-6">
+                <div className="w-14 h-14 bg-pink-50 rounded-2xl flex items-center justify-center text-pink-500 mx-auto mb-4">
+                  <Sparkles size={28} />
+                </div>
+                <h3 className="text-xl font-black text-slate-900 mb-1">ערכת ה-Essential</h3>
+                <p className="text-sm text-slate-500">לזוהר יומיומי</p>
+              </div>
 
-            <h3 className="text-2xl font-black mt-3 mb-6 text-center">מה כלול בערכה?</h3>
+              <div className="text-center mb-2">
+                <span className="text-5xl sm:text-6xl font-black text-slate-900">599</span>
+                <span className="text-2xl font-bold text-slate-600 mr-2">₪</span>
+              </div>
 
-            <ul className="space-y-4 mb-8">
-              {[
-                { icon: Sparkles, text: "3 מוצרי הפרימיום המקוריים מקוריאה", value: '420 ש"ח', bonus: false },
-                { icon: Gift, text: 'בונוס 1 במתנה: רולר ג\'ייד מקורי לעיסוי ומיצוק הפנים', value: '89 ש"ח', bonus: true },
-                { icon: PlayCircle, text: 'בונוס 2 במתנה: מדריך וידאו דיגיטלי סגור "סודות האנטי-אייג\'ינג הקוריאני"', value: '97 ש"ח', bonus: true },
-                { icon: Truck, text: "בונוס 3: משלוח אקספרס חינם עד הבית", value: '35 ש"ח', bonus: true },
-              ].map(({ icon: Icon, text, value, bonus }, i) => (
-                <li key={i} className="flex items-start gap-4 bg-slate-50 rounded-2xl p-4 border border-slate-100">
-                  <div className={`flex-shrink-0 w-11 h-11 rounded-xl flex items-center justify-center ${bonus ? "bg-pink-100 text-pink-600" : "bg-slate-900 text-white"}`}>
-                    <Icon size={20} />
-                  </div>
-                  <div className="flex-1">
-                    <p className="font-bold text-slate-900 leading-snug">{text}</p>
-                    <p className="text-xs text-slate-500 mt-0.5">שווי: {value}</p>
-                  </div>
-                  {bonus && (
-                    <span className="flex-shrink-0 self-center text-[10px] font-black uppercase tracking-widest bg-pink-500 text-white px-2 py-1 rounded-full">חינם</span>
-                  )}
+              <p className="text-sm text-slate-500 text-center mb-6 italic">"התחלה מושלמת לשגרת טיפוח קוריאנית"</p>
+
+              <ul className="space-y-3 mb-8 flex-grow">
+                <li className="flex items-start gap-3 text-slate-700">
+                  <Check size={18} className="text-pink-500 flex-shrink-0 mt-0.5" />
+                  <span>שגרת הליבה המלאה (3 מוצרים פרימיום)</span>
                 </li>
-              ))}
-            </ul>
-
-            <div className="border-t-2 border-dashed border-pink-200 pt-6 text-center">
-              <p className="text-sm text-slate-500 mb-1">שווי כולל</p>
-              <p className="text-2xl text-slate-400 line-through font-bold mb-2">641 ש"ח</p>
-              <p className="text-sm font-bold text-pink-600 uppercase tracking-widest mb-1">המחיר שלך היום</p>
-              <p className="text-5xl sm:text-6xl font-black bg-gradient-to-r from-pink-500 to-rose-500 bg-clip-text text-transparent mb-2">
-                299 ש"ח
-              </p>
-              <p className="text-sm text-slate-500 mb-6">חיסכון של 342 ש"ח (53%)</p>
+                <li className="flex items-start gap-3 text-slate-700">
+                  <Check size={18} className="text-pink-500 flex-shrink-0 mt-0.5" />
+                  <span>מושלמת למי שמתחילה את המסע</span>
+                </li>
+              </ul>
 
               <a
                 href="#packages"
@@ -394,15 +382,126 @@ const Index = () => {
                   e.preventDefault();
                   document.getElementById("packages")?.scrollIntoView({ behavior: "smooth" });
                 }}
-                className="block w-full sm:w-auto sm:inline-block bg-gradient-to-r from-pink-500 to-rose-500 text-white px-10 py-5 rounded-2xl text-xl font-black shadow-2xl shadow-pink-500/40 hover:-translate-y-1 transition-all duration-300"
+                className="block w-full text-center bg-slate-100 text-slate-900 py-4 rounded-2xl font-bold hover:bg-slate-200 transition-all"
               >
-                🛒 רכישה מהירה ומאובטחת
+                בחרי ערכה זו
               </a>
-              <p className="text-xs text-slate-400 mt-4 flex items-center justify-center gap-3 flex-wrap">
-                <span className="inline-flex items-center gap-1"><ShieldCheck size={14} className="text-pink-500" /> תשלום מאובטח SSL</span>
-                <span>•</span>
-                <span>30 יום אחריות מלאה</span>
-              </p>
+            </div>
+
+            {/* Tier 2 - Pro Glow (Popular) */}
+            <div className="bg-white rounded-3xl border-2 border-pink-500 p-6 sm:p-8 flex flex-col shadow-xl shadow-pink-500/10 relative">
+              <div className="absolute -top-4 left-1/2 -translate-x-1/2 bg-gradient-to-r from-pink-500 to-rose-500 text-white text-xs font-black uppercase tracking-widest px-4 py-1.5 rounded-full shadow-lg shadow-pink-500/20">
+                הבחירה הפופולרית
+              </div>
+
+              <div className="text-center mb-6">
+                <div className="w-14 h-14 bg-pink-100 rounded-2xl flex items-center justify-center text-pink-600 mx-auto mb-4">
+                  <Award size={28} />
+                </div>
+                <h3 className="text-xl font-black text-slate-900 mb-1">ערכת ה-Pro Glow המלאה</h3>
+                <p className="text-sm text-pink-600 font-bold">(המומלצת)</p>
+              </div>
+
+              <div className="text-center mb-2">
+                <span className="text-5xl sm:text-6xl font-black bg-gradient-to-r from-pink-500 to-rose-500 bg-clip-text text-transparent">799</span>
+                <span className="text-2xl font-bold text-pink-600 mr-2">₪</span>
+              </div>
+
+              <p className="text-sm text-slate-500 text-center mb-6 italic">"כל מה שצריך לעור Glass Skin מושלם + ליווי אישי"</p>
+
+              <ul className="space-y-3 mb-8 flex-grow">
+                <li className="flex items-start gap-3 text-slate-700">
+                  <Check size={18} className="text-pink-500 flex-shrink-0 mt-0.5" />
+                  <span>שגרת ליבה + רולר ג'ייד טבעי</span>
+                </li>
+                <li className="flex items-start gap-3 text-slate-700">
+                  <Check size={18} className="text-pink-500 flex-shrink-0 mt-0.5" />
+                  <span>5 מסכות Snail Mucin</span>
+                </li>
+                <li className="flex items-start gap-3 text-slate-700">
+                  <Check size={18} className="text-pink-500 flex-shrink-0 mt-0.5" />
+                  <span>ניתוח עור חכם AI</span>
+                </li>
+                <li className="flex items-start gap-3 text-slate-700">
+                  <Check size={18} className="text-pink-500 flex-shrink-0 mt-0.5" />
+                  <span>מדריך וידאו אישי — Masterclass</span>
+                </li>
+                <li className="flex items-start gap-3 text-pink-600 font-bold bg-pink-50 p-2 rounded-lg">
+                  <Sparkles size={18} className="text-pink-500 flex-shrink-0 mt-0.5" />
+                  <span>הכי משתלמת — הערך הטוב ביותר לכסף!</span>
+                </li>
+              </ul>
+
+              <a
+                href="#packages"
+                onClick={(e) => {
+                  e.preventDefault();
+                  document.getElementById("packages")?.scrollIntoView({ behavior: "smooth" });
+                }}
+                className="block w-full text-center bg-gradient-to-r from-pink-500 to-rose-500 text-white py-4 rounded-2xl font-black shadow-lg shadow-pink-500/30 hover:-translate-y-0.5 transition-all"
+              >
+                בחרי ערכה זו
+              </a>
+            </div>
+
+            {/* Tier 3 - VIP */}
+            <div className="bg-white rounded-3xl border border-slate-200 p-6 sm:p-8 flex flex-col shadow-sm hover:shadow-lg transition-all duration-300">
+              <div className="text-center mb-6">
+                <div className="w-14 h-14 bg-gradient-to-br from-amber-50 to-yellow-50 rounded-2xl flex items-center justify-center text-amber-500 mx-auto mb-4">
+                  <Crown size={28} />
+                </div>
+                <h3 className="text-xl font-black text-slate-900 mb-1">מארז ה-VIP האולטימטיבי</h3>
+                <p className="text-sm text-slate-500">לעור קורן</p>
+              </div>
+
+              <div className="text-center mb-2">
+                <span className="text-5xl sm:text-6xl font-black text-slate-900">950</span>
+                <span className="text-2xl font-bold text-slate-600 mr-2">₪</span>
+              </div>
+
+              <p className="text-sm text-slate-500 text-center mb-6 italic">"החוויה המלאה לתוצאות לטווח ארוך"</p>
+
+              <ul className="space-y-3 mb-8 flex-grow">
+                <li className="flex items-start gap-3 text-slate-700">
+                  <Check size={18} className="text-pink-500 flex-shrink-0 mt-0.5" />
+                  <span>כל מה שכלול ב-Pro Glow</span>
+                </li>
+                <li className="flex items-start gap-3 text-slate-700">
+                  <Check size={18} className="text-pink-500 flex-shrink-0 mt-0.5" />
+                  <span>מלאי ל-3 חודשים</span>
+                </li>
+                <li className="flex items-start gap-3 text-slate-700">
+                  <Check size={18} className="text-pink-500 flex-shrink-0 mt-0.5" />
+                  <span>אבן גואה שא (Gua Sha)</span>
+                </li>
+                <li className="flex items-start gap-3 text-slate-700">
+                  <Check size={18} className="text-pink-500 flex-shrink-0 mt-0.5" />
+                  <span>סט 15 מסכות בד פרימיום</span>
+                </li>
+                <li className="flex items-start gap-3 text-slate-700">
+                  <Check size={18} className="text-pink-500 flex-shrink-0 mt-0.5" />
+                  <span>שיחת ייעוץ עור אישית 1 על 1 עם Hene</span>
+                </li>
+              </ul>
+
+              <a
+                href="#packages"
+                onClick={(e) => {
+                  e.preventDefault();
+                  document.getElementById("packages")?.scrollIntoView({ behavior: "smooth" });
+                }}
+                className="block w-full text-center bg-slate-900 text-white py-4 rounded-2xl font-bold hover:bg-slate-800 transition-all"
+              >
+                בחרי ערכה זו
+              </a>
+            </div>
+          </div>
+
+          {/* Guarantee */}
+          <div className="mt-14 text-center">
+            <div className="inline-flex items-center gap-2 bg-green-50 text-green-700 px-6 py-3 rounded-full text-sm font-bold border border-green-200">
+              <ShieldCheck size={18} />
+              תוצאות מוכחות תוך 7 ימים או כסף בחזרה
             </div>
           </div>
         </div>
