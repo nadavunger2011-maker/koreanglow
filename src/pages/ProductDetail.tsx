@@ -13,6 +13,7 @@ import {
   AccordionTrigger,
 } from "@/components/ui/accordion";
 import { toast } from "sonner";
+import SiteFooter from "@/components/SiteFooter";
 
 interface ProductDetail {
   id: string;
@@ -390,6 +391,7 @@ const ProductDetailPage = () => {
           </div>
         </div>
       )}
+      <SiteFooter />
     </div>
   );
 };
