@@ -1,5 +1,4 @@
 import { useEffect, useState } from "react";
-import { Cookie, X } from "lucide-react";
 
 const STORAGE_KEY = "kg_cookie_consent_v1";
 
@@ -93,50 +92,20 @@ export const CookieConsent = () => {
       role="dialog"
       aria-label="הסכמת עוגיות"
     >
-      <div className="mx-auto max-w-3xl bg-white border border-pink-100 shadow-2xl rounded-xl sm:rounded-2xl p-3 sm:p-6 relative">
-        <button
-          onClick={() => setOpen(false)}
-          aria-label="סגירה"
-          className="absolute top-2 left-2 sm:top-3 sm:left-3 w-7 h-7 sm:w-8 sm:h-8 rounded-full text-slate-400 hover:text-slate-900 hover:bg-slate-100 flex items-center justify-center"
-        >
-          <X size={14} className="sm:w-4 sm:h-4" />
-        </button>
+      <div className="mx-auto max-w-lg sm:max-w-3xl bg-white border border-pink-100 shadow-2xl rounded-lg sm:rounded-2xl p-2.5 sm:p-6">
         <div className="flex items-start gap-2 sm:gap-3">
-          <div className="hidden sm:flex w-10 h-10 rounded-full bg-pink-100 text-pink-600 items-center justify-center shrink-1">
-            <Cookie size={20} />
-          </div>
           <div className="flex-1 min-w-0">
-            <h2 className="text-base sm:text-xl font-black text-slate-900 mb-0.5 sm:mb-1">
-              אנחנו מכבדים את הפרטיות שלך
+            <h2 className="text-sm sm:text-xl font-black text-slate-900 mb-0.5 sm:mb-1">
+              הגדרות עוגיות
             </h2>
-            <p className="text-xs sm:text-sm text-slate-600 leading-relaxed">
-              אנו משתמשים בעוגיות לשיפור החוויה, ניתוח שימוש (Google Analytics 4)
-              ופרסום מותאם (Meta Pixel ו-Google Ads). תוכלי לבחור אילו עוגיות לאשר —
-              ולשנות זאת בכל עת מהקישור "הגדרות עוגיות" בפוטר.
+            <p className="text-[11px] sm:text-sm text-slate-600 leading-snug sm:leading-relaxed">
+              נשתמש בעוגיות ניתוח ושיווק רק באישור שלך. ניתן לשנות בחירה בפוטר.
             </p>
 
             {showPrefs && (
-              <div className="mt-3 sm:mt-4 space-y-2 sm:space-y-3 border-t border-slate-100 pt-3 sm:pt-4">
-                <div className="flex items-center justify-between gap-3">
-                  <div>
-                    <p className="font-bold text-slate-900 text-xs sm:text-sm">
-                      עוגיות הכרחיות
-                    </p>
-                    <p className="text-[10px] sm:text-xs text-slate-500">
-                      נדרשות לפעולת האתר. תמיד פעילות.
-                    </p>
-                  </div>
-                  <span className="text-[10px] sm:text-xs font-bold text-slate-400 shrink-0">תמיד פעיל</span>
-                </div>
+              <div className="mt-2 sm:mt-4 space-y-1.5 sm:space-y-3 border-t border-slate-100 pt-2 sm:pt-4">
                 <label className="flex items-center justify-between gap-3 cursor-pointer">
-                  <div>
-                    <p className="font-bold text-slate-900 text-xs sm:text-sm">
-                      ניתוח שימוש (Analytics)
-                    </p>
-                    <p className="text-[10px] sm:text-xs text-slate-500">
-                      Google Analytics 4 — סטטיסטיקות אנונימיות.
-                    </p>
-                  </div>
+                  <span className="font-bold text-slate-900 text-xs sm:text-sm">ניתוח שימוש</span>
                   <input
                     type="checkbox"
                     checked={analytics}
@@ -145,14 +114,7 @@ export const CookieConsent = () => {
                   />
                 </label>
                 <label className="flex items-center justify-between gap-3 cursor-pointer">
-                  <div>
-                    <p className="font-bold text-slate-900 text-xs sm:text-sm">
-                      שיווק ופרסום (Marketing)
-                    </p>
-                    <p className="text-[10px] sm:text-xs text-slate-500">
-                      Meta Pixel, Google Ads — התאמת מודעות וקמפיינים.
-                    </p>
-                  </div>
+                  <span className="font-bold text-slate-900 text-xs sm:text-sm">שיווק ופרסום</span>
                   <input
                     type="checkbox"
                     checked={marketing}
@@ -163,32 +125,32 @@ export const CookieConsent = () => {
               </div>
             )}
 
-            <div className="mt-3 sm:mt-5 flex flex-col sm:flex-row gap-1.5 sm:gap-3">
+            <div className="mt-2 sm:mt-5 grid grid-cols-3 gap-1.5 sm:flex sm:gap-3">
               <button
                 onClick={acceptAll}
-                className="flex-1 h-9 sm:h-11 rounded-lg sm:rounded-xl bg-pink-500 text-white text-sm sm:text-base font-bold hover:bg-pink-600 transition-colors"
+                className="h-8 sm:h-11 rounded-md sm:rounded-xl bg-pink-500 text-white text-xs sm:text-base font-bold hover:bg-pink-600 transition-colors sm:flex-1"
               >
-                אישור הכל
+                אישור
               </button>
               <button
                 onClick={rejectAll}
-                className="flex-1 h-9 sm:h-11 rounded-lg sm:rounded-xl bg-white border border-slate-300 text-slate-900 text-sm sm:text-base font-bold hover:bg-slate-50 transition-colors"
+                className="h-8 sm:h-11 rounded-md sm:rounded-xl bg-white border border-slate-300 text-slate-900 text-xs sm:text-base font-bold hover:bg-slate-50 transition-colors sm:flex-1"
               >
-                דחיית הכל
+                דחייה
               </button>
               {showPrefs ? (
                 <button
                   onClick={savePrefs}
-                  className="flex-1 h-9 sm:h-11 rounded-lg sm:rounded-xl bg-slate-900 text-white text-sm sm:text-base font-bold hover:bg-slate-800 transition-colors"
+                  className="h-8 sm:h-11 rounded-md sm:rounded-xl bg-slate-900 text-white text-xs sm:text-base font-bold hover:bg-slate-800 transition-colors sm:flex-1"
                 >
-                  שמירת בחירה
+                  שמירה
                 </button>
               ) : (
                 <button
                   onClick={() => setShowPrefs(true)}
-                  className="flex-1 h-9 sm:h-11 rounded-lg sm:rounded-xl bg-white border border-slate-300 text-slate-900 text-sm sm:text-base font-bold hover:bg-slate-50 transition-colors"
+                  className="h-8 sm:h-11 rounded-md sm:rounded-xl bg-white border border-slate-300 text-slate-900 text-xs sm:text-base font-bold hover:bg-slate-50 transition-colors sm:flex-1"
                 >
-                  התאמה אישית
+                  בחירה
                 </button>
               )}
             </div>
