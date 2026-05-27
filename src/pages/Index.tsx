@@ -130,7 +130,7 @@ const Index = () => {
       <div className="fixed top-0 inset-x-0 z-[60] bg-slate-900 text-white text-center text-[12px] sm:text-sm py-2 px-4 font-semibold">
         <span className="inline-flex items-center gap-2">
           <Flame size={14} className="text-pink-400" />
-          בשל הביקוש וזמני השילוח מקוריאה: נותרו רק <span className="text-pink-300 font-black">37</span> ערכות במלאי הנוכחי
+          טכנולוגיה קוריאנית. תוצאות מוכחות.
         </span>
       </div>
       {/* Navigation */}
