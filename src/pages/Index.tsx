@@ -31,6 +31,16 @@ import {
   AccordionTrigger,
 } from "@/components/ui/accordion";
 
+import review1 from "@/assets/review-1.png";
+import review2 from "@/assets/review-2.png";
+import review3 from "@/assets/review-3.png";
+import review4 from "@/assets/review-4.png";
+import review5 from "@/assets/review-5.png";
+import review6 from "@/assets/review-6.png";
+import review7 from "@/assets/review-7.png";
+import review8 from "@/assets/review-8.png";
+import review9 from "@/assets/review-9.png";
+
 const faqs = [
   {
     q: "האם הסדרה מכילה מרכיבים טבעיים?",
