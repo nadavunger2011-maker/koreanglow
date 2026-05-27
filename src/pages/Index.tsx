@@ -31,6 +31,16 @@ import {
   AccordionTrigger,
 } from "@/components/ui/accordion";
 
+import review1 from "@/assets/review-1.png";
+import review2 from "@/assets/review-2.png";
+import review3 from "@/assets/review-3.png";
+import review4 from "@/assets/review-4.png";
+import review5 from "@/assets/review-5.png";
+import review6 from "@/assets/review-6.png";
+import review7 from "@/assets/review-7.png";
+import review8 from "@/assets/review-8.png";
+import review9 from "@/assets/review-9.png";
+
 const faqs = [
   {
     q: "האם הסדרה מכילה מרכיבים טבעיים?",
@@ -291,6 +301,28 @@ const Index = () => {
                 </div>
               </article>
             ))}
+          </div>
+
+          {/* Real WhatsApp reviews gallery */}
+          <div className="mt-16">
+            <div className="text-center mb-8">
+              <h3 className="text-2xl md:text-3xl font-black text-slate-900 mb-2">
+                הודעות אמיתיות מלקוחות מרוצות
+              </h3>
+              <p className="text-slate-500">צילומי מסך מקוריים מהוואטסאפ — דירוג 5.0</p>
+            </div>
+            <div className="grid grid-cols-2 md:grid-cols-3 gap-4 md:gap-6">
+              {[review1, review2, review3, review4, review5, review6, review7, review8, review9].map((src, i) => (
+                <div key={i} className="rounded-2xl overflow-hidden border border-pink-100 shadow-sm hover:shadow-xl transition-shadow bg-white">
+                  <img
+                    src={src}
+                    alt={`חוות דעת מלקוחה ${i + 1}`}
+                    loading="lazy"
+                    className="w-full h-auto block"
+                  />
+                </div>
+              ))}
+            </div>
           </div>
         </div>
       </section>
