@@ -3,6 +3,7 @@ import { BrowserRouter, Route, Routes } from "react-router-dom";
 import { Toaster as Sonner } from "@/components/ui/sonner";
 import { Toaster } from "@/components/ui/toaster";
 import { TooltipProvider } from "@/components/ui/tooltip";
+import { useEffect } from "react";
 import Index from "./pages/Index.tsx";
 import ProductDetail from "./pages/ProductDetail.tsx";
 import AdminDashboard from "./pages/AdminDashboard.tsx";
@@ -24,6 +25,13 @@ const AppRoutes = () => {
   useCartSync();
   const location = useLocation();
   const showPopup = !location.pathname.startsWith("/admin-dashboard");
+
+  useEffect(() => {
+    if (typeof window.fbq === "function" && window.__fbqInitDone) {
+      window.fbq("track", "PageView");
+    }
+  }, [location.pathname]);
+
   return (
     <>
       <DiscountBanner />
