@@ -24,6 +24,7 @@ import { fetchProducts, type ShopifyProduct } from "@/lib/shopify";
 import { ProductCard } from "@/components/ProductCard";
 import { CartDrawer } from "@/components/CartDrawer";
 import SiteFooter from "@/components/SiteFooter";
+import koreanGlowAbout from "@/assets/korean-glow-about.png";
 import {
   Accordion,
   AccordionContent,
@@ -541,7 +542,14 @@ const Index = () => {
         <div className="max-w-[1200px] mx-auto px-4 sm:px-6">
           <div className="flex flex-col lg:flex-row items-center gap-16">
             <div className="lg:w-1/2 relative">
-              <div className="aspect-[4/5] bg-slate-100 rounded-[2.5rem] overflow-hidden shadow-2xl" />
+              <div className="aspect-square bg-slate-100 rounded-[2.5rem] overflow-hidden shadow-2xl">
+                <img
+                  src={koreanGlowAbout}
+                  alt="טיפוח קוריאני לעור זכוכית - Koreanglow"
+                  className="w-full h-full object-cover"
+                  loading="lazy"
+                />
+              </div>
               <div className="absolute -bottom-8 -left-8 bg-white p-8 rounded-3xl shadow-xl border border-pink-50 hidden md:block">
                 <div className="flex items-center gap-4 mb-2">
                   <div className="w-12 h-12 bg-pink-500 rounded-full flex items-center justify-center text-white">
