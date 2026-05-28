@@ -4,6 +4,8 @@ import ynet from "@/assets/press/ynet.gif";
 import haaretz from "@/assets/press/haaretz.png";
 import jpost from "@/assets/press/jpost.png";
 import wallaMaariv from "@/assets/press/walla-maariv.webp";
+import hlskin from "@/assets/press/hlskin.webp";
+import herbalife from "@/assets/press/herbalife.webp";
 
 const logos = [
   { src: healthMinistry, alt: "משרד הבריאות" },
@@ -12,6 +14,8 @@ const logos = [
   { src: jpost, alt: "The Jerusalem Post" },
   { src: wallaMaariv, alt: "וואלה ומעריב" },
   { src: womfire, alt: "Wom Fire" },
+  { src: hlskin, alt: "HL/Skin" },
+  { src: herbalife, alt: "Herbalife" },
 ];
 
 export const TrustLogosSlider = () => {
@@ -38,11 +42,11 @@ export const TrustLogosSlider = () => {
             "linear-gradient(to right, transparent 0, black 8%, black 92%, transparent 100%)",
         }}
       >
-        <div className="flex w-max animate-marquee items-center gap-14 sm:gap-20">
+        <div className="flex w-max animate-marquee items-center">
           {loop.map((logo, i) => (
             <div
               key={`${logo.alt}-${i}`}
-              className="shrink-0 flex items-center justify-center h-12 sm:h-14"
+              className="shrink-0 flex items-center justify-center h-12 sm:h-14 px-7 sm:px-10"
             >
               <img
                 src={logo.src}
