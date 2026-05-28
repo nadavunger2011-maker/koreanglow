@@ -542,7 +542,7 @@ const Index = () => {
         <div className="max-w-[1200px] mx-auto px-4 sm:px-6">
           <div className="flex flex-col lg:flex-row items-center gap-16">
             <div className="lg:w-1/2 relative">
-              <div className="aspect-square bg-slate-100 rounded-[2.5rem] overflow-hidden shadow-2xl">
+              <div className="aspect-[16/9] bg-slate-100 rounded-[2.5rem] overflow-hidden shadow-2xl">
                 <img
                   src={koreanGlowAbout}
                   alt="טיפוח קוריאני לעור זכוכית - Koreanglow"
