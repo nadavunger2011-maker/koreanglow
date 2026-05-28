@@ -27,7 +27,7 @@ const AppRoutes = () => {
   const showPopup = !location.pathname.startsWith("/admin-dashboard");
 
   useEffect(() => {
-    if (typeof window.fbq === "function" && window.__fbqInitDone) {
+    if (typeof window.fbq === "function") {
       window.fbq("track", "PageView");
     }
   }, [location.pathname]);

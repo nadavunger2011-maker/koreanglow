@@ -22,18 +22,6 @@ const applyConsent = (choices: Choices) => {
       analytics_storage: choices.analytics ? "granted" : "denied",
     });
   }
-  if (typeof window.fbq === "function") {
-    if (choices.marketing) {
-      window.fbq("consent", "grant");
-      if (!window.__fbqInitDone) {
-        window.fbq("init", "2385386158636348");
-        window.fbq("track", "PageView");
-        window.__fbqInitDone = true;
-      }
-    } else {
-      window.fbq("consent", "revoke");
-    }
-  }
 };
 
 const persist = (choices: Choices) => {

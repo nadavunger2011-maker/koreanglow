@@ -68,15 +68,9 @@
     s.parentNode.insertBefore(t,s)}(window, document,'script',
     'https://connect.facebook.net/en_US/fbevents.js');
 
-    var __kgFbStored;
-    try { __kgFbStored = JSON.parse(localStorage.getItem('kg_cookie_consent_v1') || 'null'); } catch(e) {}
-    if (__kgFbStored && __kgFbStored.choices && __kgFbStored.choices.marketing) {
-      fbq('init', '2385386158636348');
-      fbq('track', 'PageView');
-      window.__fbqInitDone = true;
-    } else {
-      fbq('consent', 'revoke');
-    }
+    fbq('init', '2385386158636348');
+    fbq('track', 'PageView');
+    window.__fbqInitDone = true;
     </script>
     <!-- End Meta Pixel Code -->
 </head>
