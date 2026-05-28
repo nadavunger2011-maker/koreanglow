@@ -25,6 +25,7 @@ import { ProductCard } from "@/components/ProductCard";
 import { CartDrawer } from "@/components/CartDrawer";
 import SiteFooter from "@/components/SiteFooter";
 import koreanGlowAbout from "@/assets/korean-glow-about.png";
+import { TrustLogosSlider } from "@/components/TrustLogosSlider";
 import {
   Accordion,
   AccordionContent,
@@ -194,20 +195,45 @@ const Index = () => {
         )}
       </nav>
 
-      {/* Hero Section */}
-      <header className="relative pt-40 sm:pt-44 pb-20 overflow-hidden bg-gradient-to-br from-pink-50 via-white to-blue-50">
+      {/* Hero Section — Korean Beauty editorial */}
+      <header className="relative pt-40 sm:pt-44 pb-24 overflow-hidden bg-gradient-to-b from-[#fff5f8] via-[#fff9fb] to-white">
+        {/* Soft glass-skin glows */}
+        <div className="pointer-events-none absolute -top-32 -right-32 w-[520px] h-[520px] rounded-full bg-gradient-to-br from-rose-200/60 via-pink-200/40 to-transparent blur-3xl" />
+        <div className="pointer-events-none absolute top-1/3 -left-40 w-[460px] h-[460px] rounded-full bg-gradient-to-tr from-pink-100/70 to-rose-50/0 blur-3xl" />
+        <div className="pointer-events-none absolute bottom-0 left-1/3 w-[340px] h-[340px] rounded-full bg-rose-100/40 blur-3xl" />
+
+        {/* Floating petals */}
+        <div className="pointer-events-none absolute inset-0 overflow-hidden">
+          <span className="absolute top-[18%] left-[8%] text-2xl opacity-40 animate-pulse">🌸</span>
+          <span className="absolute top-[30%] right-[10%] text-xl opacity-30">🌸</span>
+          <span className="absolute bottom-[20%] left-[14%] text-lg opacity-30">✿</span>
+          <span className="absolute bottom-[28%] right-[18%] text-2xl opacity-25">🌸</span>
+        </div>
+
         <div className="max-w-[1200px] mx-auto px-4 sm:px-6 relative z-10">
           <div className="text-center max-w-4xl mx-auto">
-            <div className="inline-flex items-center gap-2 bg-pink-100 text-pink-600 px-4 py-1.5 rounded-full text-xs font-bold mb-8">
-              <Sparkles size={14} />
-              <span>טיפוח קוריאני • מהדורה מוגבלת</span>
+            <div className="inline-flex items-center gap-2 bg-white/70 backdrop-blur-md border border-pink-200/60 text-pink-600 px-5 py-2 rounded-full text-xs font-semibold mb-8 shadow-sm shadow-pink-200/40">
+              <Sparkles size={14} className="text-rose-500" />
+              <span className="tracking-[0.15em] uppercase">K-Beauty · 한국 미용</span>
             </div>
-            <h1 className="text-4xl sm:text-5xl md:text-7xl font-black text-slate-900 leading-[1.1] mb-6 tracking-tight">
-              סוד ה<span className="text-transparent bg-clip-text bg-gradient-to-r from-pink-500 to-rose-500">טיפוח הקוריאני</span> לעור חלק כמו זכוכית (Glass Skin) – תוך 14 יום!
+
+            <h1 className="text-4xl sm:text-5xl md:text-7xl font-extrabold text-slate-900 leading-[1.08] mb-7 tracking-tight">
+              סוד היופי הקוריאני
+              <br className="hidden sm:block" />
+              <span className="block mt-3 text-transparent bg-clip-text bg-gradient-to-r from-rose-400 via-pink-500 to-rose-500">
+                לעור זכוכית זוהר
+              </span>
+              <span className="block mt-3 text-2xl sm:text-3xl md:text-4xl font-medium text-slate-500">
+                תוך 14 יום בלבד
+              </span>
             </h1>
-            <p className="text-lg sm:text-xl md:text-2xl text-slate-600 mb-10 max-w-3xl mx-auto leading-relaxed">
-              בלי שגרה מתישה של 10 שלבים ובלי לבזבז אלפי שקלים בקליניקות. רק 3 מוצרים מנצחים, 2 דקות ביום, ותוצאות שתראי כבר במריחה הראשונה.
+
+            <p className="text-lg sm:text-xl text-slate-600 mb-10 max-w-2xl mx-auto leading-relaxed font-light">
+              בלי שגרה מתישה של 10 שלבים. רק 3 מוצרי פרימיום קוריאניים,
+              <br className="hidden sm:block" />
+              2 דקות ביום — ועור שזורח כמו זכוכית.
             </p>
+
             <div className="flex flex-col sm:flex-row justify-center items-center gap-4 sm:gap-6">
               <a
                 href="#offer"
@@ -215,22 +241,33 @@ const Index = () => {
                   e.preventDefault();
                   document.getElementById("offer")?.scrollIntoView({ behavior: "smooth" });
                 }}
-                className="w-full sm:w-auto text-center bg-gradient-to-r from-pink-500 to-rose-500 text-white px-8 sm:px-12 py-4 sm:py-5 rounded-2xl text-lg sm:text-xl font-black shadow-2xl shadow-pink-500/40 hover:-translate-y-1 transition-all duration-300 ring-4 ring-pink-200/60"
+                className="w-full sm:w-auto text-center bg-gradient-to-r from-rose-500 via-pink-500 to-rose-500 bg-[length:200%_100%] hover:bg-[position:100%_0] text-white px-10 sm:px-14 py-4 sm:py-5 rounded-full text-base sm:text-lg font-bold shadow-xl shadow-pink-400/40 hover:-translate-y-0.5 transition-all duration-500 ring-1 ring-white/40"
               >
-                ✨ אני רוצה עור קורן – לפרטי הערכה
+                ✨ גלי את שגרת הזוהר שלך
+              </a>
+              <a
+                href="#about"
+                onClick={(e) => {
+                  e.preventDefault();
+                  document.getElementById("about")?.scrollIntoView({ behavior: "smooth" });
+                }}
+                className="text-sm font-semibold text-slate-700 hover:text-pink-600 underline-offset-4 hover:underline transition"
+              >
+                איך זה עובד? →
               </a>
             </div>
-            <div className="mt-6 flex flex-wrap justify-center gap-x-6 gap-y-2 text-sm text-slate-500 font-medium">
-              <span className="inline-flex items-center gap-1"><Check size={16} className="text-pink-500" /> משלוח אקספרס חינם</span>
-              <span className="inline-flex items-center gap-1"><Check size={16} className="text-pink-500" /> 30 יום החזר כספי</span>
-              <span className="inline-flex items-center gap-1"><Check size={16} className="text-pink-500" /> נבדק דרמטולוגית</span>
+
+            <div className="mt-10 flex flex-wrap justify-center gap-x-8 gap-y-3 text-sm text-slate-500 font-medium">
+              <span className="inline-flex items-center gap-1.5"><Check size={16} className="text-pink-500" /> משלוח אקספרס חינם</span>
+              <span className="inline-flex items-center gap-1.5"><Check size={16} className="text-pink-500" /> 30 יום החזר כספי</span>
+              <span className="inline-flex items-center gap-1.5"><Check size={16} className="text-pink-500" /> נבדק דרמטולוגית</span>
             </div>
           </div>
         </div>
-
-        <div className="absolute top-1/2 left-0 w-64 h-64 bg-pink-200/30 rounded-full blur-3xl -translate-y-1/2 -translate-x-1/2"></div>
-        <div className="absolute bottom-0 right-0 w-96 h-96 bg-blue-100/40 rounded-full blur-3xl translate-y-1/3 translate-x-1/3"></div>
       </header>
+
+      {/* Trust logos marquee — directly under hero */}
+      <TrustLogosSlider />
 
       {/* Intro Video */}
       <section className="py-20 bg-white">
