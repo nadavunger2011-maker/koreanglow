@@ -4,6 +4,8 @@ import ynet from "@/assets/press/ynet.gif";
 import haaretz from "@/assets/press/haaretz.png";
 import jpost from "@/assets/press/jpost.png";
 import wallaMaariv from "@/assets/press/walla-maariv.webp";
+import hlskin from "@/assets/press/hlskin.webp";
+import herbalife from "@/assets/press/herbalife.webp";
 
 const logos = [
   { src: healthMinistry, alt: "משרד הבריאות" },
@@ -12,6 +14,8 @@ const logos = [
   { src: jpost, alt: "The Jerusalem Post" },
   { src: wallaMaariv, alt: "וואלה ומעריב" },
   { src: womfire, alt: "Wom Fire" },
+  { src: hlskin, alt: "HL/Skin" },
+  { src: herbalife, alt: "Herbalife" },
 ];
 
 export const TrustLogosSlider = () => {
