@@ -7,7 +7,9 @@ type Choices = { analytics: boolean; marketing: boolean };
 declare global {
   interface Window {
     gtag?: (...args: unknown[]) => void;
+    fbq?: (...args: unknown[]) => void;
     openCookieSettings?: () => void;
+    __fbqInitDone?: boolean;
   }
 }
 
@@ -19,6 +21,18 @@ const applyConsent = (choices: Choices) => {
       ad_personalization: choices.marketing ? "granted" : "denied",
       analytics_storage: choices.analytics ? "granted" : "denied",
     });
+  }
+  if (typeof window.fbq === "function") {
+    if (choices.marketing) {
+      window.fbq("consent", "grant");
+      if (!window.__fbqInitDone) {
+        window.fbq("init", "2385386158636348");
+        window.fbq("track", "PageView");
+        window.__fbqInitDone = true;
+      }
+    } else {
+      window.fbq("consent", "revoke");
+    }
   }
 };
 
