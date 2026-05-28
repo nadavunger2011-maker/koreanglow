@@ -42,11 +42,11 @@ export const TrustLogosSlider = () => {
             "linear-gradient(to right, transparent 0, black 8%, black 92%, transparent 100%)",
         }}
       >
-        <div className="flex w-max animate-marquee items-center gap-14 sm:gap-20">
+        <div className="flex w-max animate-marquee items-center">
           {loop.map((logo, i) => (
             <div
               key={`${logo.alt}-${i}`}
-              className="shrink-0 flex items-center justify-center h-12 sm:h-14"
+              className="shrink-0 flex items-center justify-center h-12 sm:h-14 px-7 sm:px-10"
             >
               <img
                 src={logo.src}
