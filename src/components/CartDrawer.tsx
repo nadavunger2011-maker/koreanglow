@@ -11,6 +11,7 @@ import {
 } from "@/components/ui/sheet";
 import { ShoppingCart, Minus, Plus, Trash2, ExternalLink, Loader2 } from "lucide-react";
 import { useCartStore } from "@/stores/cartStore";
+import { decorateUrlForCrossDomain } from "@/lib/gaLinker";
 
 export const CartDrawer = () => {
   const [isOpen, setIsOpen] = useState(false);
@@ -29,7 +30,7 @@ export const CartDrawer = () => {
   const handleCheckout = () => {
     const checkoutUrl = getCheckoutUrl();
     if (checkoutUrl) {
-      window.open(checkoutUrl, "_blank");
+      window.open(decorateUrlForCrossDomain(checkoutUrl), "_blank");
       setIsOpen(false);
     }
   };
