@@ -12,6 +12,13 @@ import {
 import { ShoppingCart, Minus, Plus, Trash2, ExternalLink, Loader2 } from "lucide-react";
 import { useCartStore } from "@/stores/cartStore";
 import { decorateUrlForCrossDomain } from "@/lib/gaLinker";
+import {
+  toVariantNumericId,
+  trackBeginCheckout,
+  trackRemoveFromCart,
+  trackViewCart,
+  type EcItem,
+} from "@/lib/analytics";
 
 export const CartDrawer = () => {
   const [isOpen, setIsOpen] = useState(false);
@@ -24,15 +31,37 @@ export const CartDrawer = () => {
   );
 
   useEffect(() => {
-    if (isOpen) syncCart();
-  }, [isOpen, syncCart]);
+    if (isOpen) {
+      syncCart();
+      trackViewCart(items.map(toEcItem));
+    }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [isOpen]);
+
+  function toEcItem(item: typeof items[number]): EcItem {
+    return {
+      item_id: toVariantNumericId(item.variantId),
+      item_name: item.product.node.title,
+      item_variant: item.variantTitle,
+      price: parseFloat(item.price.amount),
+      currency: item.price.currencyCode,
+      quantity: item.quantity,
+    };
+  }
 
   const handleCheckout = () => {
     const checkoutUrl = getCheckoutUrl();
     if (checkoutUrl) {
+      trackBeginCheckout(items.map(toEcItem));
       window.open(decorateUrlForCrossDomain(checkoutUrl), "_blank");
       setIsOpen(false);
     }
+  };
+
+  const handleRemove = (variantId: string) => {
+    const item = items.find((i) => i.variantId === variantId);
+    if (item) trackRemoveFromCart(toEcItem(item));
+    removeItem(variantId);
   };
 
   return (
@@ -91,7 +120,7 @@ export const CartDrawer = () => {
                           variant="ghost"
                           size="icon"
                           className="h-6 w-6"
-                          onClick={() => removeItem(item.variantId)}
+                          onClick={() => handleRemove(item.variantId)}
                           aria-label={`הסרת ${item.product.node.title} מהעגלה`}
                         >
                           <Trash2 className="h-3 w-3" />
