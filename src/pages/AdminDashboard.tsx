@@ -30,6 +30,8 @@ import { useToast } from "@/hooks/use-toast";
 import { MarketingAdvisor } from "@/components/admin/MarketingAdvisor";
 import { BlogManager } from "@/components/admin/BlogManager";
 import { BlogAnalytics } from "@/components/admin/BlogAnalytics";
+import { SalesDashboard } from "@/components/admin/SalesDashboard";
+import { Tabs, TabsList, TabsTrigger, TabsContent } from "@/components/ui/tabs";
 import { supabase } from "@/integrations/supabase/client";
 import type { Session } from "@supabase/supabase-js";
 
