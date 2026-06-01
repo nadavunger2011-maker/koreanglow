@@ -347,7 +347,18 @@ const AdminDashboard = () => {
       </header>
 
       <main className="max-w-7xl mx-auto px-6 py-8 space-y-6">
-        {/* Stats */}
+        <Tabs defaultValue="sales" className="space-y-6">
+          <TabsList>
+            <TabsTrigger value="sales">Sales Dashboard</TabsTrigger>
+            <TabsTrigger value="crm">CRM &amp; לידים</TabsTrigger>
+            <TabsTrigger value="blog">בלוג</TabsTrigger>
+          </TabsList>
+
+          <TabsContent value="sales" className="space-y-6">
+            <SalesDashboard accessToken={session!.access_token} />
+          </TabsContent>
+
+          <TabsContent value="crm" className="space-y-6">
         <div className="grid grid-cols-2 md:grid-cols-4 gap-4">
           <StatCard icon={<Users size={18} />} label="סה״כ לידים" value={stats.total} />
           <StatCard icon={<TrendingUp size={18} />} label="7 ימים אחרונים" value={stats.last7} />
@@ -513,9 +524,13 @@ const AdminDashboard = () => {
             )}
           </Card>
         </div>
+          </TabsContent>
 
-        <BlogManager accessToken={session!.access_token} />
-        <BlogAnalytics accessToken={session!.access_token} />
+          <TabsContent value="blog" className="space-y-6">
+            <BlogManager accessToken={session!.access_token} />
+            <BlogAnalytics accessToken={session!.access_token} />
+          </TabsContent>
+        </Tabs>
       </main>
     </div>
   );
