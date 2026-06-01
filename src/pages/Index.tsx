@@ -42,6 +42,29 @@ import review6 from "@/assets/review-6.png";
 import review7 from "@/assets/review-7.png";
 import review8 from "@/assets/review-8.png";
 import review9 from "@/assets/review-9.png";
+import beforeAfter1 from "@/assets/before-after-1.png";
+import beforeAfter2 from "@/assets/before-after-2.png";
+import beforeAfter3 from "@/assets/before-after-3.png";
+import beforeAfter4 from "@/assets/before-after-4.png";
+import beforeAfter5 from "@/assets/before-after-5.png";
+import beforeAfter6 from "@/assets/before-after-6.png";
+import beforeAfter7 from "@/assets/before-after-7.png";
+import beforeAfter8 from "@/assets/before-after-8.png";
+import beforeAfter9 from "@/assets/before-after-9.png";
+import beforeAfter10 from "@/assets/before-after-10.png";
+
+const beforeAfterImages = [
+  beforeAfter1,
+  beforeAfter2,
+  beforeAfter3,
+  beforeAfter4,
+  beforeAfter5,
+  beforeAfter6,
+  beforeAfter7,
+  beforeAfter8,
+  beforeAfter9,
+  beforeAfter10,
+];
 
 const faqs = [
   {
@@ -302,8 +325,32 @@ const Index = () => {
               לקוחות מספרות על שגרת ה-Glass Skin שלהן
             </h2>
             <p className="text-lg text-slate-500 max-w-2xl mx-auto">
-              בלי תמונות לפני/אחרי מבוימות — רק חוויות שימוש אמיתיות, ברורות וממוקדות תוצאה
+              תמונות לפני/אחרי אמיתיות לצד חוויות שימוש ברורות וממוקדות תוצאה
             </p>
+          </div>
+
+          <div className="mb-16">
+            <div className="text-center mb-8">
+              <h3 className="text-2xl md:text-3xl font-black text-slate-900 mb-2">
+                תוצאות לפני ואחרי
+              </h3>
+              <p className="text-slate-500">שינויים אמיתיים במרקם, זוהר ואחידות העור</p>
+            </div>
+            <div className="grid grid-cols-2 lg:grid-cols-5 gap-3 sm:gap-5">
+              {beforeAfterImages.map((src, i) => (
+                <figure
+                  key={i}
+                  className="group overflow-hidden rounded-2xl border border-pink-100 bg-white shadow-sm transition-all duration-300 hover:-translate-y-1 hover:shadow-xl"
+                >
+                  <img
+                    src={src}
+                    alt={`תמונת לפני ואחרי של לקוחה ${i + 1}`}
+                    loading={i < 2 ? "eager" : "lazy"}
+                    className="aspect-square w-full object-cover transition duration-500 group-hover:scale-[1.03]"
+                  />
+                </figure>
+              ))}
+            </div>
           </div>
 
           <div className="grid sm:grid-cols-2 lg:grid-cols-3 gap-8">
