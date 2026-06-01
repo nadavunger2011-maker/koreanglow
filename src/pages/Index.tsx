@@ -325,8 +325,32 @@ const Index = () => {
               לקוחות מספרות על שגרת ה-Glass Skin שלהן
             </h2>
             <p className="text-lg text-slate-500 max-w-2xl mx-auto">
-              בלי תמונות לפני/אחרי מבוימות — רק חוויות שימוש אמיתיות, ברורות וממוקדות תוצאה
+              תמונות לפני/אחרי אמיתיות לצד חוויות שימוש ברורות וממוקדות תוצאה
             </p>
+          </div>
+
+          <div className="mb-16">
+            <div className="text-center mb-8">
+              <h3 className="text-2xl md:text-3xl font-black text-slate-900 mb-2">
+                תוצאות לפני ואחרי
+              </h3>
+              <p className="text-slate-500">שינויים אמיתיים במרקם, זוהר ואחידות העור</p>
+            </div>
+            <div className="grid grid-cols-2 lg:grid-cols-5 gap-3 sm:gap-5">
+              {beforeAfterImages.map((src, i) => (
+                <figure
+                  key={i}
+                  className="group overflow-hidden rounded-2xl border border-pink-100 bg-white shadow-sm transition-all duration-300 hover:-translate-y-1 hover:shadow-xl"
+                >
+                  <img
+                    src={src}
+                    alt={`תמונת לפני ואחרי של לקוחה ${i + 1}`}
+                    loading={i < 2 ? "eager" : "lazy"}
+                    className="aspect-square w-full object-cover transition duration-500 group-hover:scale-[1.03]"
+                  />
+                </figure>
+              ))}
+            </div>
           </div>
 
           <div className="grid sm:grid-cols-2 lg:grid-cols-3 gap-8">
