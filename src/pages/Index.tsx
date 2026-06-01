@@ -24,6 +24,7 @@ import { fetchProducts, type ShopifyProduct } from "@/lib/shopify";
 import { ProductCard } from "@/components/ProductCard";
 import { CartDrawer } from "@/components/CartDrawer";
 import SiteFooter from "@/components/SiteFooter";
+import { productToItem, trackViewItemList } from "@/lib/analytics";
 import koreanGlowAbout from "@/assets/korean-glow-about.png";
 import { TrustLogosSlider } from "@/components/TrustLogosSlider";
 import {
@@ -129,7 +130,14 @@ const Index = () => {
 
   useEffect(() => {
     fetchProducts(20, "title:חבילה* OR title:החבילה* OR title:חבילת*")
-      .then(setProducts)
+      .then((items) => {
+        setProducts(items);
+        trackViewItemList(
+          items.map((p, idx) => productToItem(p, { index: idx, listId: "products_grid", listName: "Products Grid" })),
+          "products_grid",
+          "Products Grid",
+        );
+      })
       .catch((e) => console.error("Failed to fetch products:", e))
       .finally(() => setLoadingProducts(false));
   }, []);

@@ -4,6 +4,12 @@ import { Button } from "@/components/ui/button";
 import { useCartStore } from "@/stores/cartStore";
 import type { ShopifyProduct } from "@/lib/shopify";
 import { toast } from "sonner";
+import {
+  productToItem,
+  toVariantNumericId,
+  trackAddToCart,
+  trackSelectItem,
+} from "@/lib/analytics";
 
 interface ProductCardProps {
   product: ShopifyProduct;
@@ -21,6 +27,14 @@ export const ProductCard = ({ product }: ProductCardProps) => {
     e.preventDefault();
     e.stopPropagation();
     if (!variant) return;
+    trackAddToCart({
+      item_id: toVariantNumericId(node.id),
+      item_name: node.title,
+      item_variant: variant.title,
+      price: parseFloat(variant.price.amount),
+      currency: variant.price.currencyCode,
+      quantity: 1,
+    });
     await addItem({
       product,
       variantId: variant.id,
@@ -38,6 +52,7 @@ export const ProductCard = ({ product }: ProductCardProps) => {
   return (
     <Link
       to={`/product/${node.handle}`}
+      onClick={() => trackSelectItem(productToItem(product), "products_grid", "Products Grid")}
       className="group bg-white rounded-[2rem] p-6 shadow-sm border border-slate-100 transition-all duration-500 hover:shadow-2xl flex flex-col min-w-0 w-full"
     >
       <div className="mb-6 aspect-square w-full bg-slate-50 rounded-2xl overflow-hidden flex items-center justify-center">
