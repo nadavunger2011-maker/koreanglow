@@ -43,6 +43,7 @@ export const TrustLogosSlider = () => {
 
       <div
         className="group relative overflow-hidden"
+        dir="ltr"
         style={{
           WebkitMaskImage:
             "linear-gradient(to right, transparent 0, black 8%, black 92%, transparent 100%)",
