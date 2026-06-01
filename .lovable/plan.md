@@ -1,16 +1,27 @@
-## Google Search Console — אימות והוספה
+## Goal
+Make `/product/:handle?variant=<variantId>` resolve the product by **variant ID** (not the handle), and silently correct the URL if the handle doesn't match. The handle becomes a cosmetic SEO slug; the variant ID is the source of truth.
 
-### מצב נוכחי
-- תג האימות החדש (`UhnbA-99PnLv6nIwGKhoYbYmGGmqKAN00dwe15RblF8`) כבר נוסף ל-`index.html`, יחד עם canonical/og:url ל-`https://korean-glow-il.shop/`.
-- `sitemap.xml` ו-`robots.txt` עודכנו לדומיין הראשי.
-- כדי שגוגל יוכל לראות את התג, האתר חייב להיות **מפורסם** עם הגרסה האחרונה.
+## Changes
 
-### שלבים שאבצע במצב Build
-1. **בדיקת לייב** — `curl https://korean-glow-il.shop/` ולוודא שהתג החדש מופיע. אם לא — לעצור ולבקש פרסום.
-2. **אימות מול Google** — קריאה ל-`siteVerification/v1/webResource?verificationMethod=META` עם `identifier=https://korean-glow-il.shop/`.
-3. **הוספת ה-property ל-Search Console** — `PUT /webmasters/v3/sites/https%3A%2F%2Fkorean-glow-il.shop%2F`.
-4. **הגשת ה-sitemap** — `PUT /webmasters/v3/sites/https%3A%2F%2Fkorean-glow-il.shop%2F/sitemaps/https%3A%2F%2Fkorean-glow-il.shop%2Fsitemap.xml`.
-5. **אישור** — קריאת `GET /sites` ו-`GET /sitemaps` כדי לוודא שהכל נרשם.
+### 1. `src/lib/shopify.ts` — add variant lookup
+Add a new Storefront API helper:
+```ts
+export async function fetchProductByVariantId(variantId: string)
+```
+Uses the `node(id: $id)` query with `... on ProductVariant { product { ...full product fields... } selectedOptions }`. Accepts either a raw numeric ID (e.g. `48061220225279`) or a full GID; if numeric, wraps as `gid://shopify/ProductVariant/<id>`. Returns `{ product, variantGid }` or `null`.
 
-### דרישה ממך לפני שאתחיל
-האם פרסמת את הגרסה האחרונה ל-`korean-glow-il.shop`? אם כן — אאשר ואבצע. אם לא — צריך ללחוץ Publish קודם, אחרת Google יחזיר `failedToFindMetaTag`.
+### 2. `src/pages/ProductDetail.tsx` — variant-first resolution
+- Read `variant` from `useSearchParams()` in addition to `handle` from `useParams()`.
+- Resolution order in the load effect:
+  1. If `variant` param exists → call `fetchProductByVariantId(variant)`. On success, set product, preselect that variant, and if `product.handle !== handle` call `navigate(`/product/${product.handle}?variant=${variant}`, { replace: true })` so no 404 fires and history is clean.
+  2. Else → existing `fetchProductByHandle(handle)` path.
+- When the user switches variants via the option buttons, update the URL param with `setSearchParams({ variant: rawId }, { replace: true })` so the page is shareable.
+- Strip the `gid://shopify/ProductVariant/` prefix when writing to the URL (keep it short/numeric, matching the user's example).
+
+### 3. Route stays the same
+`/product/:handle` in `App.tsx` is unchanged; the catch-all `*` only fires when React Router has no match — since we always have a handle segment, no 404 will trigger during the silent redirect.
+
+## Notes
+- Pure frontend change; no DB/Shopify schema work.
+- Existing handle-based links keep working.
+- Links with only `?variant=...` and a stale/placeholder handle (e.g. `/product/x?variant=48061220225279`) will load correctly and self-heal the URL.
