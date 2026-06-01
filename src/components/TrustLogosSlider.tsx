@@ -6,6 +6,10 @@ import jpost from "@/assets/press/jpost.png";
 import wallaMaariv from "@/assets/press/walla-maariv.webp";
 import hlskin from "@/assets/press/hlskin.webp";
 import herbalife from "@/assets/press/herbalife.webp";
+import jpost2 from "@/assets/press/jp-logo-2.png";
+import myLuxuryStyle from "@/assets/press/my-luxury-style.png";
+import buongiorno from "@/assets/press/buongiorno.png";
+import fm from "@/assets/press/fm.svg";
 
 const logos = [
   { src: healthMinistry, alt: "משרד הבריאות" },
@@ -16,6 +20,10 @@ const logos = [
   { src: womfire, alt: "Wom Fire" },
   { src: hlskin, alt: "HL/Skin" },
   { src: herbalife, alt: "Herbalife" },
+  { src: jpost2, alt: "The Jerusalem Post" },
+  { src: myLuxuryStyle, alt: "My Luxury Style" },
+  { src: buongiorno, alt: "Buongiorno Online" },
+  { src: fm, alt: "FM" },
 ];
 
 export const TrustLogosSlider = () => {
