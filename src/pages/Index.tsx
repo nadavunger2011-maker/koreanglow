@@ -42,6 +42,29 @@ import review6 from "@/assets/review-6.png";
 import review7 from "@/assets/review-7.png";
 import review8 from "@/assets/review-8.png";
 import review9 from "@/assets/review-9.png";
+import beforeAfter1 from "@/assets/before-after-1.png";
+import beforeAfter2 from "@/assets/before-after-2.png";
+import beforeAfter3 from "@/assets/before-after-3.png";
+import beforeAfter4 from "@/assets/before-after-4.png";
+import beforeAfter5 from "@/assets/before-after-5.png";
+import beforeAfter6 from "@/assets/before-after-6.png";
+import beforeAfter7 from "@/assets/before-after-7.png";
+import beforeAfter8 from "@/assets/before-after-8.png";
+import beforeAfter9 from "@/assets/before-after-9.png";
+import beforeAfter10 from "@/assets/before-after-10.png";
+
+const beforeAfterImages = [
+  beforeAfter1,
+  beforeAfter2,
+  beforeAfter3,
+  beforeAfter4,
+  beforeAfter5,
+  beforeAfter6,
+  beforeAfter7,
+  beforeAfter8,
+  beforeAfter9,
+  beforeAfter10,
+];
 
 const faqs = [
   {
