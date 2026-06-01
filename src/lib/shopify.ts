@@ -91,6 +91,37 @@ const PRODUCT_BY_HANDLE_QUERY = `
   }
 `;
 
+const PRODUCT_BY_VARIANT_ID_QUERY = `
+  query GetProductByVariantId($id: ID!) {
+    node(id: $id) {
+      ... on ProductVariant {
+        id
+        product {
+          id
+          title
+          description
+          descriptionHtml
+          handle
+          priceRange { minVariantPrice { amount currencyCode } }
+          images(first: 10) { edges { node { url altText } } }
+          variants(first: 25) {
+            edges {
+              node {
+                id
+                title
+                price { amount currencyCode }
+                availableForSale
+                selectedOptions { name value }
+              }
+            }
+          }
+          options { name values }
+        }
+      }
+    }
+  }
+`;
+
 export async function storefrontApiRequest(query: string, variables: Record<string, unknown> = {}) {
   const response = await fetch(SHOPIFY_STOREFRONT_URL, {
     method: "POST",
@@ -127,4 +158,25 @@ export async function fetchProducts(first = 20, query?: string): Promise<Shopify
 export async function fetchProductByHandle(handle: string) {
   const data = await storefrontApiRequest(PRODUCT_BY_HANDLE_QUERY, { handle });
   return data?.data?.productByHandle ?? null;
+}
+
+export function toVariantGid(idOrGid: string): string {
+  if (!idOrGid) return idOrGid;
+  return idOrGid.startsWith("gid://")
+    ? idOrGid
+    : `gid://shopify/ProductVariant/${idOrGid}`;
+}
+
+export function variantGidToNumeric(gid: string): string {
+  if (!gid) return gid;
+  const match = gid.match(/ProductVariant\/(\d+)/);
+  return match ? match[1] : gid;
+}
+
+export async function fetchProductByVariantId(variantIdOrGid: string) {
+  const id = toVariantGid(variantIdOrGid);
+  const data = await storefrontApiRequest(PRODUCT_BY_VARIANT_ID_QUERY, { id });
+  const node = data?.data?.node;
+  if (!node?.product) return null;
+  return { product: node.product, variantGid: node.id as string };
 }

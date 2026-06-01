@@ -1,9 +1,13 @@
 import { useEffect, useState } from "react";
-import { useParams, Link } from "react-router-dom";
+import { useParams, Link, useSearchParams, useNavigate } from "react-router-dom";
 import { Helmet } from "react-helmet-async";
 import { ArrowRight, Loader2, ShoppingBag, Check } from "lucide-react";
 import { Button } from "@/components/ui/button";
-import { fetchProductByHandle } from "@/lib/shopify";
+import {
+  fetchProductByHandle,
+  fetchProductByVariantId,
+  variantGidToNumeric,
+} from "@/lib/shopify";
 import { useCartStore } from "@/stores/cartStore";
 import { CartDrawer } from "@/components/CartDrawer";
 import {
@@ -39,6 +43,9 @@ interface ProductDetail {
 
 const ProductDetailPage = () => {
   const { handle } = useParams<{ handle: string }>();
+  const [searchParams, setSearchParams] = useSearchParams();
+  const navigate = useNavigate();
+  const variantParam = searchParams.get("variant");
   const [product, setProduct] = useState<ProductDetail | null>(null);
   const [loading, setLoading] = useState(true);
   const [selectedVariantId, setSelectedVariantId] = useState<string | null>(null);
@@ -48,16 +55,43 @@ const ProductDetailPage = () => {
   const isLoading = useCartStore((s) => s.isLoading);
 
   useEffect(() => {
-    if (!handle) return;
+    let cancelled = false;
     setLoading(true);
-    fetchProductByHandle(handle)
-      .then((data) => {
+
+    const load = async () => {
+      try {
+        if (variantParam) {
+          const result = await fetchProductByVariantId(variantParam);
+          if (cancelled) return;
+          if (result?.product) {
+            setProduct(result.product);
+            setSelectedVariantId(result.variantGid);
+            if (handle !== result.product.handle) {
+              navigate(
+                `/product/${result.product.handle}?variant=${variantGidToNumeric(result.variantGid)}`,
+                { replace: true },
+              );
+            }
+            return;
+          }
+        }
+        if (!handle) return;
+        const data = await fetchProductByHandle(handle);
+        if (cancelled) return;
         setProduct(data);
         setSelectedVariantId(data?.variants?.edges?.[0]?.node?.id ?? null);
-      })
-      .catch((e) => console.error(e))
-      .finally(() => setLoading(false));
-  }, [handle]);
+      } catch (e) {
+        if (!cancelled) console.error(e);
+      } finally {
+        if (!cancelled) setLoading(false);
+      }
+    };
+
+    load();
+    return () => {
+      cancelled = true;
+    };
+  }, [handle, variantParam, navigate]);
 
   // Show sticky add-to-cart bar after user scrolls past the hero area.
   useEffect(() => {
@@ -68,6 +102,12 @@ const ProductDetailPage = () => {
   }, [product]);
 
   const variant = product?.variants.edges.find((v) => v.node.id === selectedVariantId)?.node;
+
+  const handleSelectVariant = (variantGid: string) => {
+    setSelectedVariantId(variantGid);
+    const numeric = variantGidToNumeric(variantGid);
+    setSearchParams({ variant: numeric }, { replace: true });
+  };
 
   // Split descriptionHtml into main content and FAQ (Q&A) entries.
   // FAQs are authored in Shopify as <details><summary>Q</summary><p>A</p></details>.
@@ -301,7 +341,7 @@ const ProductDetailPage = () => {
                           return (
                             <button
                               key={v.node.id}
-                              onClick={() => setSelectedVariantId(v.node.id)}
+                              onClick={() => handleSelectVariant(v.node.id)}
                               className={`px-5 py-2.5 rounded-full font-bold text-sm border-2 transition-all ${
                                 isSelected
                                   ? "border-pink-500 bg-pink-500 text-white"
