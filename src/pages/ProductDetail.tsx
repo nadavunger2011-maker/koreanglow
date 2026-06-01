@@ -18,6 +18,11 @@ import {
 } from "@/components/ui/accordion";
 import { toast } from "sonner";
 import SiteFooter from "@/components/SiteFooter";
+import {
+  toVariantNumericId,
+  trackAddToCart,
+  trackViewItem,
+} from "@/lib/analytics";
 
 interface ProductDetail {
   id: string;
@@ -103,6 +108,19 @@ const ProductDetailPage = () => {
 
   const variant = product?.variants.edges.find((v) => v.node.id === selectedVariantId)?.node;
 
+  // Fire GA4 view_item once when the product (or selected variant) is ready.
+  useEffect(() => {
+    if (!product || !variant) return;
+    trackViewItem({
+      item_id: toVariantNumericId(product.id),
+      item_name: product.title,
+      item_variant: variant.title,
+      price: parseFloat(variant.price.amount),
+      currency: variant.price.currencyCode,
+      quantity: 1,
+    });
+  }, [product?.id, variant?.id]); // eslint-disable-line react-hooks/exhaustive-deps
+
   const handleSelectVariant = (variantGid: string) => {
     setSelectedVariantId(variantGid);
     const numeric = variantGidToNumeric(variantGid);
@@ -162,6 +180,14 @@ const ProductDetailPage = () => {
 
   const handleAddToCart = async () => {
     if (!product || !variant) return;
+    trackAddToCart({
+      item_id: toVariantNumericId(product.id),
+      item_name: product.title,
+      item_variant: variant.title,
+      price: parseFloat(variant.price.amount),
+      currency: variant.price.currencyCode,
+      quantity: 1,
+    });
     await addItem({
       product: { node: product as never },
       variantId: variant.id,
