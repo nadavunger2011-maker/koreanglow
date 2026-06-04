@@ -72,9 +72,12 @@ Deno.serve(async (req) => {
       });
     }
 
-    const token = Deno.env.get("SHOPIFY_ACCESS_TOKEN");
+    // Admin API requires the per-user Online Access Token (Storefront token can't query orders).
+    const env = Deno.env.toObject();
+    const onlineKey = Object.keys(env).find((k) => k.startsWith("SHOPIFY_ONLINE_ACCESS_TOKEN"));
+    const token = (onlineKey && env[onlineKey]) || env.SHOPIFY_ADMIN_ACCESS_TOKEN;
     if (!token) {
-      return new Response(JSON.stringify({ error: "SHOPIFY_ACCESS_TOKEN missing" }), {
+      return new Response(JSON.stringify({ error: "Shopify admin token missing — reconnect Shopify in chat" }), {
         status: 500,
         headers: { ...corsHeaders, "Content-Type": "application/json" },
       });
