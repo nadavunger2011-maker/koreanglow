@@ -38,6 +38,10 @@ const push = (event: string, ecommerce: Record<string, unknown>) => {
   // Clear previous ecommerce object to avoid GA4 merging duplicates.
   window.dataLayer.push({ ecommerce: null });
   window.dataLayer.push({ event, ecommerce });
+  if (import.meta.env.DEV || (typeof window !== "undefined" && window.location.search.includes("ga_debug"))) {
+    // eslint-disable-next-line no-console
+    console.debug("[GA4]", event, ecommerce);
+  }
 };
 
 interface ProductLike {
