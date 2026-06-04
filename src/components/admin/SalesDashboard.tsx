@@ -458,7 +458,25 @@ export const SalesDashboard = ({ accessToken }: { accessToken: string }) => {
             <h3 className="font-bold text-base">SEO – Search Console</h3>
             <p className="text-xs text-slate-500">{gsc.data?.site || "לא נמצא אתר מאומת"}</p>
           </div>
-          {gsc.data?.totals && (
+          <div className="flex items-center gap-3">
+            <Select value={gscSite} onValueChange={setGscSite}>
+              <SelectTrigger className="h-9 w-[260px] text-xs">
+                <SelectValue placeholder="בחר נכס Search Console" />
+              </SelectTrigger>
+              <SelectContent>
+                {(gscSites.data?.sites || []).map((s) => (
+                  <SelectItem key={s.siteUrl} value={s.siteUrl} className="text-xs">
+                    {s.siteUrl}
+                  </SelectItem>
+                ))}
+                {!gscSites.data?.sites?.some((s) => s.siteUrl === gscSite) && (
+                  <SelectItem value={gscSite} className="text-xs">
+                    {gscSite}
+                  </SelectItem>
+                )}
+              </SelectContent>
+            </Select>
+            {gsc.data?.totals && (
             <div className="hidden sm:flex gap-4 text-xs">
               <span>
                 <span className="text-slate-500">קליקים: </span>
@@ -483,7 +501,8 @@ export const SalesDashboard = ({ accessToken }: { accessToken: string }) => {
                 </span>
               </span>
             </div>
-          )}
+            )}
+          </div>
         </div>
 
         {gsc.isLoading ? (
