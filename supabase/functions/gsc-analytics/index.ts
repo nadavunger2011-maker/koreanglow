@@ -34,26 +34,47 @@ Deno.serve(async (req) => {
       );
     }
 
-    const { siteUrl, since, until } = await req.json().catch(() => ({}));
+    const body = await req.json().catch(() => ({} as Record<string, unknown>));
+    const { siteUrl, since, until, action } = body as {
+      siteUrl?: string;
+      since?: string;
+      until?: string;
+      action?: string;
+    };
+
+    const baseHeaders = {
+      Authorization: `Bearer ${lovableKey}`,
+      "X-Connection-Api-Key": gscKey,
+    };
+
+    // List verified sites (used by the SEO picker in the dashboard).
+    if (action === "list-sites") {
+      const sr = await fetch(`${GATEWAY}/webmasters/v3/sites`, { headers: baseHeaders });
+      const sj = sr.ok ? await sr.json() : { siteEntry: [] };
+      const entries = (sj.siteEntry || []).filter(
+        (e: { permissionLevel: string }) => e.permissionLevel !== "siteUnverifiedUser",
+      );
+      return new Response(JSON.stringify({ sites: entries }), {
+        headers: { ...corsHeaders, "Content-Type": "application/json" },
+      });
+    }
+
     const startDate = (since ? new Date(since) : new Date(Date.now() - 30 * 86400000))
       .toISOString()
       .slice(0, 10);
     const endDate = (until ? new Date(until) : new Date()).toISOString().slice(0, 10);
 
-    // Discover site if not provided
+    // Site selection: explicit > project default > first verified.
+    const DEFAULT_SITE = "https://korean-glow-il.shop/";
     let site = siteUrl as string | undefined;
     if (!site) {
-      const sr = await fetch(`${GATEWAY}/webmasters/v3/sites`, {
-        headers: {
-          Authorization: `Bearer ${lovableKey}`,
-          "X-Connection-Api-Key": gscKey,
-        },
-      });
+      const sr = await fetch(`${GATEWAY}/webmasters/v3/sites`, { headers: baseHeaders });
       if (sr.ok) {
         const sj = await sr.json();
         const entries = (sj.siteEntry || []) as Array<{ siteUrl: string; permissionLevel: string }>;
-        const verified = entries.find((e) => e.permissionLevel !== "siteUnverifiedUser");
-        site = verified?.siteUrl || entries[0]?.siteUrl;
+        const verified = entries.filter((e) => e.permissionLevel !== "siteUnverifiedUser");
+        const preferred = verified.find((e) => e.siteUrl === DEFAULT_SITE);
+        site = preferred?.siteUrl || verified[0]?.siteUrl;
       }
     }
     if (!site) {
@@ -66,8 +87,7 @@ Deno.serve(async (req) => {
     const encSite = encodeURIComponent(site);
     const sqUrl = `${GATEWAY}/webmasters/v3/sites/${encSite}/searchAnalytics/query`;
     const headers = {
-      Authorization: `Bearer ${lovableKey}`,
-      "X-Connection-Api-Key": gscKey,
+      ...baseHeaders,
       "Content-Type": "application/json",
     };
 
