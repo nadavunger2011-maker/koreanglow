@@ -33,6 +33,13 @@ import { Card } from "@/components/ui/card";
 import { Input } from "@/components/ui/input";
 import { Badge } from "@/components/ui/badge";
 import {
+  Select,
+  SelectContent,
+  SelectItem,
+  SelectTrigger,
+  SelectValue,
+} from "@/components/ui/select";
+import {
   Table,
   TableBody,
   TableCell,
@@ -81,6 +88,8 @@ type GscData = {
   error?: string;
 };
 
+type GscSite = { siteUrl: string; permissionLevel: string };
+
 type ChatMsg = { role: "user" | "assistant"; content: string };
 
 const fmt = (n: number, currency = "ILS") =>
@@ -106,6 +115,13 @@ export const SalesDashboard = ({ accessToken }: { accessToken: string }) => {
   const [productSearch, setProductSearch] = useState("");
   const [chatOpen, setChatOpen] = useState(false);
   const { toast } = useToast();
+  const [gscSite, setGscSite] = useState<string>(
+    () => localStorage.getItem("kg_gsc_site") || "https://korean-glow-il.shop/",
+  );
+
+  useEffect(() => {
+    localStorage.setItem("kg_gsc_site", gscSite);
+  }, [gscSite]);
 
   const { since, until } = useMemo(() => {
     const u = new Date();
@@ -131,8 +147,8 @@ export const SalesDashboard = ({ accessToken }: { accessToken: string }) => {
     staleTime: 5 * 60 * 1000,
   });
 
-  const gsc = useQuery<GscData>({
-    queryKey: ["gsc", since, until],
+  const gscSites = useQuery<{ sites: GscSite[] }>({
+    queryKey: ["gsc-sites"],
     queryFn: async () => {
       const r = await fetch(FN_GSC, {
         method: "POST",
@@ -140,7 +156,25 @@ export const SalesDashboard = ({ accessToken }: { accessToken: string }) => {
           "Content-Type": "application/json",
           Authorization: `Bearer ${accessToken}`,
         },
-        body: JSON.stringify({ since, until }),
+        body: JSON.stringify({ action: "list-sites" }),
+      });
+      const j = await r.json();
+      if (!r.ok) throw new Error(j.error || `HTTP ${r.status}`);
+      return j;
+    },
+    staleTime: 60 * 60 * 1000,
+  });
+
+  const gsc = useQuery<GscData>({
+    queryKey: ["gsc", since, until, gscSite],
+    queryFn: async () => {
+      const r = await fetch(FN_GSC, {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+          Authorization: `Bearer ${accessToken}`,
+        },
+        body: JSON.stringify({ since, until, siteUrl: gscSite }),
       });
       const j = await r.json();
       if (!r.ok) throw new Error(j.error || `HTTP ${r.status}`);
@@ -424,7 +458,25 @@ export const SalesDashboard = ({ accessToken }: { accessToken: string }) => {
             <h3 className="font-bold text-base">SEO – Search Console</h3>
             <p className="text-xs text-slate-500">{gsc.data?.site || "לא נמצא אתר מאומת"}</p>
           </div>
-          {gsc.data?.totals && (
+          <div className="flex items-center gap-3">
+            <Select value={gscSite} onValueChange={setGscSite}>
+              <SelectTrigger className="h-9 w-[260px] text-xs">
+                <SelectValue placeholder="בחר נכס Search Console" />
+              </SelectTrigger>
+              <SelectContent>
+                {(gscSites.data?.sites || []).map((s) => (
+                  <SelectItem key={s.siteUrl} value={s.siteUrl} className="text-xs">
+                    {s.siteUrl}
+                  </SelectItem>
+                ))}
+                {!gscSites.data?.sites?.some((s) => s.siteUrl === gscSite) && (
+                  <SelectItem value={gscSite} className="text-xs">
+                    {gscSite}
+                  </SelectItem>
+                )}
+              </SelectContent>
+            </Select>
+            {gsc.data?.totals && (
             <div className="hidden sm:flex gap-4 text-xs">
               <span>
                 <span className="text-slate-500">קליקים: </span>
@@ -449,7 +501,8 @@ export const SalesDashboard = ({ accessToken }: { accessToken: string }) => {
                 </span>
               </span>
             </div>
-          )}
+            )}
+          </div>
         </div>
 
         {gsc.isLoading ? (

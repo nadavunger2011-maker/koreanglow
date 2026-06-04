@@ -1,94 +1,63 @@
-# דשבורד מכירות מרכזי (Looker-Studio-Style) ב-Admin
+תיקון שתי בעיות שעלו בדשבורד:
 
-מחליף את הטאב Analytics הקיים בדשבורד אחוד שמושך נתונים מכל המקורות, עם דרילדאון אינטראקטיבי וצ'אט AI יועץ.
+## 1. Search Console מציג נכס שגוי
 
-## מה ייבנה
+הפונקציה `gsc-analytics` בוחרת אוטומטית את הנכס הראשון המאומת מתוך הרשימה — ולחשבון שלך יש 24 נכסים, אז היא תופסת אחד של לקוח אחר במקום של החנות.
 
-### 1. טאב חדש "Sales Dashboard" (מחליף את Analytics)
-פריסה בסגנון Looker Studio – KPIs עליונים, גרפים מרכזיים, טבלת מוצרים בצד, פילטרים גלובליים למעלה.
+הנכס הנכון בחשבונך: `https://korean-glow-il.shop/` (siteOwner).
 
-**שורת פילטרים גלובלית (משפיעה על כל הווידג'טים):**
-- טווח תאריכים (היום / 7 / 30 / 90 / מותאם)
-- השוואה לתקופה קודמת
-- מקור תנועה (All / Organic / Paid / Social / Direct)
-- ערוץ פרסום (All / Google Ads / Meta Ads)
-- מוצר נבחר (ברירת מחדל: All)
+**מה אתקן:**
+- ב-`SalesDashboard.tsx` אוסיף סלקטור נכסים (Dropdown) בראש פאנל ה-SEO שמושך את רשימת הנכסים המאומתים ומציג את שמותיהם, עם בחירה ברירת מחדל ל-`https://korean-glow-il.shop/`.
+- הבחירה תישמר ב-`localStorage` (`kg_gsc_site`) כדי שתישאר בין רענונים.
+- ב-`gsc-analytics`:
+  - אוסיף endpoint חדש `?action=list-sites` שמחזיר רק נכסים שאתה owner/fullUser בהם.
+  - הפונקציה הראשית תקבל `siteUrl` מהבקשה ותעדיף אותו על פני האוטו-בחירה.
+  - אם לא הועבר כלום — fallback ל-`https://korean-glow-il.shop/`.
 
-**KPI Cards (שורה עליונה, עם דלתא % מול תקופה קודמת):**
-- הכנסות, הזמנות, AOV (ערך הזמנה ממוצע)
-- שיעור המרה (Conversion Rate)
-- סה״כ עלות פרסום (Ad Spend)
-- ROAS (החזר על הוצאת פרסום)
-- CAC (עלות גיוס לקוח) = Ad Spend / New Customers
-- CPA (עלות לרכישה) = Ad Spend / Orders
-- LTV משוער (Repeat Rate × AOV)
-- מבקרים, זמן שהייה ממוצע, Bounce Rate
+## 2. אירועי איקומרס לא נשלחים מהצ'קאאוט של Shopify
 
-**גרפים מרכזיים:**
-- מכירות לאורך זמן (Line) – הכנסות + הזמנות
-- מקורות תנועה (Donut) – פילוח מ-GA4
-- ביצועי קמפיינים (Bar) – ROAS לכל קמפיין (Google + Meta)
-- Funnel: מבקרים → צופי מוצר → Add to Cart → Checkout → רכישה
-- מפת חום שעות/ימים של רכישות
+מצב נוכחי:
+- `view_item`, `add_to_cart`, `view_cart`, `begin_checkout`, `select_item`, `remove_from_cart`, `view_item_list` — **כבר נשלחים** מהאתר ל-`dataLayer` (ראה `src/lib/analytics.ts`).
+- **הם לא מגיעים ל-GA4** כי:
+  1. Consent Mode v2 כברירת מחדל ב-denied — GTM/GA4 לא שולחים אירועי `analytics_storage` עד שהמשתמש מאשר ב-Cookie Banner.
+  2. ב-GTM שלך (GTM-WM33G76P) צריך טריגרים מסוג Custom Event לכל אירוע (`view_item`, `add_to_cart` וכו') שמפעילים תג GA4 Event עם פרמטרי `{{ DLV - ecommerce }}`. ייתכן שאין שם תגיות כאלה כרגע — אבדוק במסמך הוראות GTM שאשלח לך.
+- **`purchase`** ו-`begin_checkout` בפועל ב-Shopify Checkout (דומיין `v9zwr2-ge.myshopify.com` / `checkout.shopify.com`) **לא נשלחים בכלל** כי GTM של החנות שלך לא מותקן בצ'קאאוט של Shopify — צ'קאאוט הוא דומיין נפרד שדורש התקנה ייעודית.
 
-**טבלת מוצרים אינטראקטיבית (Side Panel):**
-- כל מוצר עם: יחידות שנמכרו, הכנסה, מבקרים, CR, CAC, ROAS
-- **קליק על שורה = כל הדשבורד מסונן למוצר זה** (KPIs, גרפים, מקורות תנועה - הכל מתעדכן)
-- כפתור "נקה סינון" חוזר ל-All Products
+**מה אתקן:**
 
-**מודול SEO (פאנל תחתון):**
-- Top Queries, Impressions, Clicks, CTR, Average Position מ-Google Search Console (כבר מחובר)
-- Top Landing Pages לפי תנועה אורגנית
+### א. תיקון אירועים בצד הסטורפרונט (האתר שלך)
+- אוסיף לוג קצר (`console.debug('[GA4 EVENT]', ...)`) ב-`src/lib/analytics.ts` כדי שתוכל לוודא בקונסול שהאירועים נורים בפועל.
+- אכין מסמך `GTM_SETUP.md` עם רשימה מדויקת של:
+  - 7 Custom Event Triggers (`view_item`, `add_to_cart`, `view_cart`, `begin_checkout`, `select_item`, `remove_from_cart`, `view_item_list`)
+  - DataLayer Variables (`ecommerce.value`, `ecommerce.currency`, `ecommerce.items`)
+  - 7 GA4 Event Tags שצריך להגדיר עם פרמטר `items` כ-Event Parameter
+  - איך לבדוק עם GA4 DebugView
 
-### 2. צ'אט AI יועץ (Side Drawer במסך)
-- כפתור צף ⚡ פותח Drawer ימני
-- מקבל את **קונטקסט הפילטרים הנוכחיים + הנתונים שמוצגים** ומעביר ל-Gemini דרך Lovable AI Gateway
-- דוגמאות שאלות מוצעות: "למה ROAS ירד השבוע?", "איזה מוצר הכי רווחי?", "מה לשפר בקמפיין X?", "המלץ על תקציב לפי הביצועים"
-- תשובות זורמות (streaming), עם Markdown
+### ב. שליחת `purchase` ו-`begin_checkout` מ-Shopify Checkout
+שתי דרכים — אתן לך את הקוד המוכן של שתיהן ותבחר:
 
-### 3. אינטגרציות נתונים (Edge Functions)
+**אפשרות 1 (מומלצת — Shopify Customer Events Pixel):**
+- אספק קוד JavaScript מוכן שתדביק ב-Shopify Admin → Settings → Customer Events → Add Custom Pixel.
+- הפיקסל יאזין לאירועי Shopify הסטנדרטיים (`checkout_started`, `checkout_completed`, `payment_info_submitted`) וישלח אותם ישירות ל-GA4 דרך Measurement Protocol עם `client_id` שמתואם לאתר שלך, וגם יזרוק `purchase` ל-Meta Pixel.
 
-| מקור | סטטוס | איך נביא נתונים |
-|---|---|---|
-| **Shopify Orders/Products** | ✅ מחובר | Edge function `shopify-analytics` – משתמש ב-SHOPIFY_ACCESS_TOKEN הקיים (Admin GraphQL: orders, products, customers) |
-| **Google Analytics 4** | 🔌 חדש | Connector חדש – נדרשת התחברות עם חשבון Google שיש לו גישה ל-property של GA4 |
-| **Google Ads** | 🔌 חדש | Connector חדש – נדרשת התחברות עם חשבון Google Ads + Customer ID |
-| **Meta/Facebook Ads** | 🔌 חדש | Connector חדש – נדרשת התחברות עם חשבון Meta Business + Ad Account ID |
-| **Google Search Console (SEO)** | ✅ מחובר | קיים `GOOGLE_SEARCH_CONSOLE_API_KEY` – נשתמש דרך Connector Gateway |
-| **AI Chat** | ✅ זמין | `LOVABLE_API_KEY` קיים – Gemini 3 Flash |
+**אפשרות 2 (GTM Container בצ'קאאוט של Shopify):**
+- הוראות איך להוסיף את ה-GTM Container `GTM-WM33G76P` ל-`checkout.liquid` של Shopify (דורש Shopify Plus או "Additional Scripts" בהגדרות הצ'קאאוט).
 
-**הערה חשובה:** GA4 / Google Ads / Meta Ads דורשים אותך לאשר Connectors בצ'אט. אבנה את ה-UI כך שכל מודול שלא מחובר עדיין יציג כפתור "Connect" במקום הנתונים – ככה הדשבורד עובד מיד עם Shopify+GSC, ומתמלא ככל שתחבר עוד מקורות.
+### ג. Cross-domain tracking
+- הקובץ `src/lib/gaLinker.ts` כבר מצרף את `_ga` ל-URL של הצ'קאאוט (טוב).
+- אוסיף את הדומיין `v9zwr2-ge.myshopify.com` למסמך ה-GTM כדי לוודא ש-GA4 Configuration Tag כולל אותו ב-`linker.domains`.
 
-### 4. Caching ו-Performance
-- כל Edge function משתמש בקאש קצר (5-15 דק') בטבלת `analytics_cache` כדי לא לשרוף קריאות API
-- Loading skeletons בכל ווידג'ט עד שהנתונים מגיעים
+## קבצים שייגעו
 
-## פרטים טכניים
+- ✏️ `supabase/functions/gsc-analytics/index.ts` — תמיכה ב-`siteUrl` ו-`action=list-sites`
+- ✏️ `src/components/admin/SalesDashboard.tsx` — סלקטור נכס SEO
+- ✏️ `src/lib/analytics.ts` — debug log
+- ➕ `GTM_SETUP.md` — מסמך הוראות
+- ➕ `SHOPIFY_PIXEL.md` — קוד Customer Events Pixel מוכן להדבקה
 
-**טבלאות חדשות (Supabase):**
-- `analytics_cache` (source, key, payload jsonb, fetched_at) – קאש לקריאות API
+## מה שאצטרך ממך אחרי שאסיים
 
-**Edge functions חדשות:**
-- `shopify-analytics` – orders, products, top sellers, customer counts, revenue series
-- `ga4-analytics` – sessions, users, bounce rate, avg session duration, traffic sources, funnel events
-- `google-ads-analytics` – campaigns, spend, conversions, ROAS
-- `meta-ads-analytics` – campaigns, spend, conversions, ROAS
-- `gsc-analytics` – top queries, top pages (משתמש בקיים)
-- `dashboard-chat` – streaming chat שמקבל את הקונטקסט הנוכחי
+1. להדביק את קוד הפיקסל ב-Shopify Admin (אני אנחה אותך צעד-צעד).
+2. להוסיף את התגיות וה-triggers ב-GTM לפי המסמך — או, אם תרצה, אעשה את זה דרך כלי MCP אם יש לך חיבור Google Tag Manager.
 
-**Frontend:**
-- `src/pages/SalesDashboard.tsx` החדש – משולב כטאב ב-`AdminDashboard.tsx` במקום BlogAnalytics (BlogAnalytics נשמר כטאב נפרד, רק יוסר מהמיקום הראשי)
-- `src/components/dashboard/` – KPICard, FilterBar, RevenueChart, TrafficSourcesChart, CampaignsChart, FunnelChart, ProductsTable, SEOPanel, AIChatDrawer, ConnectorPrompt
-- Recharts לגרפים (כבר בפרויקט)
-- Context (`DashboardFiltersContext`) שמחזיק את הפילטרים הגלובליים + מוצר נבחר, ומפעיל מחדש את כל ה-queries
-
-**State management:**
-- React Query לכל קריאה ל-edge function, עם `queryKey` שכולל את הפילטרים → סינון לפי מוצר/תאריך מטריגר auto-refetch של כל הווידג'טים בו-זמנית
-
-## סדר ביצוע מומלץ
-
-1. **שלב 1 (מיידי):** מבנה הדשבורד + Shopify + GSC + AI Chat (עובדים מיד עם מה שיש)
-2. **שלב 2:** חיבור GA4 (אחרי שתאשר את ה-Connector בצ'אט)
-3. **שלב 3:** חיבור Google Ads ו-Meta Ads (כל אחד בנפרד)
-
-אחרי שתאשר את התוכנית, נתחיל בשלב 1 ואבקש ממך לאשר את ה-Connectors כשנגיע לכל שלב.
+מאשר?
