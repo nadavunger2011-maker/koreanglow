@@ -57,6 +57,62 @@ type Order = {
   };
 };
 
+type ShopifyTokenCandidate = {
+  label: string;
+  token: string;
+};
+
+const getShopifyTokenCandidates = (env: Record<string, string>): ShopifyTokenCandidate[] => {
+  const candidates: ShopifyTokenCandidate[] = [];
+  const seen = new Set<string>();
+  const add = (label: string, token?: string) => {
+    if (!token || seen.has(token)) return;
+    seen.add(token);
+    candidates.push({ label, token });
+  };
+
+  add("SHOPIFY_ACCESS_TOKEN", env.SHOPIFY_ACCESS_TOKEN);
+  for (const [key, value] of Object.entries(env)) {
+    if (key.startsWith("SHOPIFY_ONLINE_ACCESS_TOKEN")) add("SHOPIFY_ONLINE_ACCESS_TOKEN", value);
+  }
+  add("SHOPIFY_ADMIN_ACCESS_TOKEN", env.SHOPIFY_ADMIN_ACCESS_TOKEN);
+
+  return candidates;
+};
+
+const shopifyGraphql = async (body: unknown) => {
+  const candidates = getShopifyTokenCandidates(Deno.env.toObject());
+  if (candidates.length === 0) {
+    throw new Error("Shopify admin token missing — reconnect Shopify in chat");
+  }
+
+  const failures: string[] = [];
+  for (const candidate of candidates) {
+    const r = await fetch(ADMIN_URL, {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+        "X-Shopify-Access-Token": candidate.token,
+      },
+      body: JSON.stringify(body),
+    });
+
+    const text = await r.text();
+    if (r.ok) {
+      const j = JSON.parse(text);
+      if (j.errors) throw new Error(JSON.stringify(j.errors).slice(0, 300));
+      return j;
+    }
+
+    failures.push(`${candidate.label}: Shopify ${r.status}`);
+    if (r.status !== 401 && r.status !== 403) {
+      throw new Error(`Shopify ${r.status}: ${text.slice(0, 200)}`);
+    }
+  }
+
+  throw new Error(`Shopify authentication failed for all configured tokens (${failures.join(", ")}). Reconnect Shopify in chat.`);
+};
+
 Deno.serve(async (req) => {
   if (req.method === "OPTIONS") return new Response(null, { headers: corsHeaders });
 
@@ -68,20 +124,6 @@ Deno.serve(async (req) => {
     if (u.user?.email?.toLowerCase() !== ALLOWED_EMAIL) {
       return new Response(JSON.stringify({ error: "Forbidden" }), {
         status: 403,
-        headers: { ...corsHeaders, "Content-Type": "application/json" },
-      });
-    }
-
-    // Prefer the long-lived Admin API token; fall back to per-user online token.
-    const env = Deno.env.toObject();
-    const onlineKey = Object.keys(env).find((k) => k.startsWith("SHOPIFY_ONLINE_ACCESS_TOKEN"));
-    const token =
-      env.SHOPIFY_ACCESS_TOKEN ||
-      env.SHOPIFY_ADMIN_ACCESS_TOKEN ||
-      (onlineKey && env[onlineKey]);
-    if (!token) {
-      return new Response(JSON.stringify({ error: "Shopify admin token missing — reconnect Shopify in chat" }), {
-        status: 500,
         headers: { ...corsHeaders, "Content-Type": "application/json" },
       });
     }
@@ -98,20 +140,7 @@ Deno.serve(async (req) => {
     const orders: Order[] = [];
     let cursor: string | null = null;
     for (let i = 0; i < 10; i++) {
-      const r = await fetch(ADMIN_URL, {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-          "X-Shopify-Access-Token": token,
-        },
-        body: JSON.stringify({ query: QUERY, variables: { cursor, query: q } }),
-      });
-      if (!r.ok) {
-        const t = await r.text();
-        throw new Error(`Shopify ${r.status}: ${t.slice(0, 200)}`);
-      }
-      const j = await r.json();
-      if (j.errors) throw new Error(JSON.stringify(j.errors).slice(0, 300));
+      const j = await shopifyGraphql({ query: QUERY, variables: { cursor, query: q } });
       const data = j.data.orders;
       orders.push(...data.edges.map((e: { node: Order }) => e.node));
       if (!data.pageInfo.hasNextPage) break;

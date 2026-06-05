@@ -12,6 +12,7 @@ import {
   YAxis,
 } from "recharts";
 import {
+  AlertCircle,
   ArrowDown,
   ArrowUp,
   DollarSign,
@@ -200,6 +201,10 @@ export const SalesDashboard = ({ accessToken }: { accessToken: string }) => {
   const cur = sales.data?.current;
   const prev = sales.data?.previous;
   const currency = sales.data?.currency || "ILS";
+  const salesErrorMessage = sales.error ? (sales.error as Error).message : "";
+  const needsShopifyReconnect = /Shopify authentication failed|Shopify 401|access token/i.test(
+    salesErrorMessage,
+  );
 
   const filteredProducts = useMemo(() => {
     const list = sales.data?.topProducts || [];
@@ -253,6 +258,22 @@ export const SalesDashboard = ({ accessToken }: { accessToken: string }) => {
           שאל את ה-AI
         </Button>
       </Card>
+
+      {sales.error && (
+        <Card className="p-4 border-destructive/30 bg-destructive/5">
+          <div className="flex items-start gap-3">
+            <AlertCircle className="mt-0.5 text-destructive" size={18} />
+            <div className="space-y-1">
+              <h2 className="text-sm font-bold text-destructive">שגיאה בטעינת נתוני Shopify</h2>
+              <p className="text-sm text-muted-foreground">
+                {needsShopifyReconnect
+                  ? "החיבור ל-Shopify נדחה כי הטוקן שהוגדר כבר לא תקף. צריך להתחבר מחדש ל-Shopify בצ׳אט כדי לרענן את ההרשאה."
+                  : salesErrorMessage}
+              </p>
+            </div>
+          </div>
+        </Card>
+      )}
 
       <div className="grid grid-cols-2 md:grid-cols-4 gap-3">
         <KPI
