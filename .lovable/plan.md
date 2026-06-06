@@ -1,44 +1,24 @@
+## הבעיה
+ה-feed של Google Shopping מחזיר כיום קישורים ל-Shopify (`onlineStoreUrl`, למשל `koreanglow.co.il/en/products/...`) או ל-`/products/<handle>` בדומיין של האתר. שני המסלולים לא קיימים באתר שב-Lovable.
 
-## רקע
+המסלול האמיתי באתר הוא `/product/:handle` (יחיד, לא `/products/`), והוא משתמש באותו `handle` של Shopify.
 
-הצ'קאאוט שלך רץ על `koreanglow.co.il/checkouts` (דומיין מותאם, לא `*.myshopify.com`), ויש לך GTM פעיל (`GTM-WM33G76P`). זה אומר שאפשר לעשות **גישה אחידה**: GTM אחד מנהל את כל האירועים — גם באתר וגם בצ'קאאוט — וכל האירועים מגיעים ל-GA4 ול-Meta Pixel דרך הטגים הקיימים שלך.
+## השינוי
+בקובץ `supabase/functions/google-merchant-feed/index.ts`, בפונקציה `buildXml`, להחליף את חישוב ה-`link` כך שתמיד יצביע לעמוד המוצר באתר Lovable, ולהתעלם מ-`onlineStoreUrl` של Shopify:
 
-## מה אעדכן בקוד הפרויקט
+```ts
+// לפני
+const link = p.onlineStoreUrl ?? `${SITE_URL}/products/${p.handle}`;
 
-### 1. `SHOPIFY_PIXEL.md` — שכתוב מלא
-אחליף את הקוד הנוכחי (ששולח ישירות ל-Measurement Protocol) ב-**GTM Bridge Pixel**:
-- טוען את `GTM-WM33G76P` בתוך סביבת Customer Events של Shopify
-- מאזין ל-`checkout_started`, `payment_info_submitted`, `checkout_completed`, `product_viewed`, `cart_viewed`
-- דוחף ל-`dataLayer` אירועי GA4 תקניים (`begin_checkout`, `add_payment_info`, `purchase`, `view_item`, `view_cart`) עם `ecommerce.items`, `value`, `currency`, `transaction_id`, `tax`, `shipping`
-- היתרון: כל הקונפיגורציה (GA4, Meta, קונסנט) מנוהלת במקום אחד ב-GTM, בלי לקודד מחדש מזהים בכל פעם
+// אחרי
+const link = `${SITE_URL}/product/${p.handle}`;
+```
 
-### 2. `GTM_SETUP.md` — הרחבה
-אוסיף:
-- 2 טריגרים חדשים: `add_payment_info`, `purchase`
-- 3 משתני DataLayer חדשים: `ecommerce.transaction_id`, `ecommerce.tax`, `ecommerce.shipping`
-- המלצה לתג **GA4 Event גנרי יחיד** (Event Name = `{{ Event }}`) שתופס את כל 9 האירועים
-- הוספת `koreanglow.co.il` ל-Linker Domains
-- סעיף ייעודי "התקנה בצ'קאאוט" עם הוראות שלב-אחר-שלב לפיקסל ב-Shopify Admin
-- סעיף Consent Mode — איך לסמן `analytics_storage` ב-GA4 Configuration Tag
+`SITE_URL` כבר מוגדר ל-`https://www.korean-glow-il.shop` (הדומיין המותאם של הפרויקט), כך שהקישור יהיה למשל:
+`https://www.korean-glow-il.shop/product/niacinamide-serum-10`
 
-### 3. בלי שינויי קוד אפליקציה
-- `src/lib/analytics.ts` כבר תקין (דוחף ל-dataLayer)
-- `src/lib/gaLinker.ts` כבר תקין (cross-domain)
-- אין מה לשנות ב-`index.html` או ב-`SalesDashboard.tsx`
+## אחרי הפריסה
+- לפתוח מחדש את `…/functions/v1/google-merchant-feed` ולוודא שכל `<g:link>` מצביע ל-`/product/<handle>` בדומיין של האתר.
+- ב-Google Merchant Center לבצע fetch מחדש של ה-feed כדי שהקישורים יתעדכנו.
 
-## קבצים שייגעו
-
-- ✏️ `SHOPIFY_PIXEL.md` — שכתוב מלא
-- ✏️ `GTM_SETUP.md` — הרחבה
-
-## מה תצטרך לעשות אחרי
-
-1. **Shopify Admin** → Settings → Customer events → Add custom pixel → הדבק את הקוד החדש מ-`SHOPIFY_PIXEL.md` → Connect
-2. **GTM** (workspace `GTM-WM33G76P`):
-   - הוסף 6 DataLayer Variables, 9 Custom Event Triggers, ותג GA4 Event גנרי אחד (לפי `GTM_SETUP.md`)
-   - הוסף `koreanglow.co.il` ל-Linker Domains ב-GA4 Configuration
-   - סמן `analytics_storage` ב-Consent Settings של ה-Configuration Tag
-   - **Publish** את ה-workspace
-3. **בדיקה**: GTM Preview → רכישת בדיקה → ודא ב-GA4 DebugView שכל האירועים מגיעים
-
-מאשר?
+ללא שינוי בכותרות המוצרים, ב-frontend, או בכל לוגיקה אחרת.

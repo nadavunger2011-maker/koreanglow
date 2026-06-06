@@ -126,7 +126,7 @@ function buildXml(products: ProductNode[], format: "xml" | "json") {
       const variant = p.variants.edges[0]?.node;
       if (!variant) return null;
       const image = p.images.edges[0]?.node?.url ?? "";
-      const link = p.onlineStoreUrl ?? `${SITE_URL}/products/${p.handle}`;
+      const link = `${SITE_URL}/product/${p.handle}`;
       const idNum = variant.id.match(/\d+/g)?.pop() ?? variant.id;
       const mappedTitle = mapTitle(p.title);
       return {
