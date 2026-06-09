@@ -4,6 +4,7 @@ import { ArrowLeft, Check, Copy, Loader2, Sparkles, X } from "lucide-react";
 import { z } from "zod";
 import { supabase } from "@/integrations/supabase/client";
 import { Input } from "@/components/ui/input";
+import { pushEvent } from "@/lib/analytics";
 
 const DISMISSED_KEY = "kbeauty_quiz_dismissed";
 const COMPLETED_KEY = "kbeauty_quiz_completed";
@@ -89,6 +90,15 @@ export const SkinQuizPopup = () => {
       .invoke("sync-shopify-customer", { body: { email: parsed.data } })
       .catch(() => {});
     localStorage.setItem(COMPLETED_KEY, String(Date.now()));
+    pushEvent("generate_lead", {
+      currency: "ILS",
+      value: 0,
+      lead_source: "kbeauty_quiz",
+      skin_type: skinType,
+      concern,
+      texture,
+    });
+    pushEvent("quiz_complete", { skin_type: skinType, concern, texture });
     setLoading(false);
     setStep(5);
   };
@@ -97,6 +107,7 @@ export const SkinQuizPopup = () => {
     try {
       await navigator.clipboard.writeText(COUPON);
       setCopied(true);
+      pushEvent("coupon_copy", { coupon_code: COUPON });
       setTimeout(() => setCopied(false), 2000);
     } catch {
       /* ignore */
@@ -178,7 +189,10 @@ export const SkinQuizPopup = () => {
                 עני על שאלון קצר של 30 שניות להתאמת שגרת טיפוח קוריאנית מדויקת עבורך + קבלי 10% הנחה לרכישה הראשונה!
               </p>
               <button
-                onClick={() => setStep(1)}
+                onClick={() => {
+                  pushEvent("quiz_start", { quiz_name: "kbeauty_skin_quiz" });
+                  setStep(1);
+                }}
                 className="w-full inline-flex items-center justify-center gap-2 rounded-full bg-primary text-primary-foreground px-6 py-3.5 font-semibold shadow-lg hover:opacity-90 transition"
               >
                 להתחלת השאלון
@@ -194,6 +208,7 @@ export const SkinQuizPopup = () => {
               value={skinType}
               onSelect={(v) => {
                 setSkinType(v);
+                pushEvent("quiz_step", { quiz_step_number: 1, quiz_step_name: "skin_type", quiz_answer: v });
                 setTimeout(() => setStep(2), 200);
               }}
             />
@@ -205,6 +220,7 @@ export const SkinQuizPopup = () => {
               value={concern}
               onSelect={(v) => {
                 setConcern(v);
+                pushEvent("quiz_step", { quiz_step_number: 2, quiz_step_name: "concern", quiz_answer: v });
                 setTimeout(() => setStep(3), 200);
               }}
             />
@@ -216,6 +232,7 @@ export const SkinQuizPopup = () => {
               value={texture}
               onSelect={(v) => {
                 setTexture(v);
+                pushEvent("quiz_step", { quiz_step_number: 3, quiz_step_name: "texture", quiz_answer: v });
                 setTimeout(() => setStep(4), 200);
               }}
             />

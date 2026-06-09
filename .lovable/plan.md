@@ -1,54 +1,35 @@
-## K-Beauty Skin Quiz Modal
+## הוספת אנליטיקס מלאה דרך GTM + קובץ ייבוא לקונטיינר
 
-Replace the existing `NewsletterPopup` with a new multi-step, RTL-first K-Beauty Skin Quiz modal that captures the lead at the end and shows a personalized routine + discount code.
+### מה ייעשה
 
-### Files
+1. **הוספת dataLayer לאירועי הקוויז** — `src/components/SkinQuizPopup.tsx`
+   - `quiz_start` כשהמשתמש לוחץ "להתחלת השאלון"
+   - `quiz_step` בכל בחירה (שלב 1/2/3) עם `quiz_step_number` ו-`quiz_answer`
+   - `generate_lead` בעת שליחת אימייל מוצלחת (פרמטר `currency: ILS`, `value: 0`)
+   - `quiz_complete` בכניסה למסך תוצאות, עם `skin_type`/`concern`/`texture`
+   - `coupon_copy` בלחיצה על "העתקת קוד"
+   - תוספת קצרה ל-`src/lib/analytics.ts`: פונקציית עזר `pushEvent(event, params)` כללית (לא-ecommerce) שלא מאפסת את `ecommerce`.
 
-- **New**: `src/components/SkinQuizPopup.tsx` — self-contained multi-step quiz component.
-- **Edit**: `src/App.tsx` — swap `NewsletterPopup` import/usage for `SkinQuizPopup` (keep existing `showPopup` route gating).
-- **Keep**: existing `NewsletterPopup.tsx` file untouched for now (unused), so we can revert easily. Delete only if you confirm.
+2. **קובץ ייבוא ל-GTM** — `/mnt/documents/kbeauty-gtm-container.json`
+   קובץ Container Export רגיל שאפשר לייבא דרך GTM → Admin → Import Container (Merge/Overwrite).
+   הקונטיינר יכיל:
+   - **תגית בסיס**: GA4 Configuration עם Measurement ID `G-GZ6X1ZZRZF`, נטענת על All Pages עם consent mode (analytics_storage).
+   - **DataLayer Variables**: `ecommerce.currency`, `ecommerce.value`, `ecommerce.items`, `quiz_step_number`, `quiz_answer`, `skin_type`, `concern`, `texture`.
+   - **Triggers (Custom Event)** לכל אירוע:
+     - Ecommerce: `view_item_list`, `select_item`, `view_item`, `add_to_cart`, `remove_from_cart`, `view_cart`, `begin_checkout`
+     - Quiz/lead: `quiz_start`, `quiz_step`, `quiz_complete`, `generate_lead`, `coupon_copy`
+   - **GA4 Event Tags** לכל אירוע, מעבירות את הפרמטרים הרלוונטיים (items/value/currency לecommerce; quiz_* ל-quiz).
 
-### Trigger & persistence
+3. **תיעוד קצר** — `/mnt/documents/GTM-IMPORT-README.md` עם 3 צעדים: ייבוא, בחירת Workspace, Publish; והערה ש-`purchase` מטופל ע"י Shopify ולא בקונטיינר הזה.
 
-- Show 4s after mount (page already loaded by then in SPA).
-- Skip if `localStorage` contains `kbeauty_quiz_dismissed` or `kbeauty_quiz_completed`.
-- Close (X) → set `kbeauty_quiz_dismissed`.
-- Successful email submit → set `kbeauty_quiz_completed`.
-- Also insert the lead into the existing `leads` table via supabase client (same pattern as current popup: `name` null, `email`, `source_page`), and fire-and-forget the `sync-shopify-customer` function so the existing flow keeps working.
+### מחוץ לטווח
 
-### RTL & design tokens
+- Meta Pixel ב-GTM (נשאר ב-`index.html` כפי שהוא).
+- Conversions API / server-side tagging.
+- אירוע `purchase` (קורה ב-Shopify checkout, מחוץ לדומיין שלנו).
 
-- Root wrapper `dir="rtl"`, `text-right`, RTL-aware spacing (`space-x-reverse`, `flex-row-reverse` where needed), arrow icon `ArrowLeft` for "next" since visual forward in RTL is leftward.
-- Use existing brand tokens only — `bg-background`, `text-foreground`, `text-muted-foreground`, `bg-primary`, `text-primary-foreground`, `border-primary`, `bg-accent`, `ring-primary`. No hardcoded hex.
-- Rounded `rounded-2xl` card with `shadow-2xl`, `rounded-full` buttons, soft backdrop blur overlay.
-- Progress bar at top: filled `bg-primary` width animating with `transition-all duration-500`, growing right-to-left (use `mr-auto` + RTL container so fill visually progresses from right).
-- Smooth step transitions via simple opacity/translate Tailwind transition keyed on step.
-- Mobile-first: `w-[92vw] max-w-md sm:max-w-lg`, scrollable inner content if needed.
+### פלט שתקבלי
 
-### Steps (Hebrew copy exactly per spec)
-
-- **Step 0 Welcome** — headline, subtitle, "להתחלת השאלון" button with `ArrowLeft` icon, X in top-left.
-- **Step 1 Skin type** — 4 card options (single choice), each card shows label + small description.
-- **Step 2 Concern** — 4 card options.
-- **Step 3 Texture** — 3 card options.
-- **Step 4 Lead capture** — email input + submit button; zod email validation; on success → mark completed, advance to results.
-- **Step 5 Results** — dynamic routine based on skin type (dry/oily; fallback to a balanced routine for combo/sensitive), conditional badge for concern (pigmentation → niacinamide/Vit C; acne → centella/tea tree), coupon `KGLOW10` with copy button (`Copy` → `Check` + "הועתק!"), CTA "לרכישת השגרה שלי" closes modal.
-
-Cards use selected-state styling: `border-primary ring-2 ring-primary/30 bg-primary/5` when chosen.
-
-### Technical details
-
-```text
-state: step (0..5), answers {skinType, concern, texture}, email, error, loading, copied
-```
-
-- Lead insert reuses `supabase.from("leads").insert({ email, source_page })` — same schema as today, no DB changes.
-- Quiz answers are NOT persisted server-side (only used to render results). If you want them stored, say so and I'll add columns/a new table.
-- Coupon code `KGLOW10` is display-only; creating the actual Shopify discount is out of scope for this task.
-- No new dependencies — uses existing `lucide-react`, `zod`, `@/components/ui/input`, `supabase` client.
-
-### Out of scope
-
-- Creating the real `KGLOW10` discount in Shopify.
-- Storing quiz answers in the database.
-- Changing the existing route gating logic in `App.tsx` (only swapping the component).
+- קישור להורדה של `kbeauty-gtm-container.json` (קובץ אחד, מוכן ל-Import Container ב-GTM).
+- README קצר לצידו.
+- עדכוני קוד קטנים ב-`SkinQuizPopup.tsx` ו-`analytics.ts` כדי שאירועי הקוויז יידחפו ל-dataLayer.
