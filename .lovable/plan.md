@@ -1,35 +1,20 @@
-## הוספת אנליטיקס מלאה דרך GTM + קובץ ייבוא לקונטיינר
+## תיקון קובץ ה-GTM Container
 
-### מה ייעשה
+**הבעיה שאותרה:**
+ב-GTM Container JSON, השדה `type` ב-`builtInVariable` חייב להיות באותיות גדולות (UPPERCASE enum). הקובץ הנוכחי משתמש ב-camelCase:
+- `pageUrl` → צריך `PAGE_URL`
+- `pageHostname` → `PAGE_HOSTNAME`
+- `pagePath` → `PAGE_PATH`
+- `referrer` → `REFERRER`
+- `event` → `EVENT`
 
-1. **הוספת dataLayer לאירועי הקוויז** — `src/components/SkinQuizPopup.tsx`
-   - `quiz_start` כשהמשתמש לוחץ "להתחלת השאלון"
-   - `quiz_step` בכל בחירה (שלב 1/2/3) עם `quiz_step_number` ו-`quiz_answer`
-   - `generate_lead` בעת שליחת אימייל מוצלחת (פרמטר `currency: ILS`, `value: 0`)
-   - `quiz_complete` בכניסה למסך תוצאות, עם `skin_type`/`concern`/`texture`
-   - `coupon_copy` בלחיצה על "העתקת קוד"
-   - תוספת קצרה ל-`src/lib/analytics.ts`: פונקציית עזר `pushEvent(event, params)` כללית (לא-ecommerce) שלא מאפסת את `ecommerce`.
+זה גורם לשגיאה: *"Error deserializing enum type [Type]. Unrecognized value [template]"* (ה-parser נופל ברגע שהוא מנסה לפענח את ה-enum).
 
-2. **קובץ ייבוא ל-GTM** — `/mnt/documents/kbeauty-gtm-container.json`
-   קובץ Container Export רגיל שאפשר לייבא דרך GTM → Admin → Import Container (Merge/Overwrite).
-   הקונטיינר יכיל:
-   - **תגית בסיס**: GA4 Configuration עם Measurement ID `G-GZ6X1ZZRZF`, נטענת על All Pages עם consent mode (analytics_storage).
-   - **DataLayer Variables**: `ecommerce.currency`, `ecommerce.value`, `ecommerce.items`, `quiz_step_number`, `quiz_answer`, `skin_type`, `concern`, `texture`.
-   - **Triggers (Custom Event)** לכל אירוע:
-     - Ecommerce: `view_item_list`, `select_item`, `view_item`, `add_to_cart`, `remove_from_cart`, `view_cart`, `begin_checkout`
-     - Quiz/lead: `quiz_start`, `quiz_step`, `quiz_complete`, `generate_lead`, `coupon_copy`
-   - **GA4 Event Tags** לכל אירוע, מעבירות את הפרמטרים הרלוונטיים (items/value/currency לecommerce; quiz_* ל-quiz).
+**מה אעשה:**
+1. אעדכן את סקריפט הגנרציה ואייצר מחדש את `/mnt/documents/kbeauty-gtm-container.json` עם ערכי UPPERCASE נכונים לכל ה-built-in variables.
+2. אוודא שכל שאר ה-enum-ים תקינים (tag types, variable types, trigger types).
+3. אבדוק את הקובץ עם validation בסיסי לפני מסירה.
+4. ה-README נשאר כפי שהוא — שלבי הייבוא לא משתנים.
 
-3. **תיעוד קצר** — `/mnt/documents/GTM-IMPORT-README.md` עם 3 צעדים: ייבוא, בחירת Workspace, Publish; והערה ש-`purchase` מטופל ע"י Shopify ולא בקונטיינר הזה.
-
-### מחוץ לטווח
-
-- Meta Pixel ב-GTM (נשאר ב-`index.html` כפי שהוא).
-- Conversions API / server-side tagging.
-- אירוע `purchase` (קורה ב-Shopify checkout, מחוץ לדומיין שלנו).
-
-### פלט שתקבלי
-
-- קישור להורדה של `kbeauty-gtm-container.json` (קובץ אחד, מוכן ל-Import Container ב-GTM).
-- README קצר לצידו.
-- עדכוני קוד קטנים ב-`SkinQuizPopup.tsx` ו-`analytics.ts` כדי שאירועי הקוויז יידחפו ל-dataLayer.
+**מחוץ לסקופ:**
+שינויים בקוד האפליקציה (ה-`pushEvent` והאירועים כבר עובדים מהאיטרציה הקודמת).
