@@ -4,6 +4,7 @@ import { ArrowLeft, Check, Copy, Loader2, Sparkles, X } from "lucide-react";
 import { z } from "zod";
 import { supabase } from "@/integrations/supabase/client";
 import { Input } from "@/components/ui/input";
+import { pushEvent } from "@/lib/analytics";
 
 const DISMISSED_KEY = "kbeauty_quiz_dismissed";
 const COMPLETED_KEY = "kbeauty_quiz_completed";
@@ -89,6 +90,15 @@ export const SkinQuizPopup = () => {
       .invoke("sync-shopify-customer", { body: { email: parsed.data } })
       .catch(() => {});
     localStorage.setItem(COMPLETED_KEY, String(Date.now()));
+    pushEvent("generate_lead", {
+      currency: "ILS",
+      value: 0,
+      lead_source: "kbeauty_quiz",
+      skin_type: skinType,
+      concern,
+      texture,
+    });
+    pushEvent("quiz_complete", { skin_type: skinType, concern, texture });
     setLoading(false);
     setStep(5);
   };
@@ -97,6 +107,7 @@ export const SkinQuizPopup = () => {
     try {
       await navigator.clipboard.writeText(COUPON);
       setCopied(true);
+      pushEvent("coupon_copy", { coupon_code: COUPON });
       setTimeout(() => setCopied(false), 2000);
     } catch {
       /* ignore */
