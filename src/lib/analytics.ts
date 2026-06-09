@@ -128,3 +128,17 @@ export const trackBeginCheckout = (items: EcItem[]) => {
 };
 
 export const toVariantNumericId = numericId;
+
+/**
+ * Generic dataLayer event push for non-ecommerce events (quiz, lead, UI).
+ * Does NOT reset the ecommerce object.
+ */
+export const pushEvent = (event: string, params: Record<string, unknown> = {}) => {
+  if (typeof window === "undefined") return;
+  window.dataLayer = window.dataLayer || [];
+  window.dataLayer.push({ event, ...params });
+  if (import.meta.env.DEV || (typeof window !== "undefined" && window.location.search.includes("ga_debug"))) {
+    // eslint-disable-next-line no-console
+    console.debug("[GA4]", event, params);
+  }
+};
