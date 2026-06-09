@@ -65,7 +65,19 @@ type ShopifyTokenCandidate = {
 const getShopifyTokenCandidates = (env: Record<string, string>): ShopifyTokenCandidate[] => {
   const candidates: ShopifyTokenCandidate[] = [];
   const seen = new Set<string>();
-  const add = (label: string, token?: string) => {
+  const add = (label: string, raw?: string) => {
+    if (!raw) return;
+    let token = raw.trim();
+    // Some secrets (notably SHOPIFY_ONLINE_ACCESS_TOKEN:user:*) store the full OAuth JSON
+    // payload rather than the bare token. Extract access_token when that's the case.
+    if (token.startsWith("{")) {
+      try {
+        const parsed = JSON.parse(token);
+        if (typeof parsed.access_token === "string") token = parsed.access_token;
+      } catch {
+        // fall through with raw value
+      }
+    }
     if (!token || seen.has(token)) return;
     seen.add(token);
     candidates.push({ label, token });
@@ -73,7 +85,7 @@ const getShopifyTokenCandidates = (env: Record<string, string>): ShopifyTokenCan
 
   add("SHOPIFY_ACCESS_TOKEN", env.SHOPIFY_ACCESS_TOKEN);
   for (const [key, value] of Object.entries(env)) {
-    if (key.startsWith("SHOPIFY_ONLINE_ACCESS_TOKEN")) add("SHOPIFY_ONLINE_ACCESS_TOKEN", value);
+    if (key.startsWith("SHOPIFY_ONLINE_ACCESS_TOKEN")) add(key, value);
   }
   add("SHOPIFY_ADMIN_ACCESS_TOKEN", env.SHOPIFY_ADMIN_ACCESS_TOKEN);
 
@@ -82,12 +94,14 @@ const getShopifyTokenCandidates = (env: Record<string, string>): ShopifyTokenCan
 
 const shopifyGraphql = async (body: unknown) => {
   const candidates = getShopifyTokenCandidates(Deno.env.toObject());
+  console.log(`[sales-analytics v3] candidates=${candidates.length}`);
   if (candidates.length === 0) {
     throw new Error("Shopify admin token missing — reconnect Shopify in chat");
   }
 
   const failures: string[] = [];
   for (const candidate of candidates) {
+    const tokenPreview = `${candidate.token.slice(0, 6)}…${candidate.token.slice(-4)} (len=${candidate.token.length})`;
     const r = await fetch(ADMIN_URL, {
       method: "POST",
       headers: {
@@ -104,7 +118,8 @@ const shopifyGraphql = async (body: unknown) => {
       return j;
     }
 
-    failures.push(`${candidate.label}: Shopify ${r.status}`);
+    console.error(`[sales-analytics] Shopify ${r.status} for ${candidate.label} ${tokenPreview}: ${text.slice(0, 200)}`);
+    failures.push(`${candidate.label}[${tokenPreview}]: Shopify ${r.status}`);
     if (r.status !== 401 && r.status !== 403) {
       throw new Error(`Shopify ${r.status}: ${text.slice(0, 200)}`);
     }
