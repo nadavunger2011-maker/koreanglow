@@ -189,7 +189,10 @@ export const SkinQuizPopup = () => {
                 עני על שאלון קצר של 30 שניות להתאמת שגרת טיפוח קוריאנית מדויקת עבורך + קבלי 10% הנחה לרכישה הראשונה!
               </p>
               <button
-                onClick={() => setStep(1)}
+                onClick={() => {
+                  pushEvent("quiz_start", { quiz_name: "kbeauty_skin_quiz" });
+                  setStep(1);
+                }}
                 className="w-full inline-flex items-center justify-center gap-2 rounded-full bg-primary text-primary-foreground px-6 py-3.5 font-semibold shadow-lg hover:opacity-90 transition"
               >
                 להתחלת השאלון
@@ -205,6 +208,7 @@ export const SkinQuizPopup = () => {
               value={skinType}
               onSelect={(v) => {
                 setSkinType(v);
+                pushEvent("quiz_step", { quiz_step_number: 1, quiz_step_name: "skin_type", quiz_answer: v });
                 setTimeout(() => setStep(2), 200);
               }}
             />
@@ -216,6 +220,7 @@ export const SkinQuizPopup = () => {
               value={concern}
               onSelect={(v) => {
                 setConcern(v);
+                pushEvent("quiz_step", { quiz_step_number: 2, quiz_step_name: "concern", quiz_answer: v });
                 setTimeout(() => setStep(3), 200);
               }}
             />
@@ -227,6 +232,7 @@ export const SkinQuizPopup = () => {
               value={texture}
               onSelect={(v) => {
                 setTexture(v);
+                pushEvent("quiz_step", { quiz_step_number: 3, quiz_step_name: "texture", quiz_answer: v });
                 setTimeout(() => setStep(4), 200);
               }}
             />
