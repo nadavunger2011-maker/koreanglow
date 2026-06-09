@@ -94,6 +94,7 @@ const getShopifyTokenCandidates = (env: Record<string, string>): ShopifyTokenCan
 
 const shopifyGraphql = async (body: unknown) => {
   const candidates = getShopifyTokenCandidates(Deno.env.toObject());
+  console.log(`[sales-analytics v3] candidates=${candidates.length}`);
   if (candidates.length === 0) {
     throw new Error("Shopify admin token missing — reconnect Shopify in chat");
   }
