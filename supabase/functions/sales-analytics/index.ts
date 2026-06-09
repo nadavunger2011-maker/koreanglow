@@ -65,7 +65,19 @@ type ShopifyTokenCandidate = {
 const getShopifyTokenCandidates = (env: Record<string, string>): ShopifyTokenCandidate[] => {
   const candidates: ShopifyTokenCandidate[] = [];
   const seen = new Set<string>();
-  const add = (label: string, token?: string) => {
+  const add = (label: string, raw?: string) => {
+    if (!raw) return;
+    let token = raw.trim();
+    // Some secrets (notably SHOPIFY_ONLINE_ACCESS_TOKEN:user:*) store the full OAuth JSON
+    // payload rather than the bare token. Extract access_token when that's the case.
+    if (token.startsWith("{")) {
+      try {
+        const parsed = JSON.parse(token);
+        if (typeof parsed.access_token === "string") token = parsed.access_token;
+      } catch {
+        // fall through with raw value
+      }
+    }
     if (!token || seen.has(token)) return;
     seen.add(token);
     candidates.push({ label, token });
