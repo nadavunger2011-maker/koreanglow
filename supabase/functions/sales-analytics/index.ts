@@ -73,7 +73,7 @@ const getShopifyTokenCandidates = (env: Record<string, string>): ShopifyTokenCan
 
   add("SHOPIFY_ACCESS_TOKEN", env.SHOPIFY_ACCESS_TOKEN);
   for (const [key, value] of Object.entries(env)) {
-    if (key.startsWith("SHOPIFY_ONLINE_ACCESS_TOKEN")) add("SHOPIFY_ONLINE_ACCESS_TOKEN", value);
+    if (key.startsWith("SHOPIFY_ONLINE_ACCESS_TOKEN")) add(key, value);
   }
   add("SHOPIFY_ADMIN_ACCESS_TOKEN", env.SHOPIFY_ADMIN_ACCESS_TOKEN);
 
@@ -88,6 +88,7 @@ const shopifyGraphql = async (body: unknown) => {
 
   const failures: string[] = [];
   for (const candidate of candidates) {
+    const tokenPreview = `${candidate.token.slice(0, 6)}…${candidate.token.slice(-4)} (len=${candidate.token.length})`;
     const r = await fetch(ADMIN_URL, {
       method: "POST",
       headers: {
@@ -104,7 +105,8 @@ const shopifyGraphql = async (body: unknown) => {
       return j;
     }
 
-    failures.push(`${candidate.label}: Shopify ${r.status}`);
+    console.error(`[sales-analytics] Shopify ${r.status} for ${candidate.label} ${tokenPreview}: ${text.slice(0, 200)}`);
+    failures.push(`${candidate.label}[${tokenPreview}]: Shopify ${r.status}`);
     if (r.status !== 401 && r.status !== 403) {
       throw new Error(`Shopify ${r.status}: ${text.slice(0, 200)}`);
     }
