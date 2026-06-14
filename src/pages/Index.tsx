@@ -433,20 +433,24 @@ const Index = () => {
       <section id="how" className="py-24 bg-white">
         <div className="max-w-[1200px] mx-auto px-4 sm:px-6">
           <div className="text-center mb-16">
+            <div className="inline-flex items-center gap-2 bg-pink-100 text-pink-600 px-4 py-1.5 rounded-full text-xs font-black mb-4 uppercase tracking-widest">
+              <Timer size={14} />
+              <span>הנוסחה ל-3 דקות</span>
+            </div>
             <h2 className="text-3xl md:text-5xl font-black text-slate-900 mb-4">
-              איך זה עובד? <span className="text-slate-400 font-extrabold">(בלי להסתבך)</span>
+              3 שלבים. 3 דקות. עור זכוכית.
             </h2>
             <p className="text-lg text-slate-500 max-w-2xl mx-auto">
-              שגרת טיפוח קוריאני אמיתית של 2 דקות בלבד — בוקר וערב
+              בלי 10 בקבוקים, בלי שיעורי כימיה. כל מה שצריך — בוקר וערב.
             </p>
           </div>
 
           <div className="grid md:grid-cols-3 gap-6 md:gap-8 relative">
             {[
-              { icon: Droplet, num: "1", title: "ניקוי והכנה", sub: "טונר עמוק", desc: "פותח את הנקבוביות ומכין את העור לספיגה מלאה של הפעילים." },
-              { icon: FlaskConical, num: "2", title: "הזנה מרוכזת", sub: "סרום גלואו עוצמתי", desc: "ניאצינאמיד 10% + פפטידים – מאחד גוון, מבהיר ומחזיר זוהר." },
-              { icon: Lock, num: "3", title: "נעילת לחות והגנה", sub: "קרם זכוכית פעיל", desc: "נועל את הפעילים, מחליק את המרקם וחושף את אפקט ה-Glass Skin." },
-            ].map(({ icon: Icon, num, title, sub, desc }) => (
+              { icon: Droplet, num: "1", title: "נקו את הרעשים", sub: "ניקוי", time: "60 שניות", desc: "פותח את הנקבוביות, מסיר שאריות איפור וזיהום, ומכין את העור לספיגה מלאה." },
+              { icon: FlaskConical, num: "2", title: "תנו לעור אוכל", sub: "סרום", time: "30 שניות", desc: "ניאצינאמיד 10% + פפטידים — מזין את העור מבפנים, מאחד גוון ומחזיר זוהר." },
+              { icon: Lock, num: "3", title: "תנעלו את הקסם", sub: "קרם", time: "60 שניות", desc: "נועל את הפעילים, מחליק את המרקם וחושף את אפקט ה-Glass Skin." },
+            ].map(({ icon: Icon, num, title, sub, time, desc }) => (
               <div key={num} className="relative bg-gradient-to-b from-pink-50/50 to-white p-8 rounded-3xl border border-pink-100 text-center">
                 <div className="absolute -top-5 right-1/2 translate-x-1/2 bg-gradient-to-br from-pink-500 to-rose-500 text-white text-2xl font-black w-12 h-12 rounded-full flex items-center justify-center shadow-lg shadow-pink-500/30">
                   {num}
@@ -454,12 +458,20 @@ const Index = () => {
                 <div className="mt-4 mb-5 w-16 h-16 mx-auto rounded-2xl bg-white border border-pink-100 flex items-center justify-center text-pink-500">
                   <Icon size={30} />
                 </div>
-                <h3 className="text-xl font-black text-slate-900 mb-1">שלב {num}: {title}</h3>
+                <h3 className="text-xl font-black text-slate-900 mb-1">{num}. {title}</h3>
                 <p className="text-sm font-bold text-pink-600 mb-3">({sub})</p>
+                <div className="inline-flex items-center gap-1.5 bg-slate-900 text-white px-3 py-1 rounded-full text-xs font-black mb-4">
+                  <Timer size={12} />
+                  <span>{time}</span>
+                </div>
                 <p className="text-slate-600 leading-relaxed text-sm">{desc}</p>
               </div>
             ))}
           </div>
+
+          <p className="text-center mt-10 text-base font-bold text-slate-700">
+            סה"כ: <span className="text-pink-600">2.5 דקות בבוקר, 2.5 דקות בערב.</span> זהו.
+          </p>
         </div>
       </section>
 
