@@ -19,6 +19,7 @@ import {
   Flame,
   Crown,
   Award,
+  Timer,
 } from "lucide-react";
 import { fetchProducts, type ShopifyProduct } from "@/lib/shopify";
 import { ProductCard } from "@/components/ProductCard";
