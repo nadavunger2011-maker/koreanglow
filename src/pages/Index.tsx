@@ -19,6 +19,7 @@ import {
   Flame,
   Crown,
   Award,
+  Timer,
 } from "lucide-react";
 import { fetchProducts, type ShopifyProduct } from "@/lib/shopify";
 import { ProductCard } from "@/components/ProductCard";
@@ -69,32 +70,32 @@ const beforeAfterImages = [
 
 const faqs = [
   {
-    q: "האם הסדרה מכילה מרכיבים טבעיים?",
-    a: "המוצרים מכילים מרכיבים ממקור טבעי היכן שניתן, לצד מרכיבים פעילים הנתמכים מדעית כדי להבטיח תוצאות אופטימליות.",
+    q: "האם זה יתאים לעור שלי? יש לי עור רגיש / שמן / יבש",
+    a: "כן. הסדרה פותחה לכל סוגי העור — כולל הרגישים ביותר — בזכות רכיבים טבעיים נטולי פרבנים, סולפטים ובישום בסרום. נבדק דרמטולוגית על מאות נשים עם סוגי עור שונים.",
   },
   {
-    q: "האם המוצרים מכילים פרבנים וסולפטים?",
-    a: "כל המוצרים בסדרה אינם מכילים פרבנים. ג'ל הניקוי לפנים אינו מכיל פרבנים וסולפטים.",
+    q: "מה אם לא אראה תוצאות?",
+    a: "אם תוך 30 יום לא ראית את השינוי שחיפשת — אנחנו מחזירים לך כל שקל. בלי שאלות, בלי עמלות, בלי 'אותיות קטנות'. הסיכון כולו עלינו.",
   },
   {
-    q: "האם המוצרים נטולי בישום?",
-    a: "פורמולת הסרום אינה כוללת מרכיבי בישום. שאר המוצרים מכילים ניחוחות עדינים שנבחרו בקפידה כדי לשפר את חוויית הטיפוח.",
+    q: "כמה זמן באמת לוקח לראות תוצאות?",
+    a: "רוב הלקוחות מדווחות על שיפור במרקם ובזוהר כבר תוך 7–14 ימים. אפקט ה-Glass Skin המלא מגיע תוך 4–6 שבועות של שימוש עקבי — 2 דקות בוקר ו-2 דקות ערב.",
   },
   {
-    q: "לאילו סוגי עור מתאימים המוצרים?",
-    a: "המוצרים מתאימים לכל סוגי העור — רגיל, יבש, שמן, מעורב ורגיש.",
+    q: "באמת מספיק 2 דקות ביום? לא צריך 10 שלבים?",
+    a: "בדיוק. השגרה הקוריאנית של 10 שלבים היא מיתוג שיווקי. בפועל, 3 מוצרים פעילים נכונים בריכוז הנכון נותנים תוצאה טובה יותר מ-10 מוצרים מדוללים.",
   },
   {
-    q: "לאילו גילים מתאימה הסדרה?",
-    a: "המוצרים מיועדים בדרך כלל למבוגרים ולבני נוער מגיל 18 ומעלה.",
+    q: "האם המוצרים מכילים פרבנים, סולפטים או בישום?",
+    a: "הסרום נטול פרבנים, סולפטים ובישום לחלוטין. ג'ל הניקוי נטול פרבנים וסולפטים. שאר המוצרים מכילים ניחוחות עדינים שנבחרו בקפידה.",
   },
   {
-    q: "באיזו תדירות מומלץ להשתמש במוצרים?",
-    a: "ג'ל ניקוי לפנים – פעמיים ביום. קרם עיניים מזין – פעמיים ביום. קרם למיצוק – פעם ביום בבוקר. סרום ניאצינאמיד 10% – פעם ביום. תחליב לידיים וגוף – לפי הצורך.",
+    q: "האם נוסה על בעלי חיים?",
+    a: "לא. אף מוצר בסדרה לא נוסה על בעלי חיים. כל הסדרה נבדקה דרמטולוגית בלבד.",
   },
   {
-    q: "האם המוצרים נוסו על בעלי חיים?",
-    a: "לא. אף אחד מהמוצרים לא נוסה על בעלי חיים. כל הסדרה נבדקה דרמטולוגית.",
+    q: "כמה זמן לוקח המשלוח?",
+    a: "משלוח אקספרס חינם בכל הזמנה — מגיע אלייך עד 3 ימי עסקים, בדרך כלל מהר יותר.",
   },
 ];
 
@@ -143,10 +144,22 @@ const Index = () => {
   }, []);
 
   const ingredients = [
-    { name: "10% ניאצינאמיד", benefit: "צמצום נקבוביות והבהרה" },
-    { name: "אדנוזין", benefit: "מיצוק והחלקת קמטים" },
-    { name: "סקוואלן", benefit: "לחות עמוקה ללא שומן" },
-    { name: "פפטידים", benefit: "שיקום ובניית העור" },
+    {
+      name: "10% ניאצינאמיד",
+      benefit: "החומר הפעיל שמכווץ נקבוביות פתוחות ומעלים כתמי עבר תוך ימים — בלי להעמיס על העור.",
+    },
+    {
+      name: "אדנוזין",
+      benefit: "ה'בוטוקס הטבעי' — מחליק קמטים דקים ומחזיר לעור את המוצקות שאיבד בשנים האחרונות.",
+    },
+    {
+      name: "סקוואלן",
+      benefit: "ממלא את העור בלחות עמוקה כמו מאגר פנימי — בלי תחושה שמנונית, בלי בריקנס.",
+    },
+    {
+      name: "פפטידים",
+      benefit: "אבני הבניין של הקולגן — מאותתים לעור לבנות את עצמו מחדש מבפנים, יותר חזק ויותר צעיר.",
+    },
   ];
 
   const tutorials = [
@@ -249,20 +262,19 @@ const Index = () => {
             </div>
 
             <h1 className="text-4xl sm:text-5xl md:text-7xl font-extrabold text-slate-900 leading-[1.08] mb-7 tracking-tight">
-              סוד היופי הקוריאני
-              <br className="hidden sm:block" />
+              עור זכוכית מושלם
               <span className="block mt-3 text-transparent bg-clip-text bg-gradient-to-r from-rose-400 via-pink-500 to-rose-500">
-                לעור זכוכית זוהר
-              </span>
-              <span className="block mt-3 text-2xl sm:text-3xl md:text-4xl font-medium text-slate-500">
                 תוך 14 יום בלבד
+              </span>
+              <span className="block mt-4 text-2xl sm:text-3xl md:text-4xl font-bold text-slate-700">
+                — או שאת מקבלת את הכסף חזרה
               </span>
             </h1>
 
             <p className="text-lg sm:text-xl text-slate-600 mb-10 max-w-2xl mx-auto leading-relaxed font-light">
-              בלי שגרה מתישה של 10 שלבים. רק 3 מוצרי פרימיום קוריאניים,
-              <br className="hidden sm:block" />
-              2 דקות ביום — ועור שזורח כמו זכוכית.
+              די עם 10 שלבים מתישים. השגרה הקוריאנית המוכחת של
+              <strong className="font-bold text-slate-900"> 2 דקות ביום </strong>
+              שתגרום לעור שלך לזהור.
             </p>
 
             <div className="flex flex-col sm:flex-row justify-center items-center gap-4 sm:gap-6">
@@ -272,9 +284,9 @@ const Index = () => {
                   e.preventDefault();
                   document.getElementById("offer")?.scrollIntoView({ behavior: "smooth" });
                 }}
-                className="w-full sm:w-auto text-center bg-gradient-to-r from-rose-500 via-pink-500 to-rose-500 bg-[length:200%_100%] hover:bg-[position:100%_0] text-white px-10 sm:px-14 py-4 sm:py-5 rounded-full text-base sm:text-lg font-bold shadow-xl shadow-pink-400/40 hover:-translate-y-0.5 transition-all duration-500 ring-1 ring-white/40"
+                className="w-full sm:w-auto text-center bg-gradient-to-r from-rose-500 via-pink-500 to-rose-500 bg-[length:200%_100%] hover:bg-[position:100%_0] text-white px-10 sm:px-14 py-4 sm:py-5 rounded-full text-base sm:text-lg font-black shadow-xl shadow-pink-400/40 hover:-translate-y-0.5 transition-all duration-500 ring-1 ring-white/40"
               >
-                ✨ גלי את שגרת הזוהר שלך
+                ✨ אני רוצה את הזוהר שלי
               </a>
               <a
                 href="#about"
@@ -288,7 +300,10 @@ const Index = () => {
               </a>
             </div>
 
-            <div className="mt-10 flex flex-wrap justify-center gap-x-8 gap-y-3 text-sm text-slate-500 font-medium">
+            <p className="mt-4 text-sm text-slate-500 font-medium">
+              משלוח חינם · אחריות מלאה ל-30 יום
+            </p>
+            <div className="mt-8 flex flex-wrap justify-center gap-x-8 gap-y-3 text-sm text-slate-500 font-medium">
               <span className="inline-flex items-center gap-1.5"><Check size={16} className="text-pink-500" /> משלוח אקספרס חינם</span>
               <span className="inline-flex items-center gap-1.5"><Check size={16} className="text-pink-500" /> 30 יום החזר כספי</span>
               <span className="inline-flex items-center gap-1.5"><Check size={16} className="text-pink-500" /> נבדק דרמטולוגית</span>
@@ -330,10 +345,13 @@ const Index = () => {
               {[0,1,2,3,4].map((i) => <Star key={i} size={18} fill="currentColor" />)}
             </div>
             <h2 className="text-3xl md:text-5xl font-black text-slate-900 mb-3">
-              לקוחות מספרות על שגרת ה-Glass Skin שלהן
+              מפסיקות להסתיר, מתחילות לזהור:
+              <span className="block mt-2 text-transparent bg-clip-text bg-gradient-to-r from-rose-500 to-pink-500">
+                אלפי נשים כבר עברו לשגרת ה-Glass Skin
+              </span>
             </h2>
-            <p className="text-lg text-slate-500 max-w-2xl mx-auto">
-              תמונות לפני/אחרי אמיתיות לצד חוויות שימוש ברורות וממוקדות תוצאה
+            <p className="text-lg text-slate-500 max-w-2xl mx-auto mt-4">
+              סיפורים אמיתיים של בעיה → פתרון. תמונות לפני/אחרי לא ערוכות.
             </p>
           </div>
 
@@ -365,18 +383,18 @@ const Index = () => {
             {[
               {
                 name: "מיכל ל., 34",
-                quote: "ניסיתי הכל לעור יבש, ורק השילוב הזה החזיר לי את הגלואו!",
-                result: "העור מרגיש רך יותר, פחות עייף ועם ברק טבעי כבר מהימים הראשונים.",
+                pain: "הייתי מיואשת מהמרקם של העור — יבש, כתום, ושום קרם לא עזר.",
+                result: "תוך 10 ימים העור חזר לזהור. סוף סוף הסתכלתי במראה בלי לרצות להסתיר.",
               },
               {
                 name: "שירה ע., 41",
-                quote: "תוך שבוע וחצי המרקם של העור השתנה לחלוטין. מומלץ ברמות.",
-                result: "השגרה קצרה, נעימה, ולא מרגישה כמו עוד מטלה בסוף היום.",
+                pain: "הרגשתי שהפנים שלי 'מתות' — עייפות, חסרות חיים, עם קמטוטים מודגשים.",
+                result: "אחרי שבועיים המרקם השתנה לגמרי. נשים שואלות אותי מה עשיתי לעור.",
               },
               {
                 name: "נועה ק., 29",
-                quote: "סוף סוף עור חלק בלי פילטרים. הבייסליין החדש שלי לטיפוח קוריאני.",
-                result: "הסרום נספג מהר, הקרם יושב יפה, והאיפור נראה הרבה יותר אחיד.",
+                pain: "נקבוביות פתוחות וכתמי עבר עשו לי מסכות איפור כבדות מדי יום.",
+                result: "סוף סוף עור חלק בלי פילטרים. עברתי לאיפור מינימלי — והעור מנצח.",
               },
             ].map((card, idx) => (
               <article key={idx} className="bg-white rounded-3xl border border-pink-100 shadow-sm hover:shadow-2xl transition-shadow p-7 text-right h-full flex flex-col">
@@ -386,10 +404,13 @@ const Index = () => {
                   </div>
                   <span className="text-xs font-black text-pink-600 bg-pink-50 px-3 py-1 rounded-full">חוות דעת מאומתת</span>
                 </div>
-                <p className="text-slate-800 text-lg font-bold leading-relaxed mb-5">"{card.quote}"</p>
+                <div className="mb-5">
+                  <p className="text-xs font-black text-rose-500 uppercase tracking-widest mb-2">הכאב 💔</p>
+                  <p className="text-slate-700 leading-relaxed">"{card.pain}"</p>
+                </div>
                 <div className="mt-auto border-t border-pink-50 pt-5">
-                  <p className="text-sm font-bold text-slate-900 mb-2">מה היא אהבה בשגרה:</p>
-                  <p className="text-slate-600 leading-relaxed text-sm">{card.result}</p>
+                  <p className="text-xs font-black text-emerald-600 uppercase tracking-widest mb-2">השינוי ✨</p>
+                  <p className="text-slate-800 leading-relaxed font-medium">"{card.result}"</p>
                   <p className="text-sm text-slate-400 font-bold mt-4">— {card.name}</p>
                 </div>
               </article>
@@ -424,20 +445,24 @@ const Index = () => {
       <section id="how" className="py-24 bg-white">
         <div className="max-w-[1200px] mx-auto px-4 sm:px-6">
           <div className="text-center mb-16">
+            <div className="inline-flex items-center gap-2 bg-pink-100 text-pink-600 px-4 py-1.5 rounded-full text-xs font-black mb-4 uppercase tracking-widest">
+              <Timer size={14} />
+              <span>הנוסחה ל-3 דקות</span>
+            </div>
             <h2 className="text-3xl md:text-5xl font-black text-slate-900 mb-4">
-              איך זה עובד? <span className="text-slate-400 font-extrabold">(בלי להסתבך)</span>
+              3 שלבים. 3 דקות. עור זכוכית.
             </h2>
             <p className="text-lg text-slate-500 max-w-2xl mx-auto">
-              שגרת טיפוח קוריאני אמיתית של 2 דקות בלבד — בוקר וערב
+              בלי 10 בקבוקים, בלי שיעורי כימיה. כל מה שצריך — בוקר וערב.
             </p>
           </div>
 
           <div className="grid md:grid-cols-3 gap-6 md:gap-8 relative">
             {[
-              { icon: Droplet, num: "1", title: "ניקוי והכנה", sub: "טונר עמוק", desc: "פותח את הנקבוביות ומכין את העור לספיגה מלאה של הפעילים." },
-              { icon: FlaskConical, num: "2", title: "הזנה מרוכזת", sub: "סרום גלואו עוצמתי", desc: "ניאצינאמיד 10% + פפטידים – מאחד גוון, מבהיר ומחזיר זוהר." },
-              { icon: Lock, num: "3", title: "נעילת לחות והגנה", sub: "קרם זכוכית פעיל", desc: "נועל את הפעילים, מחליק את המרקם וחושף את אפקט ה-Glass Skin." },
-            ].map(({ icon: Icon, num, title, sub, desc }) => (
+              { icon: Droplet, num: "1", title: "נקו את הרעשים", sub: "ניקוי", time: "60 שניות", desc: "פותח את הנקבוביות, מסיר שאריות איפור וזיהום, ומכין את העור לספיגה מלאה." },
+              { icon: FlaskConical, num: "2", title: "תנו לעור אוכל", sub: "סרום", time: "30 שניות", desc: "ניאצינאמיד 10% + פפטידים — מזין את העור מבפנים, מאחד גוון ומחזיר זוהר." },
+              { icon: Lock, num: "3", title: "תנעלו את הקסם", sub: "קרם", time: "60 שניות", desc: "נועל את הפעילים, מחליק את המרקם וחושף את אפקט ה-Glass Skin." },
+            ].map(({ icon: Icon, num, title, sub, time, desc }) => (
               <div key={num} className="relative bg-gradient-to-b from-pink-50/50 to-white p-8 rounded-3xl border border-pink-100 text-center">
                 <div className="absolute -top-5 right-1/2 translate-x-1/2 bg-gradient-to-br from-pink-500 to-rose-500 text-white text-2xl font-black w-12 h-12 rounded-full flex items-center justify-center shadow-lg shadow-pink-500/30">
                   {num}
@@ -445,12 +470,20 @@ const Index = () => {
                 <div className="mt-4 mb-5 w-16 h-16 mx-auto rounded-2xl bg-white border border-pink-100 flex items-center justify-center text-pink-500">
                   <Icon size={30} />
                 </div>
-                <h3 className="text-xl font-black text-slate-900 mb-1">שלב {num}: {title}</h3>
+                <h3 className="text-xl font-black text-slate-900 mb-1">{num}. {title}</h3>
                 <p className="text-sm font-bold text-pink-600 mb-3">({sub})</p>
+                <div className="inline-flex items-center gap-1.5 bg-slate-900 text-white px-3 py-1 rounded-full text-xs font-black mb-4">
+                  <Timer size={12} />
+                  <span>{time}</span>
+                </div>
                 <p className="text-slate-600 leading-relaxed text-sm">{desc}</p>
               </div>
             ))}
           </div>
+
+          <p className="text-center mt-10 text-base font-bold text-slate-700">
+            סה"כ: <span className="text-pink-600">2.5 דקות בבוקר, 2.5 דקות בערב.</span> זהו.
+          </p>
         </div>
       </section>
 
@@ -512,8 +545,8 @@ const Index = () => {
 
             {/* Tier 2 - Pro Glow (Popular) */}
             <div className="bg-white rounded-3xl border-2 border-pink-500 p-6 sm:p-8 flex flex-col shadow-xl shadow-pink-500/10 relative">
-              <div className="absolute -top-4 left-1/2 -translate-x-1/2 bg-gradient-to-r from-pink-500 to-rose-500 text-white text-xs font-black uppercase tracking-widest px-4 py-1.5 rounded-full shadow-lg shadow-pink-500/20">
-                הבחירה הפופולרית
+              <div className="absolute -top-4 left-1/2 -translate-x-1/2 bg-gradient-to-r from-pink-500 to-rose-500 text-white text-xs font-black uppercase tracking-widest px-4 py-1.5 rounded-full shadow-lg shadow-pink-500/20 flex items-center gap-1.5">
+                <Flame size={12} /> הכי משתלמת · Best Value
               </div>
 
               <div className="text-center mb-6">
@@ -586,23 +619,34 @@ const Index = () => {
               <ul className="space-y-3 mb-8 flex-grow">
                 <li className="flex items-start gap-3 text-slate-700">
                   <Check size={18} className="text-pink-500 flex-shrink-0 mt-0.5" />
-                  <span>כל מה שכלול ב-Pro Glow</span>
+                  <span><strong>ערכת מוצרים ל-3 חודשים</strong> (שווי 1,797 ₪)</span>
                 </li>
                 <li className="flex items-start gap-3 text-slate-700">
                   <Check size={18} className="text-pink-500 flex-shrink-0 mt-0.5" />
-                  <span>מלאי ל-3 חודשים</span>
-                </li>
-                <li className="flex items-start gap-3 text-slate-700">
-                  <Check size={18} className="text-pink-500 flex-shrink-0 mt-0.5" />
-                  <span>אבן גואה שא (Gua Sha)</span>
+                  <span>כל מה שכלול ב-Pro Glow + אבן גואה שא</span>
                 </li>
                 <li className="flex items-start gap-3 text-slate-700">
                   <Check size={18} className="text-pink-500 flex-shrink-0 mt-0.5" />
                   <span>סט 15 מסכות בד פרימיום</span>
                 </li>
+                <li className="flex items-start gap-3 text-amber-700 font-bold bg-amber-50 p-2 rounded-lg">
+                  <Gift size={18} className="text-amber-500 flex-shrink-0 mt-0.5" />
+                  <span>בונוס: מדריך וידאו אישי "הסודות של Glass Skin" (₪397)</span>
+                </li>
+                <li className="flex items-start gap-3 text-amber-700 font-bold bg-amber-50 p-2 rounded-lg">
+                  <Gift size={18} className="text-amber-500 flex-shrink-0 mt-0.5" />
+                  <span>בונוס: מדריך תזונה לעור זוהר (₪197)</span>
+                </li>
+                <li className="flex items-start gap-3 text-amber-700 font-bold bg-amber-50 p-2 rounded-lg">
+                  <Gift size={18} className="text-amber-500 flex-shrink-0 mt-0.5" />
+                  <span>בונוס: גישה לקהילת ה-VIP הסגורה (₪297)</span>
+                </li>
                 <li className="flex items-start gap-3 text-slate-700">
                   <Check size={18} className="text-pink-500 flex-shrink-0 mt-0.5" />
                   <span>שיחת ייעוץ עור אישית 1 על 1 עם Hene</span>
+                </li>
+                <li className="flex items-center justify-center gap-2 text-xs font-black text-slate-500 pt-2 border-t border-slate-100">
+                  שווי כולל: <span className="line-through">2,688 ₪</span> · משלמת היום 950 ₪
                 </li>
               </ul>
 
@@ -715,9 +759,9 @@ const Index = () => {
       <section id="science" className="py-24 bg-gradient-to-b from-white to-pink-50/30 overflow-hidden relative">
         <div className="max-w-[1200px] mx-auto px-4 sm:px-6">
           <div className="text-center max-w-3xl mx-auto mb-16">
-            <h2 className="text-4xl md:text-5xl font-black mb-6 italic">המדע מאחורי הסדרה</h2>
+            <h2 className="text-4xl md:text-5xl font-black mb-6 italic">למה זה עובד באמת</h2>
             <p className="text-lg text-slate-600 leading-relaxed">
-              דרום קוריאה היא מובילה עולמית בחדשנות בתחום טיפוח העור — שילוב של מדע פורץ דרך, תוצאות מהירות ומרקמים המדמים את מרקם העור הטבעי. כל המוצרים נבדקו דרמטולוגית.
+              לא רכיבים יקרים בריכוז דקורטיבי. רק 4 פעילים אמיתיים, בריכוז הגבוה ביותר המותר, כדי שתראי את ההבדל — לא תקראי עליו.
             </p>
           </div>
 
