@@ -250,20 +250,19 @@ const Index = () => {
             </div>
 
             <h1 className="text-4xl sm:text-5xl md:text-7xl font-extrabold text-slate-900 leading-[1.08] mb-7 tracking-tight">
-              סוד היופי הקוריאני
-              <br className="hidden sm:block" />
+              עור זכוכית מושלם
               <span className="block mt-3 text-transparent bg-clip-text bg-gradient-to-r from-rose-400 via-pink-500 to-rose-500">
-                לעור זכוכית זוהר
-              </span>
-              <span className="block mt-3 text-2xl sm:text-3xl md:text-4xl font-medium text-slate-500">
                 תוך 14 יום בלבד
+              </span>
+              <span className="block mt-4 text-2xl sm:text-3xl md:text-4xl font-bold text-slate-700">
+                — או שאת מקבלת את הכסף חזרה
               </span>
             </h1>
 
             <p className="text-lg sm:text-xl text-slate-600 mb-10 max-w-2xl mx-auto leading-relaxed font-light">
-              בלי שגרה מתישה של 10 שלבים. רק 3 מוצרי פרימיום קוריאניים,
-              <br className="hidden sm:block" />
-              2 דקות ביום — ועור שזורח כמו זכוכית.
+              די עם 10 שלבים מתישים. השגרה הקוריאנית המוכחת של
+              <strong className="font-bold text-slate-900"> 2 דקות ביום </strong>
+              שתגרום לעור שלך לזהור.
             </p>
 
             <div className="flex flex-col sm:flex-row justify-center items-center gap-4 sm:gap-6">
@@ -273,9 +272,9 @@ const Index = () => {
                   e.preventDefault();
                   document.getElementById("offer")?.scrollIntoView({ behavior: "smooth" });
                 }}
-                className="w-full sm:w-auto text-center bg-gradient-to-r from-rose-500 via-pink-500 to-rose-500 bg-[length:200%_100%] hover:bg-[position:100%_0] text-white px-10 sm:px-14 py-4 sm:py-5 rounded-full text-base sm:text-lg font-bold shadow-xl shadow-pink-400/40 hover:-translate-y-0.5 transition-all duration-500 ring-1 ring-white/40"
+                className="w-full sm:w-auto text-center bg-gradient-to-r from-rose-500 via-pink-500 to-rose-500 bg-[length:200%_100%] hover:bg-[position:100%_0] text-white px-10 sm:px-14 py-4 sm:py-5 rounded-full text-base sm:text-lg font-black shadow-xl shadow-pink-400/40 hover:-translate-y-0.5 transition-all duration-500 ring-1 ring-white/40"
               >
-                ✨ גלי את שגרת הזוהר שלך
+                ✨ אני רוצה את הזוהר שלי
               </a>
               <a
                 href="#about"
@@ -289,7 +288,10 @@ const Index = () => {
               </a>
             </div>
 
-            <div className="mt-10 flex flex-wrap justify-center gap-x-8 gap-y-3 text-sm text-slate-500 font-medium">
+            <p className="mt-4 text-sm text-slate-500 font-medium">
+              משלוח חינם · אחריות מלאה ל-30 יום
+            </p>
+            <div className="mt-8 flex flex-wrap justify-center gap-x-8 gap-y-3 text-sm text-slate-500 font-medium">
               <span className="inline-flex items-center gap-1.5"><Check size={16} className="text-pink-500" /> משלוח אקספרס חינם</span>
               <span className="inline-flex items-center gap-1.5"><Check size={16} className="text-pink-500" /> 30 יום החזר כספי</span>
               <span className="inline-flex items-center gap-1.5"><Check size={16} className="text-pink-500" /> נבדק דרמטולוגית</span>
