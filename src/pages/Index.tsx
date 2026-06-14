@@ -333,10 +333,13 @@ const Index = () => {
               {[0,1,2,3,4].map((i) => <Star key={i} size={18} fill="currentColor" />)}
             </div>
             <h2 className="text-3xl md:text-5xl font-black text-slate-900 mb-3">
-              לקוחות מספרות על שגרת ה-Glass Skin שלהן
+              מפסיקות להסתיר, מתחילות לזהור:
+              <span className="block mt-2 text-transparent bg-clip-text bg-gradient-to-r from-rose-500 to-pink-500">
+                אלפי נשים כבר עברו לשגרת ה-Glass Skin
+              </span>
             </h2>
-            <p className="text-lg text-slate-500 max-w-2xl mx-auto">
-              תמונות לפני/אחרי אמיתיות לצד חוויות שימוש ברורות וממוקדות תוצאה
+            <p className="text-lg text-slate-500 max-w-2xl mx-auto mt-4">
+              סיפורים אמיתיים של בעיה → פתרון. תמונות לפני/אחרי לא ערוכות.
             </p>
           </div>
 
@@ -368,18 +371,18 @@ const Index = () => {
             {[
               {
                 name: "מיכל ל., 34",
-                quote: "ניסיתי הכל לעור יבש, ורק השילוב הזה החזיר לי את הגלואו!",
-                result: "העור מרגיש רך יותר, פחות עייף ועם ברק טבעי כבר מהימים הראשונים.",
+                pain: "הייתי מיואשת מהמרקם של העור — יבש, כתום, ושום קרם לא עזר.",
+                result: "תוך 10 ימים העור חזר לזהור. סוף סוף הסתכלתי במראה בלי לרצות להסתיר.",
               },
               {
                 name: "שירה ע., 41",
-                quote: "תוך שבוע וחצי המרקם של העור השתנה לחלוטין. מומלץ ברמות.",
-                result: "השגרה קצרה, נעימה, ולא מרגישה כמו עוד מטלה בסוף היום.",
+                pain: "הרגשתי שהפנים שלי 'מתות' — עייפות, חסרות חיים, עם קמטוטים מודגשים.",
+                result: "אחרי שבועיים המרקם השתנה לגמרי. נשים שואלות אותי מה עשיתי לעור.",
               },
               {
                 name: "נועה ק., 29",
-                quote: "סוף סוף עור חלק בלי פילטרים. הבייסליין החדש שלי לטיפוח קוריאני.",
-                result: "הסרום נספג מהר, הקרם יושב יפה, והאיפור נראה הרבה יותר אחיד.",
+                pain: "נקבוביות פתוחות וכתמי עבר עשו לי מסכות איפור כבדות מדי יום.",
+                result: "סוף סוף עור חלק בלי פילטרים. עברתי לאיפור מינימלי — והעור מנצח.",
               },
             ].map((card, idx) => (
               <article key={idx} className="bg-white rounded-3xl border border-pink-100 shadow-sm hover:shadow-2xl transition-shadow p-7 text-right h-full flex flex-col">
@@ -389,10 +392,13 @@ const Index = () => {
                   </div>
                   <span className="text-xs font-black text-pink-600 bg-pink-50 px-3 py-1 rounded-full">חוות דעת מאומתת</span>
                 </div>
-                <p className="text-slate-800 text-lg font-bold leading-relaxed mb-5">"{card.quote}"</p>
+                <div className="mb-5">
+                  <p className="text-xs font-black text-rose-500 uppercase tracking-widest mb-2">הכאב 💔</p>
+                  <p className="text-slate-700 leading-relaxed">"{card.pain}"</p>
+                </div>
                 <div className="mt-auto border-t border-pink-50 pt-5">
-                  <p className="text-sm font-bold text-slate-900 mb-2">מה היא אהבה בשגרה:</p>
-                  <p className="text-slate-600 leading-relaxed text-sm">{card.result}</p>
+                  <p className="text-xs font-black text-emerald-600 uppercase tracking-widest mb-2">השינוי ✨</p>
+                  <p className="text-slate-800 leading-relaxed font-medium">"{card.result}"</p>
                   <p className="text-sm text-slate-400 font-bold mt-4">— {card.name}</p>
                 </div>
               </article>
