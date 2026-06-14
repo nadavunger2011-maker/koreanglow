@@ -533,8 +533,8 @@ const Index = () => {
 
             {/* Tier 2 - Pro Glow (Popular) */}
             <div className="bg-white rounded-3xl border-2 border-pink-500 p-6 sm:p-8 flex flex-col shadow-xl shadow-pink-500/10 relative">
-              <div className="absolute -top-4 left-1/2 -translate-x-1/2 bg-gradient-to-r from-pink-500 to-rose-500 text-white text-xs font-black uppercase tracking-widest px-4 py-1.5 rounded-full shadow-lg shadow-pink-500/20">
-                הבחירה הפופולרית
+              <div className="absolute -top-4 left-1/2 -translate-x-1/2 bg-gradient-to-r from-pink-500 to-rose-500 text-white text-xs font-black uppercase tracking-widest px-4 py-1.5 rounded-full shadow-lg shadow-pink-500/20 flex items-center gap-1.5">
+                <Flame size={12} /> הכי משתלמת · Best Value
               </div>
 
               <div className="text-center mb-6">
@@ -607,23 +607,34 @@ const Index = () => {
               <ul className="space-y-3 mb-8 flex-grow">
                 <li className="flex items-start gap-3 text-slate-700">
                   <Check size={18} className="text-pink-500 flex-shrink-0 mt-0.5" />
-                  <span>כל מה שכלול ב-Pro Glow</span>
+                  <span><strong>ערכת מוצרים ל-3 חודשים</strong> (שווי 1,797 ₪)</span>
                 </li>
                 <li className="flex items-start gap-3 text-slate-700">
                   <Check size={18} className="text-pink-500 flex-shrink-0 mt-0.5" />
-                  <span>מלאי ל-3 חודשים</span>
-                </li>
-                <li className="flex items-start gap-3 text-slate-700">
-                  <Check size={18} className="text-pink-500 flex-shrink-0 mt-0.5" />
-                  <span>אבן גואה שא (Gua Sha)</span>
+                  <span>כל מה שכלול ב-Pro Glow + אבן גואה שא</span>
                 </li>
                 <li className="flex items-start gap-3 text-slate-700">
                   <Check size={18} className="text-pink-500 flex-shrink-0 mt-0.5" />
                   <span>סט 15 מסכות בד פרימיום</span>
                 </li>
+                <li className="flex items-start gap-3 text-amber-700 font-bold bg-amber-50 p-2 rounded-lg">
+                  <Gift size={18} className="text-amber-500 flex-shrink-0 mt-0.5" />
+                  <span>בונוס: מדריך וידאו אישי "הסודות של Glass Skin" (₪397)</span>
+                </li>
+                <li className="flex items-start gap-3 text-amber-700 font-bold bg-amber-50 p-2 rounded-lg">
+                  <Gift size={18} className="text-amber-500 flex-shrink-0 mt-0.5" />
+                  <span>בונוס: מדריך תזונה לעור זוהר (₪197)</span>
+                </li>
+                <li className="flex items-start gap-3 text-amber-700 font-bold bg-amber-50 p-2 rounded-lg">
+                  <Gift size={18} className="text-amber-500 flex-shrink-0 mt-0.5" />
+                  <span>בונוס: גישה לקהילת ה-VIP הסגורה (₪297)</span>
+                </li>
                 <li className="flex items-start gap-3 text-slate-700">
                   <Check size={18} className="text-pink-500 flex-shrink-0 mt-0.5" />
                   <span>שיחת ייעוץ עור אישית 1 על 1 עם Hene</span>
+                </li>
+                <li className="flex items-center justify-center gap-2 text-xs font-black text-slate-500 pt-2 border-t border-slate-100">
+                  שווי כולל: <span className="line-through">2,688 ₪</span> · משלמת היום 950 ₪
                 </li>
               </ul>
 
