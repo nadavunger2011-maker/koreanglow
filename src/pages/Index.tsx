@@ -144,10 +144,22 @@ const Index = () => {
   }, []);
 
   const ingredients = [
-    { name: "10% ניאצינאמיד", benefit: "צמצום נקבוביות והבהרה" },
-    { name: "אדנוזין", benefit: "מיצוק והחלקת קמטים" },
-    { name: "סקוואלן", benefit: "לחות עמוקה ללא שומן" },
-    { name: "פפטידים", benefit: "שיקום ובניית העור" },
+    {
+      name: "10% ניאצינאמיד",
+      benefit: "החומר הפעיל שמכווץ נקבוביות פתוחות ומעלים כתמי עבר תוך ימים — בלי להעמיס על העור.",
+    },
+    {
+      name: "אדנוזין",
+      benefit: "ה'בוטוקס הטבעי' — מחליק קמטים דקים ומחזיר לעור את המוצקות שאיבד בשנים האחרונות.",
+    },
+    {
+      name: "סקוואלן",
+      benefit: "ממלא את העור בלחות עמוקה כמו מאגר פנימי — בלי תחושה שמנונית, בלי בריקנס.",
+    },
+    {
+      name: "פפטידים",
+      benefit: "אבני הבניין של הקולגן — מאותתים לעור לבנות את עצמו מחדש מבפנים, יותר חזק ויותר צעיר.",
+    },
   ];
 
   const tutorials = [
@@ -747,9 +759,9 @@ const Index = () => {
       <section id="science" className="py-24 bg-gradient-to-b from-white to-pink-50/30 overflow-hidden relative">
         <div className="max-w-[1200px] mx-auto px-4 sm:px-6">
           <div className="text-center max-w-3xl mx-auto mb-16">
-            <h2 className="text-4xl md:text-5xl font-black mb-6 italic">המדע מאחורי הסדרה</h2>
+            <h2 className="text-4xl md:text-5xl font-black mb-6 italic">למה זה עובד באמת</h2>
             <p className="text-lg text-slate-600 leading-relaxed">
-              דרום קוריאה היא מובילה עולמית בחדשנות בתחום טיפוח העור — שילוב של מדע פורץ דרך, תוצאות מהירות ומרקמים המדמים את מרקם העור הטבעי. כל המוצרים נבדקו דרמטולוגית.
+              לא רכיבים יקרים בריכוז דקורטיבי. רק 4 פעילים אמיתיים, בריכוז הגבוה ביותר המותר, כדי שתראי את ההבדל — לא תקראי עליו.
             </p>
           </div>
 
