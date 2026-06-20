@@ -943,7 +943,7 @@ const Index = () => {
               <p className="text-slate-400 text-base sm:text-lg">בחרי את החבילה שמתאימה לך והתחילי שגרת זוהר כבר היום.</p>
             </div>
             <a
-              href="#packages"
+              href="#offer"
               className="whitespace-nowrap bg-white text-slate-900 px-8 sm:px-12 py-4 sm:py-5 rounded-2xl text-lg sm:text-xl font-bold hover:bg-pink-500 hover:text-white transition-all shadow-2xl"
             >
               לחבילות שלנו
