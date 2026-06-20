@@ -132,17 +132,90 @@ const Index = () => {
 
   useEffect(() => {
     fetchProducts(20, "title:חבילה* OR title:החבילה* OR title:חבילת*")
-      .then((items) => {
-        setProducts(items);
-        trackViewItemList(
-          items.map((p, idx) => productToItem(p, { index: idx, listId: "products_grid", listName: "Products Grid" })),
-          "products_grid",
-          "Products Grid",
-        );
-      })
+      .then((items) => setProducts(items))
       .catch((e) => console.error("Failed to fetch products:", e))
       .finally(() => setLoadingProducts(false));
   }, []);
+
+  const openCart = useCartStore((s) => s.openCart);
+  const addItem = useCartStore((s) => s.addItem);
+  const cartLoading = useCartStore((s) => s.isLoading);
+
+  // Map each homepage tier to a Shopify product ID + bundle metadata for the cart drawer
+  const tierConfig: Record<
+    "essential" | "pro" | "vip",
+    {
+      productId: string;
+      bundleName: string;
+      includes: Array<{ name: string; price: number }>;
+    }
+  > = {
+    essential: {
+      productId: "gid://shopify/Product/9336691425535",
+      bundleName: "ערכת ה-Essential",
+      includes: [
+        { name: "ג'ל ניקוי לפנים", price: 159 },
+        { name: "סרום ניאצינאמיד 10%", price: 249 },
+        { name: "קרם עיניים מזין", price: 219 },
+      ],
+    },
+    pro: {
+      productId: "gid://shopify/Product/9336695357695",
+      bundleName: "ערכת ה-Pro Glow המלאה",
+      includes: [
+        { name: "ג'ל ניקוי לפנים", price: 159 },
+        { name: "סרום ניאצינאמיד 10%", price: 249 },
+        { name: "קרם עיניים מזין", price: 219 },
+        { name: "קרם למיצוק מרקם העור", price: 279 },
+        { name: "רולר ג'ייד טבעי + 5 מסכות Snail Mucin", price: 199 },
+      ],
+    },
+    vip: {
+      productId: "gid://shopify/Product/9336697028863",
+      bundleName: "מארז ה-VIP האולטימטיבי",
+      includes: [
+        { name: "ערכת מוצרים ל-3 חודשים (שגרת הליבה x3)", price: 1797 },
+        { name: "אבן גואה שא + 15 מסכות בד פרימיום", price: 299 },
+        { name: "מדריך וידאו \"הסודות של Glass Skin\"", price: 397 },
+        { name: "מדריך תזונה לעור זוהר", price: 197 },
+        { name: "גישה לקהילת ה-VIP הסגורה", price: 297 },
+      ],
+    },
+  };
+
+  const handleSelectTier = async (tier: "essential" | "pro" | "vip") => {
+    const cfg = tierConfig[tier];
+    const product = products.find((p) => p.node.id === cfg.productId);
+    const variant = product?.node.variants.edges[0]?.node;
+    if (!product || !variant) {
+      toast.error("החבילה לא זמינה כרגע", { position: "top-center" });
+      return;
+    }
+    const originalValue = cfg.includes.reduce((sum, i) => sum + i.price, 0);
+    trackAddToCart({
+      item_id: toVariantNumericId(product.node.id),
+      item_name: cfg.bundleName,
+      item_variant: variant.title,
+      price: parseFloat(variant.price.amount),
+      currency: variant.price.currencyCode,
+      quantity: 1,
+    });
+    await addItem({
+      product,
+      variantId: variant.id,
+      variantTitle: variant.title,
+      price: variant.price,
+      quantity: 1,
+      selectedOptions: variant.selectedOptions || [],
+      bundle: {
+        name: cfg.bundleName,
+        originalValue,
+        includes: cfg.includes,
+      },
+    });
+    openCart();
+    toast.success("נוסף לעגלה", { description: cfg.bundleName, position: "top-center" });
+  };
 
   const ingredients = [
     {
