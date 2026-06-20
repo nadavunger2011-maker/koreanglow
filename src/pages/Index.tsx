@@ -22,10 +22,11 @@ import {
   Timer,
 } from "lucide-react";
 import { fetchProducts, type ShopifyProduct } from "@/lib/shopify";
-import { ProductCard } from "@/components/ProductCard";
 import { CartDrawer } from "@/components/CartDrawer";
+import { useCartStore } from "@/stores/cartStore";
+import { toast } from "sonner";
+import { trackAddToCart, toVariantNumericId } from "@/lib/analytics";
 import SiteFooter from "@/components/SiteFooter";
-import { productToItem, trackViewItemList } from "@/lib/analytics";
 import koreanGlowAbout from "@/assets/korean-glow-about.png";
 import { TrustLogosSlider } from "@/components/TrustLogosSlider";
 import {
