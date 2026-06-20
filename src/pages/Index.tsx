@@ -605,16 +605,14 @@ const Index = () => {
                 </li>
               </ul>
 
-              <a
-                href="#packages"
-                onClick={(e) => {
-                  e.preventDefault();
-                  document.getElementById("packages")?.scrollIntoView({ behavior: "smooth" });
-                }}
-                className="block w-full text-center bg-slate-100 text-slate-900 py-4 rounded-2xl font-bold hover:bg-slate-200 transition-all"
+              <button
+                type="button"
+                onClick={() => handleSelectTier("essential")}
+                disabled={cartLoading || loadingProducts}
+                className="block w-full text-center bg-slate-100 text-slate-900 py-4 rounded-2xl font-bold hover:bg-slate-200 transition-all disabled:opacity-60"
               >
-                בחרי ערכה זו
-              </a>
+                {cartLoading ? <Loader2 className="w-5 h-5 animate-spin inline" /> : "בחרי ערכה זו"}
+              </button>
             </div>
 
             {/* Tier 2 - Pro Glow (Popular) */}
@@ -661,16 +659,14 @@ const Index = () => {
                 </li>
               </ul>
 
-              <a
-                href="#packages"
-                onClick={(e) => {
-                  e.preventDefault();
-                  document.getElementById("packages")?.scrollIntoView({ behavior: "smooth" });
-                }}
-                className="block w-full text-center bg-gradient-to-r from-pink-500 to-rose-500 text-white py-4 rounded-2xl font-black shadow-lg shadow-pink-500/30 hover:-translate-y-0.5 transition-all"
+              <button
+                type="button"
+                onClick={() => handleSelectTier("pro")}
+                disabled={cartLoading || loadingProducts}
+                className="block w-full text-center bg-gradient-to-r from-pink-500 to-rose-500 text-white py-4 rounded-2xl font-black shadow-lg shadow-pink-500/30 hover:-translate-y-0.5 transition-all disabled:opacity-60"
               >
-                בחרי ערכה זו
-              </a>
+                {cartLoading ? <Loader2 className="w-5 h-5 animate-spin inline" /> : "בחרי ערכה זו"}
+              </button>
             </div>
 
             {/* Tier 3 - VIP */}
@@ -724,16 +720,14 @@ const Index = () => {
                 </li>
               </ul>
 
-              <a
-                href="#packages"
-                onClick={(e) => {
-                  e.preventDefault();
-                  document.getElementById("packages")?.scrollIntoView({ behavior: "smooth" });
-                }}
-                className="block w-full text-center bg-slate-900 text-white py-4 rounded-2xl font-bold hover:bg-slate-800 transition-all"
+              <button
+                type="button"
+                onClick={() => handleSelectTier("vip")}
+                disabled={cartLoading || loadingProducts}
+                className="block w-full text-center bg-slate-900 text-white py-4 rounded-2xl font-bold hover:bg-slate-800 transition-all disabled:opacity-60"
               >
-                בחרי ערכה זו
-              </a>
+                {cartLoading ? <Loader2 className="w-5 h-5 animate-spin inline" /> : "בחרי ערכה זו"}
+              </button>
             </div>
           </div>
 
