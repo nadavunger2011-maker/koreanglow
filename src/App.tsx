@@ -14,7 +14,7 @@ import Shipping from "./pages/Shipping.tsx";
 import Returns from "./pages/Returns.tsx";
 import NotFound from "./pages/NotFound.tsx";
 import { useCartSync } from "./hooks/useCartSync";
-import SkinQuizPopup from "./components/SkinQuizPopup";
+import DiscountPopup from "./components/DiscountPopup";
 import DiscountBanner from "./components/DiscountBanner";
 import CookieConsent from "./components/CookieConsent";
 import { useLocation } from "react-router-dom";
@@ -47,7 +47,7 @@ const AppRoutes = () => {
         {/* ADD ALL CUSTOM ROUTES ABOVE THE CATCH-ALL "*" ROUTE */}
         <Route path="*" element={<NotFound />} />
       </Routes>
-      {showPopup && <SkinQuizPopup />}
+      {showPopup && <DiscountPopup />}
       <CookieConsent />
     </>
   );
