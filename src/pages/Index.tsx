@@ -22,10 +22,11 @@ import {
   Timer,
 } from "lucide-react";
 import { fetchProducts, type ShopifyProduct } from "@/lib/shopify";
-import { ProductCard } from "@/components/ProductCard";
 import { CartDrawer } from "@/components/CartDrawer";
+import { useCartStore } from "@/stores/cartStore";
+import { toast } from "sonner";
+import { trackAddToCart, toVariantNumericId } from "@/lib/analytics";
 import SiteFooter from "@/components/SiteFooter";
-import { productToItem, trackViewItemList } from "@/lib/analytics";
 import koreanGlowAbout from "@/assets/korean-glow-about.png";
 import { TrustLogosSlider } from "@/components/TrustLogosSlider";
 import {
@@ -131,17 +132,90 @@ const Index = () => {
 
   useEffect(() => {
     fetchProducts(20, "title:חבילה* OR title:החבילה* OR title:חבילת*")
-      .then((items) => {
-        setProducts(items);
-        trackViewItemList(
-          items.map((p, idx) => productToItem(p, { index: idx, listId: "products_grid", listName: "Products Grid" })),
-          "products_grid",
-          "Products Grid",
-        );
-      })
+      .then((items) => setProducts(items))
       .catch((e) => console.error("Failed to fetch products:", e))
       .finally(() => setLoadingProducts(false));
   }, []);
+
+  const openCart = useCartStore((s) => s.openCart);
+  const addItem = useCartStore((s) => s.addItem);
+  const cartLoading = useCartStore((s) => s.isLoading);
+
+  // Map each homepage tier to a Shopify product ID + bundle metadata for the cart drawer
+  const tierConfig: Record<
+    "essential" | "pro" | "vip",
+    {
+      productId: string;
+      bundleName: string;
+      includes: Array<{ name: string; price: number }>;
+    }
+  > = {
+    essential: {
+      productId: "gid://shopify/Product/9336691425535",
+      bundleName: "ערכת ה-Essential",
+      includes: [
+        { name: "ג'ל ניקוי לפנים", price: 159 },
+        { name: "סרום ניאצינאמיד 10%", price: 249 },
+        { name: "קרם עיניים מזין", price: 219 },
+      ],
+    },
+    pro: {
+      productId: "gid://shopify/Product/9336695357695",
+      bundleName: "ערכת ה-Pro Glow המלאה",
+      includes: [
+        { name: "ג'ל ניקוי לפנים", price: 159 },
+        { name: "סרום ניאצינאמיד 10%", price: 249 },
+        { name: "קרם עיניים מזין", price: 219 },
+        { name: "קרם למיצוק מרקם העור", price: 279 },
+        { name: "רולר ג'ייד טבעי + 5 מסכות Snail Mucin", price: 199 },
+      ],
+    },
+    vip: {
+      productId: "gid://shopify/Product/9336697028863",
+      bundleName: "מארז ה-VIP האולטימטיבי",
+      includes: [
+        { name: "ערכת מוצרים ל-3 חודשים (שגרת הליבה x3)", price: 1797 },
+        { name: "אבן גואה שא + 15 מסכות בד פרימיום", price: 299 },
+        { name: "מדריך וידאו \"הסודות של Glass Skin\"", price: 397 },
+        { name: "מדריך תזונה לעור זוהר", price: 197 },
+        { name: "גישה לקהילת ה-VIP הסגורה", price: 297 },
+      ],
+    },
+  };
+
+  const handleSelectTier = async (tier: "essential" | "pro" | "vip") => {
+    const cfg = tierConfig[tier];
+    const product = products.find((p) => p.node.id === cfg.productId);
+    const variant = product?.node.variants.edges[0]?.node;
+    if (!product || !variant) {
+      toast.error("החבילה לא זמינה כרגע", { position: "top-center" });
+      return;
+    }
+    const originalValue = cfg.includes.reduce((sum, i) => sum + i.price, 0);
+    trackAddToCart({
+      item_id: toVariantNumericId(product.node.id),
+      item_name: cfg.bundleName,
+      item_variant: variant.title,
+      price: parseFloat(variant.price.amount),
+      currency: variant.price.currencyCode,
+      quantity: 1,
+    });
+    await addItem({
+      product,
+      variantId: variant.id,
+      variantTitle: variant.title,
+      price: variant.price,
+      quantity: 1,
+      selectedOptions: variant.selectedOptions || [],
+      bundle: {
+        name: cfg.bundleName,
+        originalValue,
+        includes: cfg.includes,
+      },
+    });
+    openCart();
+    toast.success("נוסף לעגלה", { description: cfg.bundleName, position: "top-center" });
+  };
 
   const ingredients = [
     {
@@ -199,14 +273,14 @@ const Index = () => {
 
             <div className="hidden md:flex space-x-reverse space-x-10 text-sm font-bold uppercase tracking-widest">
               <a href="#about" className="hover:text-pink-500 transition-colors">מה זה עור זכוכית?</a>
-              <a href="#packages" className="hover:text-pink-500 transition-colors">סרום ניאצינאמיד</a>
+              <a href="#offer" className="hover:text-pink-500 transition-colors">סרום ניאצינאמיד</a>
               <a href="#science" className="hover:text-pink-500 transition-colors">מיצוק העור</a>
               <a href="/blog" className="hover:text-pink-500 transition-colors">בלוג</a>
             </div>
 
             <div className="hidden md:flex items-center gap-3">
               <a
-                href="#packages"
+                href="#offer"
                 className="bg-black text-white px-8 py-3 rounded-full text-sm font-bold hover:bg-pink-600 transition-all shadow-lg"
               >
                 לחבילות
@@ -226,11 +300,11 @@ const Index = () => {
         {isMenuOpen && (
           <div className="md:hidden bg-background border-b border-slate-100 p-6 space-y-4 shadow-xl">
             <a href="#about" className="block text-lg font-bold">מה זה עור זכוכית?</a>
-            <a href="#packages" className="block text-lg font-bold">סרום ניאצינאמיד</a>
+            <a href="#offer" className="block text-lg font-bold">סרום ניאצינאמיד</a>
             <a href="#science" className="block text-lg font-bold">מיצוק העור</a>
             <a href="/blog" className="block text-lg font-bold">בלוג</a>
             <a
-              href="#packages"
+              href="#offer"
               className="block text-center w-full bg-pink-500 text-white py-4 rounded-xl font-bold"
             >
               לחבילות
@@ -531,16 +605,14 @@ const Index = () => {
                 </li>
               </ul>
 
-              <a
-                href="#packages"
-                onClick={(e) => {
-                  e.preventDefault();
-                  document.getElementById("packages")?.scrollIntoView({ behavior: "smooth" });
-                }}
-                className="block w-full text-center bg-slate-100 text-slate-900 py-4 rounded-2xl font-bold hover:bg-slate-200 transition-all"
+              <button
+                type="button"
+                onClick={() => handleSelectTier("essential")}
+                disabled={cartLoading || loadingProducts}
+                className="block w-full text-center bg-slate-100 text-slate-900 py-4 rounded-2xl font-bold hover:bg-slate-200 transition-all disabled:opacity-60"
               >
-                בחרי ערכה זו
-              </a>
+                {cartLoading ? <Loader2 className="w-5 h-5 animate-spin inline" /> : "בחרי ערכה זו"}
+              </button>
             </div>
 
             {/* Tier 2 - Pro Glow (Popular) */}
@@ -587,16 +659,14 @@ const Index = () => {
                 </li>
               </ul>
 
-              <a
-                href="#packages"
-                onClick={(e) => {
-                  e.preventDefault();
-                  document.getElementById("packages")?.scrollIntoView({ behavior: "smooth" });
-                }}
-                className="block w-full text-center bg-gradient-to-r from-pink-500 to-rose-500 text-white py-4 rounded-2xl font-black shadow-lg shadow-pink-500/30 hover:-translate-y-0.5 transition-all"
+              <button
+                type="button"
+                onClick={() => handleSelectTier("pro")}
+                disabled={cartLoading || loadingProducts}
+                className="block w-full text-center bg-gradient-to-r from-pink-500 to-rose-500 text-white py-4 rounded-2xl font-black shadow-lg shadow-pink-500/30 hover:-translate-y-0.5 transition-all disabled:opacity-60"
               >
-                בחרי ערכה זו
-              </a>
+                {cartLoading ? <Loader2 className="w-5 h-5 animate-spin inline" /> : "בחרי ערכה זו"}
+              </button>
             </div>
 
             {/* Tier 3 - VIP */}
@@ -650,16 +720,14 @@ const Index = () => {
                 </li>
               </ul>
 
-              <a
-                href="#packages"
-                onClick={(e) => {
-                  e.preventDefault();
-                  document.getElementById("packages")?.scrollIntoView({ behavior: "smooth" });
-                }}
-                className="block w-full text-center bg-slate-900 text-white py-4 rounded-2xl font-bold hover:bg-slate-800 transition-all"
+              <button
+                type="button"
+                onClick={() => handleSelectTier("vip")}
+                disabled={cartLoading || loadingProducts}
+                className="block w-full text-center bg-slate-900 text-white py-4 rounded-2xl font-bold hover:bg-slate-800 transition-all disabled:opacity-60"
               >
-                בחרי ערכה זו
-              </a>
+                {cartLoading ? <Loader2 className="w-5 h-5 animate-spin inline" /> : "בחרי ערכה זו"}
+              </button>
             </div>
           </div>
 
@@ -726,32 +794,6 @@ const Index = () => {
               </div>
             </div>
           </div>
-        </div>
-      </section>
-
-      {/* Packages */}
-      <section id="packages" className="py-24 bg-slate-50">
-        <div className="max-w-[1200px] mx-auto px-4 sm:px-6">
-          <div className="text-center mb-20">
-            <h2 className="text-4xl md:text-5xl font-black mb-6 italic">החבילות שלנו לטיפוח קוריאני</h2>
-            <p className="text-xl text-slate-500 max-w-2xl mx-auto">העדפת לבחור בנפרד? כל החבילות שלנו לעור Glass Skin במקום אחד</p>
-          </div>
-
-          {loadingProducts ? (
-            <div className="flex justify-center py-20">
-              <Loader2 className="w-12 h-12 animate-spin text-pink-500" />
-            </div>
-          ) : products.length === 0 ? (
-            <div className="text-center py-20">
-              <p className="text-xl text-slate-500">לא נמצאו מוצרים</p>
-            </div>
-          ) : (
-            <div className="grid sm:grid-cols-2 lg:grid-cols-3 gap-4 sm:gap-8 items-stretch mx-3 sm:mx-0">
-              {products.map((product) => (
-                <ProductCard key={product.node.id} product={product} />
-              ))}
-            </div>
-          )}
         </div>
       </section>
 
@@ -901,7 +943,7 @@ const Index = () => {
               <p className="text-slate-400 text-base sm:text-lg">בחרי את החבילה שמתאימה לך והתחילי שגרת זוהר כבר היום.</p>
             </div>
             <a
-              href="#packages"
+              href="#offer"
               className="whitespace-nowrap bg-white text-slate-900 px-8 sm:px-12 py-4 sm:py-5 rounded-2xl text-lg sm:text-xl font-bold hover:bg-pink-500 hover:text-white transition-all shadow-2xl"
             >
               לחבילות שלנו

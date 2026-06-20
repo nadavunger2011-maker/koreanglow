@@ -1,4 +1,4 @@
-import { useState, useEffect } from "react";
+import { useEffect } from "react";
 import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
 import {
@@ -9,7 +9,7 @@ import {
   SheetTitle,
   SheetTrigger,
 } from "@/components/ui/sheet";
-import { ShoppingCart, Minus, Plus, Trash2, ExternalLink, Loader2 } from "lucide-react";
+import { ShoppingCart, Minus, Plus, Trash2, ExternalLink, Loader2, Check, Gift } from "lucide-react";
 import { useCartStore } from "@/stores/cartStore";
 import { decorateUrlForCrossDomain } from "@/lib/gaLinker";
 import {
@@ -21,14 +21,29 @@ import {
 } from "@/lib/analytics";
 
 export const CartDrawer = () => {
-  const [isOpen, setIsOpen] = useState(false);
-  const { items, isLoading, isSyncing, updateQuantity, removeItem, getCheckoutUrl, syncCart } =
-    useCartStore();
+  const {
+    items,
+    isLoading,
+    isSyncing,
+    isCartOpen,
+    setCartOpen,
+    updateQuantity,
+    removeItem,
+    getCheckoutUrl,
+    syncCart,
+  } = useCartStore();
+  const isOpen = isCartOpen;
+  const setIsOpen = setCartOpen;
   const totalItems = items.reduce((sum, item) => sum + item.quantity, 0);
   const totalPrice = items.reduce(
     (sum, item) => sum + parseFloat(item.price.amount) * item.quantity,
     0,
   );
+  const totalOriginalValue = items.reduce((sum, item) => {
+    const baseline = item.bundle?.originalValue ?? parseFloat(item.price.amount);
+    return sum + baseline * item.quantity;
+  }, 0);
+  const totalSavings = Math.max(totalOriginalValue - totalPrice, 0);
 
   useEffect(() => {
     if (isOpen) {
@@ -96,7 +111,8 @@ export const CartDrawer = () => {
               <div className="flex-1 overflow-y-auto pr-2 min-h-0">
                 <div className="space-y-4">
                   {items.map((item) => (
-                    <div key={item.variantId} className="flex gap-4 p-2">
+                    <div key={item.variantId} className="p-2 space-y-3 border border-pink-100 rounded-2xl bg-white/60">
+                      <div className="flex gap-4">
                       <div className="w-16 h-16 bg-secondary/20 rounded-md overflow-hidden flex-shrink-0">
                         {item.product.node.images?.edges?.[0]?.node && (
                           <img
@@ -107,13 +123,26 @@ export const CartDrawer = () => {
                         )}
                       </div>
                       <div className="flex-1 min-w-0">
-                        <h4 className="font-medium truncate">{item.product.node.title}</h4>
+                        {item.bundle ? (
+                          <div className="flex items-center gap-1.5 mb-0.5">
+                            <Gift className="h-3.5 w-3.5 text-pink-500" />
+                            <span className="text-[11px] font-black text-pink-600 uppercase tracking-wider">חבילה</span>
+                          </div>
+                        ) : null}
+                        <h4 className="font-semibold text-sm leading-snug">{item.bundle?.name ?? item.product.node.title}</h4>
                         <p className="text-sm text-muted-foreground">
                           {item.selectedOptions.map((option) => option.value).join(" • ")}
                         </p>
-                        <p className="font-semibold">
-                          {item.price.currencyCode} {parseFloat(item.price.amount).toFixed(2)}
-                        </p>
+                        <div className="mt-1 flex items-baseline gap-2">
+                          <span className="font-bold text-pink-600">
+                            ₪{parseFloat(item.price.amount).toFixed(0)}
+                          </span>
+                          {item.bundle && item.bundle.originalValue > parseFloat(item.price.amount) && (
+                            <span className="text-xs text-slate-400 line-through">
+                              ₪{item.bundle.originalValue.toFixed(0)}
+                            </span>
+                          )}
+                        </div>
                       </div>
                       <div className="flex flex-col items-end gap-2 flex-shrink-0">
                         <Button
@@ -147,16 +176,47 @@ export const CartDrawer = () => {
                           </Button>
                         </div>
                       </div>
+                      </div>
+                      {item.bundle && item.bundle.includes.length > 0 && (
+                        <div className="rounded-xl bg-pink-50/60 border border-pink-100 px-3 py-2">
+                          <p className="text-[11px] font-black text-slate-500 uppercase tracking-wider mb-1.5">
+                            כלולים בחבילה:
+                          </p>
+                          <ul className="space-y-1">
+                            {item.bundle.includes.map((inc, idx) => (
+                              <li key={idx} className="flex items-start gap-2 text-xs text-slate-700">
+                                <Check className="h-3 w-3 text-pink-500 flex-shrink-0 mt-0.5" />
+                                <span className="flex-1">{inc.name}</span>
+                                <span className="text-slate-400">₪{inc.price.toFixed(0)}</span>
+                              </li>
+                            ))}
+                          </ul>
+                        </div>
+                      )}
                     </div>
                   ))}
                 </div>
               </div>
               <div className="flex-shrink-0 space-y-4 pt-4 border-t bg-background">
-                <div className="flex justify-between items-center">
-                  <span className="text-lg font-semibold">סה״כ</span>
-                  <span className="text-xl font-bold">
-                    {items[0]?.price.currencyCode || "$"} {totalPrice.toFixed(2)}
-                  </span>
+                <div className="space-y-1.5">
+                  {totalSavings > 0 && (
+                    <>
+                      <div className="flex justify-between items-center text-sm text-slate-500">
+                        <span>שווי כולל</span>
+                        <span className="line-through">₪{totalOriginalValue.toFixed(0)}</span>
+                      </div>
+                      <div className="flex justify-between items-center text-sm font-bold text-emerald-600">
+                        <span>חסכת</span>
+                        <span>₪{totalSavings.toFixed(0)}</span>
+                      </div>
+                    </>
+                  )}
+                  <div className="flex justify-between items-center pt-1">
+                    <span className="text-lg font-semibold">המחיר שלך</span>
+                    <span className="text-2xl font-black text-pink-600">
+                      ₪{totalPrice.toFixed(0)}
+                    </span>
+                  </div>
                 </div>
                 <Button
                   onClick={handleCheckout}
@@ -169,7 +229,7 @@ export const CartDrawer = () => {
                   ) : (
                     <>
                       <ExternalLink className="w-4 h-4 ml-2" />
-                      מעבר לתשלום
+                      המשך לתשלום
                     </>
                   )}
                 </Button>

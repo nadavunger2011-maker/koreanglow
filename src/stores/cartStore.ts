@@ -2,6 +2,12 @@ import { create } from "zustand";
 import { persist, createJSONStorage } from "zustand/middleware";
 import { storefrontApiRequest, type ShopifyProduct } from "@/lib/shopify";
 
+export interface BundleInfo {
+  name: string;
+  originalValue: number;
+  includes: Array<{ name: string; price: number }>;
+}
+
 export interface CartItem {
   lineId: string | null;
   product: ShopifyProduct;
@@ -10,6 +16,7 @@ export interface CartItem {
   price: { amount: string; currencyCode: string };
   quantity: number;
   selectedOptions: Array<{ name: string; value: string }>;
+  bundle?: BundleInfo;
 }
 
 interface CartStore {
@@ -18,6 +25,9 @@ interface CartStore {
   checkoutUrl: string | null;
   isLoading: boolean;
   isSyncing: boolean;
+  isCartOpen: boolean;
+  setCartOpen: (open: boolean) => void;
+  openCart: () => void;
   addItem: (item: Omit<CartItem, "lineId">) => Promise<void>;
   updateQuantity: (variantId: string, quantity: number) => Promise<void>;
   removeItem: (variantId: string) => Promise<void>;
@@ -162,6 +172,9 @@ export const useCartStore = create<CartStore>()(
       checkoutUrl: null,
       isLoading: false,
       isSyncing: false,
+      isCartOpen: false,
+      setCartOpen: (open) => set({ isCartOpen: open }),
+      openCart: () => set({ isCartOpen: true }),
 
       addItem: async (item) => {
         const { items, cartId, clearCart } = get();
