@@ -273,14 +273,14 @@ const Index = () => {
 
             <div className="hidden md:flex space-x-reverse space-x-10 text-sm font-bold uppercase tracking-widest">
               <a href="#about" className="hover:text-pink-500 transition-colors">מה זה עור זכוכית?</a>
-              <a href="#packages" className="hover:text-pink-500 transition-colors">סרום ניאצינאמיד</a>
+              <a href="#offer" className="hover:text-pink-500 transition-colors">סרום ניאצינאמיד</a>
               <a href="#science" className="hover:text-pink-500 transition-colors">מיצוק העור</a>
               <a href="/blog" className="hover:text-pink-500 transition-colors">בלוג</a>
             </div>
 
             <div className="hidden md:flex items-center gap-3">
               <a
-                href="#packages"
+                href="#offer"
                 className="bg-black text-white px-8 py-3 rounded-full text-sm font-bold hover:bg-pink-600 transition-all shadow-lg"
               >
                 לחבילות
@@ -300,11 +300,11 @@ const Index = () => {
         {isMenuOpen && (
           <div className="md:hidden bg-background border-b border-slate-100 p-6 space-y-4 shadow-xl">
             <a href="#about" className="block text-lg font-bold">מה זה עור זכוכית?</a>
-            <a href="#packages" className="block text-lg font-bold">סרום ניאצינאמיד</a>
+            <a href="#offer" className="block text-lg font-bold">סרום ניאצינאמיד</a>
             <a href="#science" className="block text-lg font-bold">מיצוק העור</a>
             <a href="/blog" className="block text-lg font-bold">בלוג</a>
             <a
-              href="#packages"
+              href="#offer"
               className="block text-center w-full bg-pink-500 text-white py-4 rounded-xl font-bold"
             >
               לחבילות
