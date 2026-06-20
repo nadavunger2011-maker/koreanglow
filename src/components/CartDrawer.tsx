@@ -1,4 +1,4 @@
-import { useState, useEffect } from "react";
+import { useEffect } from "react";
 import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
 import {
@@ -9,7 +9,7 @@ import {
   SheetTitle,
   SheetTrigger,
 } from "@/components/ui/sheet";
-import { ShoppingCart, Minus, Plus, Trash2, ExternalLink, Loader2 } from "lucide-react";
+import { ShoppingCart, Minus, Plus, Trash2, ExternalLink, Loader2, Check, Gift } from "lucide-react";
 import { useCartStore } from "@/stores/cartStore";
 import { decorateUrlForCrossDomain } from "@/lib/gaLinker";
 import {
@@ -21,14 +21,29 @@ import {
 } from "@/lib/analytics";
 
 export const CartDrawer = () => {
-  const [isOpen, setIsOpen] = useState(false);
-  const { items, isLoading, isSyncing, updateQuantity, removeItem, getCheckoutUrl, syncCart } =
-    useCartStore();
+  const {
+    items,
+    isLoading,
+    isSyncing,
+    isCartOpen,
+    setCartOpen,
+    updateQuantity,
+    removeItem,
+    getCheckoutUrl,
+    syncCart,
+  } = useCartStore();
+  const isOpen = isCartOpen;
+  const setIsOpen = setCartOpen;
   const totalItems = items.reduce((sum, item) => sum + item.quantity, 0);
   const totalPrice = items.reduce(
     (sum, item) => sum + parseFloat(item.price.amount) * item.quantity,
     0,
   );
+  const totalOriginalValue = items.reduce((sum, item) => {
+    const baseline = item.bundle?.originalValue ?? parseFloat(item.price.amount);
+    return sum + baseline * item.quantity;
+  }, 0);
+  const totalSavings = Math.max(totalOriginalValue - totalPrice, 0);
 
   useEffect(() => {
     if (isOpen) {
