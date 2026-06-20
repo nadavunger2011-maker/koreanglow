@@ -797,32 +797,6 @@ const Index = () => {
         </div>
       </section>
 
-      {/* Packages */}
-      <section id="packages" className="py-24 bg-slate-50">
-        <div className="max-w-[1200px] mx-auto px-4 sm:px-6">
-          <div className="text-center mb-20">
-            <h2 className="text-4xl md:text-5xl font-black mb-6 italic">החבילות שלנו לטיפוח קוריאני</h2>
-            <p className="text-xl text-slate-500 max-w-2xl mx-auto">העדפת לבחור בנפרד? כל החבילות שלנו לעור Glass Skin במקום אחד</p>
-          </div>
-
-          {loadingProducts ? (
-            <div className="flex justify-center py-20">
-              <Loader2 className="w-12 h-12 animate-spin text-pink-500" />
-            </div>
-          ) : products.length === 0 ? (
-            <div className="text-center py-20">
-              <p className="text-xl text-slate-500">לא נמצאו מוצרים</p>
-            </div>
-          ) : (
-            <div className="grid sm:grid-cols-2 lg:grid-cols-3 gap-4 sm:gap-8 items-stretch mx-3 sm:mx-0">
-              {products.map((product) => (
-                <ProductCard key={product.node.id} product={product} />
-              ))}
-            </div>
-          )}
-        </div>
-      </section>
-
       {/* Science */}
       <section id="science" className="py-24 bg-gradient-to-b from-white to-pink-50/30 overflow-hidden relative">
         <div className="max-w-[1200px] mx-auto px-4 sm:px-6">
