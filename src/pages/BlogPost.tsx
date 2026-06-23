@@ -83,7 +83,7 @@ const BlogPost = () => {
 
   if (notFound || !post) return <Navigate to="/blog" replace />;
 
-  const url = `https://koreanglow.lovable.app/blog/${post.slug}`;
+  const url = `https://korean-glow-il.shop/blog/${post.slug}`;
   const articleSchema = {
     "@context": "https://schema.org",
     "@type": "Article",
@@ -106,8 +106,8 @@ const BlogPost = () => {
     "@context": "https://schema.org",
     "@type": "BreadcrumbList",
     itemListElement: [
-      { "@type": "ListItem", position: 1, name: "Home", item: "https://koreanglow.lovable.app/" },
-      { "@type": "ListItem", position: 2, name: "Blog", item: "https://koreanglow.lovable.app/blog" },
+      { "@type": "ListItem", position: 1, name: "Home", item: "https://korean-glow-il.shop/" },
+      { "@type": "ListItem", position: 2, name: "Blog", item: "https://korean-glow-il.shop/blog" },
       { "@type": "ListItem", position: 3, name: post.title, item: url },
     ],
   };

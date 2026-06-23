@@ -208,14 +208,14 @@ const ProductDetailPage = () => {
             name="description"
             content={(product.description || `${product.title} — Korean skincare from Koreanglow.`).slice(0, 155)}
           />
-          <link rel="canonical" href={`https://koreanglow.lovable.app/product/${product.handle}`} />
+          <link rel="canonical" href={`https://korean-glow-il.shop/product/${product.handle}`} />
           <meta property="og:type" content="product" />
           <meta property="og:title" content={`${product.title} | Koreanglow`} />
           <meta
             property="og:description"
             content={(product.description || `${product.title} — Korean skincare from Koreanglow.`).slice(0, 200)}
           />
-          <meta property="og:url" content={`https://koreanglow.lovable.app/product/${product.handle}`} />
+          <meta property="og:url" content={`https://korean-glow-il.shop/product/${product.handle}`} />
           {product.images.edges[0]?.node?.url && (
             <meta property="og:image" content={product.images.edges[0].node.url} />
           )}
@@ -235,7 +235,7 @@ const ProductDetailPage = () => {
                 availability: variant?.availableForSale
                   ? "https://schema.org/InStock"
                   : "https://schema.org/OutOfStock",
-                url: `https://koreanglow.lovable.app/product/${product.handle}`,
+                url: `https://korean-glow-il.shop/product/${product.handle}`,
               },
             })}
           </script>

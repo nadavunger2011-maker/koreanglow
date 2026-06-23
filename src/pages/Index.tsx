@@ -250,10 +250,10 @@ const Index = () => {
       <Helmet>
         <title>טיפוח קוריאני לעור זכוכית (Glass Skin) – ערכת Koreanglow</title>
         <meta name="description" content="טיפוח קוריאני אותנטי לעור זכוכית תוך 14 יום. ערכת Glass Skin עם 3 מוצרי פרימיום + בונוסים, משלוח חינם ו-30 יום אחריות." />
-        <link rel="canonical" href="https://koreanglow.lovable.app/" />
+        <link rel="canonical" href="https://korean-glow-il.shop/" />
         <meta property="og:title" content="טיפוח קוריאני לעור זכוכית – ערכת Koreanglow Glass Skin" />
         <meta property="og:description" content="ערכת טיפוח קוריאני מלאה לעור Glass Skin – 3 מוצרי פרימיום, בונוסים ומשלוח חינם." />
-        <meta property="og:url" content="https://koreanglow.lovable.app/" />
+        <meta property="og:url" content="https://korean-glow-il.shop/" />
         <meta property="og:type" content="website" />
       </Helmet>
       {/* Top urgency strip */}
