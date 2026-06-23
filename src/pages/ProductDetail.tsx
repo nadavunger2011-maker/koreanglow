@@ -228,7 +228,8 @@ const ProductDetailPage = () => {
               description: product.description,
               image: product.images.edges.map((e) => e.node.url),
               sku: product.handle,
-              brand: { "@type": "Brand", name: "Koreanglow" },
+                brand: { "@type": "Brand", name: "קוריאן גלואו" },
+                inLanguage: "he-IL",
               offers: {
                 "@type": "Offer",
                 price: parseFloat(product.priceRange.minVariantPrice.amount).toFixed(2),
