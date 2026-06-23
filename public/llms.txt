@@ -1,12 +1,30 @@
-# Koreanglow
+# קוריאן גלואו (Koreanglow)
 
-> Korean skincare brand specializing in glass-skin routines, 10% niacinamide serum, and dermatologist-tested K-Beauty essentials.
+> חנות אונליין מובילה בישראל לטיפוח קוריאני וקוסמטיקה קוריאנית (K-Beauty). מתמחה בסרום ניאצינאמיד 10%, חבילות לעור זכוכית (Glass Skin), קרמי לחות, קרמי עיניים וטיפוח שיער. משלוח חינם בישראל ואחריות 30 יום.
 
-## Pages
+## ביטויי ליבה
 
-- [Home](/): Brand intro, full skincare lineup, the science behind glass skin, and FAQs.
-- [Blog](/blog): Editorial guides on Korean skincare, ingredients, and routines.
+טיפוח קוריאני, קוסמטיקה קוריאנית, מוצרי טיפוח קוריאניים, K-Beauty, עור זכוכית, Glass Skin, סרום ניאצינאמיד, קרם לחות קוריאני, שגרת טיפוח קוריאנית.
 
-## Optional
+## עמודים
 
-- [Product detail](/product/): Individual product pages with ingredients, usage, and pricing.
+- [דף הבית](/): מבוא למותג, חבילות טיפוח, מדע ה-Glass Skin ושאלות נפוצות.
+- [בלוג](/blog): מדריכי טיפוח קוריאני, רכיבים פעילים ושגרות יומיות.
+- [יצירת קשר](/contact)
+- [משלוחים](/shipping)
+- [החזרות](/returns)
+
+## דפי מוצר
+
+- [סרום ניאצינאמיד 10%](/product/%D7%A1%D7%A8%D7%95%D7%9D-%D7%A0%D7%99%D7%90%D7%A6%D7%99%D7%A0%D7%90%D7%9E%D7%99%D7%93-10)
+- [ג'ל ניקוי שמחדש את העור](/product/%D7%92%D7%9C-%D7%A0%D7%99%D7%A7%D7%95%D7%99-%D7%A9%D7%9E%D7%97%D7%93%D7%A9-%D7%90%D7%AA-%D7%94%D7%A2%D7%95%D7%A8)
+- [קרם עיניים מזין](/product/%D7%A7%D7%A8%D7%9D-%D7%A2%D7%99%D7%A0%D7%99%D7%99%D7%9D-%D7%9E%D7%96%D7%99%D7%9F-copy)
+- [קרם למיצוק מרקם העור](/product/%D7%A7%D7%A8%D7%9D-%D7%A2%D7%99%D7%A0%D7%99%D7%99%D7%9D-%D7%9E%D7%96%D7%99%D7%9F-copy-1)
+- [תחליב מזין לגוף ולידיים](/product/%D7%AA%D7%97%D7%9C%D7%99%D7%91-%D7%9E%D7%96%D7%99%D7%9F-%D7%9C%D7%92%D7%95%D7%A3-%D7%95%D7%9C%D7%99%D7%93%D7%99%D7%99%D7%9D-copy)
+- [חבילת בסיס - דקה ביום](/product/%D7%97%D7%91%D7%99%D7%9C%D7%AA-%D7%91%D7%A1%D7%99%D7%A1-%D7%93%D7%A7%D7%94-%D7%91%D7%99%D7%95%D7%9D)
+- [חבילה מורחבת - זוהר ב-2 דקות ביום](/product/%D7%97%D7%91%D7%99%D7%9C%D7%94-%D7%9E%D7%95%D7%A8%D7%97%D7%91%D7%AA-%D7%96%D7%95%D7%94%D7%A8-%D7%91-2-%D7%93%D7%A7%D7%95%D7%AA-%D7%91%D7%99%D7%95%D7%9Dcopy)
+- [החבילה המושלמת לפנים ולגוף - 3 דקות ביום](/product/%D7%97%D7%91%D7%99%D7%9C%D7%94-%D7%9E%D7%95%D7%A8%D7%97%D7%91%D7%AA-%D7%96%D7%95%D7%94%D7%A8-%D7%91-2-%D7%93%D7%A7%D7%95%D7%AA-%D7%91%D7%99%D7%95%D7%9D-copy)
+- [קרם לחות עם מקדם הגנה SPF30](/product/%D7%A7%D7%A8%D7%9D-%D7%9C%D7%97%D7%95%D7%AA-%D7%A2%D7%9D-%D7%9E%D7%A7%D7%93%D7%9D-%D7%94%D7%92%D7%A0%D7%94-spf30)
+- [קרם לחות ליום לזוהר טבעי](/product/%D7%A7%D7%A8%D7%9D-%D7%9C%D7%97%D7%95%D7%AA-%D7%9C%D7%99%D7%95%D7%9D-%D7%9C%D7%96%D7%95%D7%94%D7%A8-%D7%98%D7%91%D7%A2%D7%99)
+- [HERBAL ALOE שמפו לחיזוק השיער](/product/herbal-aloe-%D7%A9%D7%9E%D7%A4%D7%95-%D7%9C%D7%97%D7%99%D7%96%D7%95%D7%A7-%D7%94%D7%A9%D7%99%D7%A2%D7%A8)
+- [HERBAL ALOE מרכך לחיזוק השיער](/product/herbal-aloe-%D7%9E%D7%A8%D7%9B%D7%9A-%D7%9C%D7%97%D7%99%D7%96%D7%95%D7%A7-%D7%94%D7%A9%D7%99%D7%A2%D7%A8)

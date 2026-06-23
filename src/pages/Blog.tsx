@@ -45,14 +45,14 @@ const Blog = () => {
           name="description"
           content="כל מה שצריך לדעת על שגרת K-Beauty, גלאס סקין וטיפוח קוריאני — מאמרים, מדריכים והמלצות מוצרים."
         />
-        <link rel="canonical" href="https://koreanglow.lovable.app/blog" />
+        <link rel="canonical" href="https://korean-glow-il.shop/blog" />
         <meta property="og:title" content="הבלוג של Koreanglow" />
         <meta property="og:type" content="website" />
         <script type="application/ld+json">{JSON.stringify({
           "@context": "https://schema.org",
           "@type": "Blog",
           name: "Koreanglow Blog",
-          url: "https://koreanglow.lovable.app/blog",
+          url: "https://korean-glow-il.shop/blog",
         })}</script>
       </Helmet>
 

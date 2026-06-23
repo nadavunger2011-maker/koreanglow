@@ -203,19 +203,20 @@ const ProductDetailPage = () => {
     <div className="min-h-screen bg-background font-sans text-foreground" dir="rtl">
       {product && (
         <Helmet>
-          <title>{`${product.title} | Koreanglow`}</title>
+          <title>{`${product.title} | טיפוח קוריאני | קוריאן גלואו`}</title>
           <meta
             name="description"
-            content={(product.description || `${product.title} — Korean skincare from Koreanglow.`).slice(0, 155)}
+            content={`${product.title} - קוסמטיקה קוריאנית מקורית מקוריאן גלואו. ${(product.description || "טיפוח קוריאני אותנטי לעור זוהר ובריא").slice(0, 100)}`.slice(0, 155)}
           />
-          <link rel="canonical" href={`https://koreanglow.lovable.app/product/${product.handle}`} />
+          <link rel="canonical" href={`https://korean-glow-il.shop/product/${product.handle}`} />
           <meta property="og:type" content="product" />
-          <meta property="og:title" content={`${product.title} | Koreanglow`} />
+          <meta property="og:locale" content="he_IL" />
+          <meta property="og:title" content={`${product.title} | טיפוח קוריאני | קוריאן גלואו`} />
           <meta
             property="og:description"
-            content={(product.description || `${product.title} — Korean skincare from Koreanglow.`).slice(0, 200)}
+            content={`${product.title} - קוסמטיקה קוריאנית מקורית. ${(product.description || "טיפוח קוריאני אותנטי לעור זוהר").slice(0, 140)}`.slice(0, 200)}
           />
-          <meta property="og:url" content={`https://koreanglow.lovable.app/product/${product.handle}`} />
+          <meta property="og:url" content={`https://korean-glow-il.shop/product/${product.handle}`} />
           {product.images.edges[0]?.node?.url && (
             <meta property="og:image" content={product.images.edges[0].node.url} />
           )}
@@ -227,7 +228,8 @@ const ProductDetailPage = () => {
               description: product.description,
               image: product.images.edges.map((e) => e.node.url),
               sku: product.handle,
-              brand: { "@type": "Brand", name: "Koreanglow" },
+                brand: { "@type": "Brand", name: "קוריאן גלואו" },
+                inLanguage: "he-IL",
               offers: {
                 "@type": "Offer",
                 price: parseFloat(product.priceRange.minVariantPrice.amount).toFixed(2),
@@ -235,7 +237,7 @@ const ProductDetailPage = () => {
                 availability: variant?.availableForSale
                   ? "https://schema.org/InStock"
                   : "https://schema.org/OutOfStock",
-                url: `https://koreanglow.lovable.app/product/${product.handle}`,
+                url: `https://korean-glow-il.shop/product/${product.handle}`,
               },
             })}
           </script>
